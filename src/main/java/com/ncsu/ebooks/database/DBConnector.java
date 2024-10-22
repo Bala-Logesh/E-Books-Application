@@ -24,6 +24,8 @@ public class DBConnector {
             String useDB = "USE ebooks";
             statement.executeUpdate(useDB);
             System.out.println("Using ebooks database...");
+
+            ETextBook.createTable(conn);
         } catch (SQLException e) {
             e.printStackTrace();
         }
