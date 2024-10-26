@@ -16,7 +16,7 @@ public class Chapter {
                     "PRIMARY KEY (chapterID)," +
                     "UNIQUE (title, chapterNumber, eTextBookID)," +
                     "FOREIGN KEY (eTextBookID) REFERENCES ETextBook(eTextBookID)" +
-                    "ON UPDATE CASCADE ON DELETE RESTRICT," +
+                    "ON UPDATE CASCADE ON DELETE CASCADE," +
                     "CHECK (chapterNumber REGEXP '^Chap[0-9]{2,}$'));";
 
             statement.executeUpdate(createChapterTable);

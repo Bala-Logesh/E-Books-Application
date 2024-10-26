@@ -16,7 +16,7 @@ public class Section {
                     "PRIMARY KEY (sectionID)," +
                     "UNIQUE (title, sectionNumber, chapterID)," +
                     "FOREIGN KEY (chapterID) REFERENCES Chapter(chapterID)" +
-                    "ON UPDATE CASCADE ON DELETE RESTRICT" +
+                    "ON UPDATE CASCADE ON DELETE CASCADE" +
                     ");";
 
             statement.executeUpdate(createSectionTable);

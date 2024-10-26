@@ -18,7 +18,7 @@ public class Activity {
                     "FOREIGN KEY (contentBlockID) REFERENCES ContentBlock(contentBlockID)" +
                     "ON UPDATE CASCADE ON DELETE RESTRICT," +
                     "FOREIGN KEY (sectionID) REFERENCES Section(sectionID)" +
-                    "ON UPDATE CASCADE ON DELETE RESTRICT" +
+                    "ON UPDATE CASCADE ON DELETE CASCADE" +
                     ");";
 
             statement.executeUpdate(createActivityTable);

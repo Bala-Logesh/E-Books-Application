@@ -15,7 +15,7 @@ public class AnswerSet {
                     "explanation LONGTEXT NOT NULL, " +
                     "PRIMARY KEY (activityID, answerSetID)," +
                     "FOREIGN KEY (activityID) REFERENCES Activity(activityID)" +
-                    "ON UPDATE CASCADE ON DELETE RESTRICT" +
+                    "ON UPDATE CASCADE ON DELETE CASCADE" +
                     ");";
 
             statement.executeUpdate(createAnswerSetTable);
