@@ -1,9 +1,12 @@
 package com.ncsu.ebooks.database;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+@Slf4j
 public class ETextBook {
     public static void createTable(Connection conn) throws SQLException {
         try (Statement statement = conn.createStatement()) {
@@ -15,7 +18,7 @@ public class ETextBook {
             statement.executeUpdate(createETBTable);
             System.out.println("Created ETextbook Table");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("An error occurred in ETextBook :: createTables", e);
         }
     }
 }

@@ -1,10 +1,13 @@
 package com.ncsu.ebooks.database;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+@Slf4j
 public class DBConnector {
     public static void connectToDB() {
         String url = "jdbc:mariadb://localhost:3306/ebooks";
@@ -15,7 +18,7 @@ public class DBConnector {
             createTables(conn);
             System.out.println("All tables created successfully");
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("An error occurred in connectToDB", e);
         }
     }
 
@@ -23,7 +26,7 @@ public class DBConnector {
         try (Statement statement = conn.createStatement()) {
             String useDB = "USE ebooks";
             statement.executeUpdate(useDB);
-            System.out.println("Using ebooks database...");
+            System.out.println("Using ebooks database");
 
             ETextBook.createTable(conn);
             Chapter.createTable(conn);
@@ -32,7 +35,7 @@ public class DBConnector {
             Activity.createTable(conn);
             AnswerSet.createTable(conn);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("An error occurred in createTables", e);
         }
     }
 }
