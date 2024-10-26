@@ -7,7 +7,7 @@ import java.sql.Statement;
 public class Section {
     public static void createTable(Connection conn) throws SQLException {
         try (Statement statement = conn.createStatement()) {
-            String createSectionTable = "CREATE TABLE Section (" +
+            String createSectionTable = "CREATE TABLE IF NOT EXISTS Section (" +
                     "sectionID INT AUTO_INCREMENT UNIQUE NOT NULL," +
                     "sectionNumber INT NOT NULL," +
                     "chapterID INT NOT NULL," +

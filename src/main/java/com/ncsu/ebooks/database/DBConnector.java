@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class DBConnector {
     public static void connectToDB() {
-        String url = "jdbc:mariadb://localhost:3306";
+        String url = "jdbc:mariadb://localhost:3306/ebooks";
         String user = "root"; // replace with your username
         String password = "password"; // replace with your password
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
@@ -21,8 +21,6 @@ public class DBConnector {
 
     private static void createTables(Connection conn) throws SQLException {
         try (Statement statement = conn.createStatement()) {
-            String createDB = "CREATE DATABASE ebooks";
-            statement.executeUpdate(createDB);
             String useDB = "USE ebooks";
             statement.executeUpdate(useDB);
             System.out.println("Using ebooks database...");

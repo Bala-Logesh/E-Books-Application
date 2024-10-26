@@ -7,7 +7,7 @@ import java.sql.Statement;
 public class Activity {
     public static void createTable(Connection conn) throws SQLException {
         try (Statement statement = conn.createStatement()) {
-            String createActivityTable = "CREATE TABLE Activity (" +
+            String createActivityTable = "CREATE TABLE IF NOT EXISTS Activity (" +
                     "activityID INT AUTO_INCREMENT UNIQUE NOT NULL," +
                     "sectionID INT NOT NULL," +
                     "contentBlockID INT NOT NULL, " +

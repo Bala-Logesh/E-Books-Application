@@ -7,7 +7,7 @@ import java.sql.Statement;
 public class ContentBlock {
     public static void createTable(Connection conn) throws SQLException {
         try (Statement statement = conn.createStatement()) {
-            String createContentBlkTable = "CREATE TABLE ContentBlock (" +
+            String createContentBlkTable = "CREATE TABLE IF NOT EXISTS ContentBlock (" +
                     "contentBlockID INT AUTO_INCREMENT UNIQUE NOT NULL," +
                     "sectionID INT NOT NULL," +
                     "image BLOB," +

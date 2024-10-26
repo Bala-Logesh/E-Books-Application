@@ -7,7 +7,7 @@ import java.sql.Statement;
 public class Chapter {
     public static void createTable(Connection conn) throws SQLException {
         try (Statement statement = conn.createStatement()) {
-            String createChapterTable = "CREATE TABLE Chapter (" +
+            String createChapterTable = "CREATE TABLE IF NOT EXISTS Chapter (" +
                     "chapterID INT AUTO_INCREMENT UNIQUE NOT NULL," +
                     "chapterNumber VARCHAR(6) NOT NULL," +
                     "title VARCHAR(255) NOT NULL," +
