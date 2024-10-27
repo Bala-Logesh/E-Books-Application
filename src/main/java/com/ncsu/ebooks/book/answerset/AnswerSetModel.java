@@ -12,7 +12,7 @@ import lombok.Setter;
 public class AnswerSetModel {
     private int answerSetID;
     private int activityId;
-    private String title;
+    // private String title;
     private String answerOption;
     private boolean correct = false;
     private String explanation;
