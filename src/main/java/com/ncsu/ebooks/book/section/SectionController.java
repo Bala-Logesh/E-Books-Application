@@ -16,8 +16,8 @@ public class SectionController {
     }
 
     @GetMapping
-    public List<SectionModel> getAllActivities() {
-        return sectionService.getAllActivities();
+    public List<SectionModel> getAllSections() {
+        return sectionService.getAllSections();
     }
 
     @GetMapping("/{id}")

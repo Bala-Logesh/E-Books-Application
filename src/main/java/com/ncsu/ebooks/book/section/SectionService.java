@@ -13,7 +13,7 @@ public class SectionService {
         this.sectionRepository = sectionRepository;
     }
 
-    public List<SectionModel> getAllActivities() {
+    public List<SectionModel> getAllSections() {
         return sectionRepository.findAll();
     }
 
