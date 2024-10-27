@@ -1,6 +1,7 @@
 package com.ncsu.ebooks.section;
 
 import com.ncsu.ebooks.answerset.AnswerSetModel;
+import com.ncsu.ebooks.contentblock.ContentBlockModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,5 @@ public class SectionModel {
     private int sectionNumber;
     private String title;
     private boolean hidden = false;
-    private List<AnswerSetModel> contentBlocks = new ArrayList<>();
+    private List<ContentBlockModel> contentBlocks = new ArrayList<>();
 }
