@@ -32,9 +32,9 @@ public class SectionController {
 
     @GetMapping("/{contentId}")
     public ResponseEntity<List<SectionModel>> getSectionByContentId(@PathVariable int contentId) {
-        List<SectionModel> activities = sectionService.getSectionByChapterId(contentId);
-        if (!activities.isEmpty()) {
-            return new ResponseEntity<>(activities, HttpStatus.OK);
+        List<SectionModel> sections = sectionService.getSectionByChapterId(contentId);
+        if (!sections.isEmpty()) {
+            return new ResponseEntity<>(sections, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
