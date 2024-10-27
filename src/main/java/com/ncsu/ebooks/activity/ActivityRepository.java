@@ -18,7 +18,7 @@ public class ActivityRepository {
     }
 
     public List<ActivityModel> findAll() {
-        String sql = "SELECT * FROM AnswerSet";
+        String sql = "SELECT * FROM Activity";
         return jdbcTemplate.query(sql, new ActivityRM());
     }
 
