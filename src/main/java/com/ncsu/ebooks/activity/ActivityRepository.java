@@ -32,12 +32,12 @@ public class ActivityRepository {
         return jdbcTemplate.query(sql, new ActivityRM(), activityId);
     }
 
-    public void save(ActivityModel answerSet) {
+    public void save(ActivityModel activity) {
         String sql = "";
         jdbcTemplate.update(sql);
     }
 
-    public void update(int id, ActivityModel answerSet) {
+    public void update(int id, ActivityModel activity) {
         String sql = "";
         jdbcTemplate.update(sql);
     }
