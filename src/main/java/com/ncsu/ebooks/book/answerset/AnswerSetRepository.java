@@ -29,14 +29,13 @@ public class AnswerSetRepository {
 
     public List<AnswerSetModel> findByActivityId(int activityId) {
         String sql = "SELECT ASW.answerSetID, ASW.activityID, ASW.answerOption, ASW.correct, ASW.explanation " +
-                     "FROM Activity A JOIN AnswerSet ASW ON A.activityID = ASW.activityID " +
-                     "WHERE A.activityID = ?"; // not sure about title field here
+                     "FROM AnswerSet ASW WHERE ASW.activityID = ?";
         return jdbcTemplate.query(sql, new AnswerSetRM(), activityId);
     }
 
     public void save(AnswerSetModel answerSet) {
         String sql = "INSERT INTO AnswerSet (answerSetID, activityId, answerOption, explanation) " +
-                     "VALUES (?,?,?,?)"; // no need for correct?
+                     "VALUES (?,?,?,?)";
         jdbcTemplate.update(sql, answerSet.getAnswerSetID(), answerSet.getActivityId(), answerSet.getAnswerOption(), answerSet.getExplanation());
     }
 

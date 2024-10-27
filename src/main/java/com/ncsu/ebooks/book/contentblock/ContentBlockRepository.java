@@ -23,28 +23,30 @@ public class ContentBlockRepository {
     }
 
     public ContentBlockModel findById(int id) {
-        String sql = "";
+        String sql = "SELECT * FROM ContentBlock WHERE contentBlockID = ?";
         return jdbcTemplate.queryForObject(sql, new ContentBlockRM(), id);
     }
 
     public List<ContentBlockModel> findBySectionId(int sectionId) {
-        String sql = "";
+        String sql = "SELECT CB.contentBlockID, CB.sectionID, CB.image, CB.textBlock, CB.hidden " +
+                "FROM ContentBlock CB WHERE sectionID = ?"; // not sure about activities
         return jdbcTemplate.query(sql, new ContentBlockRM(), sectionId);
     }
 
-    public void save(ContentBlockModel answerSet) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+    public void save(ContentBlockModel contentBlock) {
+        String sql = "INSERT INTO ContentBlock (contentBlockID, sectionID, image, textBlock) " +
+                "VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, contentBlock.getContentBlockId(), contentBlock.getSectionId(), contentBlock.getImage(), contentBlock.getTextBlock());
     }
 
-    public void update(int id, ContentBlockModel answerSet) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+    public void update(int id, ContentBlockModel contentBlock) {
+        String sql = "UPDATE ContentBlock SET contentBlockID = ?, sectionID = ?, image = ?, textBlock = ? WHERE ContentBlock.contentBlockID = ?";
+        jdbcTemplate.update(sql, contentBlock.getContentBlockId(), contentBlock.getSectionId(), contentBlock.getImage(), contentBlock.getImage(), contentBlock.getTextBlock(), id);
     }
 
     public void delete(int id) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "DELETE FROM ContentBlock WHERE contentBlockID = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     private static class ContentBlockRM implements RowMapper<ContentBlockModel> {
