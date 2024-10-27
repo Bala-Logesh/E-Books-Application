@@ -51,6 +51,7 @@ public class ActivityRepository {
         @Override
         public ActivityModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             ActivityModel Activity = new ActivityModel();
+            Activity.setActivityId(rs.getInt("activityId"));
             Activity.setSectionId(rs.getInt("sectionId"));
             Activity.setContentId(rs.getInt("contentId"));
             Activity.setQuestion(rs.getString("question"));

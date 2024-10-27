@@ -51,6 +51,7 @@ public class SectionRepository {
         @Override
         public SectionModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             SectionModel Section = new SectionModel();
+            Section.setSectionId(rs.getInt("sectionId"));
             Section.setChapterId(rs.getInt("chapterId"));
             Section.setSectionNumber(rs.getInt("contentId"));
             Section.setTitle(rs.getString("question"));
