@@ -23,28 +23,31 @@ public class AnswerSetRepository {
     }
 
     public AnswerSetModel findById(int id) {
-        String sql = "";
+        String sql = "SELECT * FROM AnswerSet WHERE answerSetID = ?";
         return jdbcTemplate.queryForObject(sql, new AnswerSetRM(), id);
     }
 
     public List<AnswerSetModel> findByActivityId(int activityId) {
-        String sql = "";
+        String sql = "SELECT ASW.answerSetID, ASW.activityID, ASW.answerOption, ASW.correct, ASW.explanation " +
+                     "FROM Activity A JOIN AnswerSet ASW ON A.activityID = ASW.activityID " +
+                     "WHERE A.activityID = ?"; // not sure about title field here
         return jdbcTemplate.query(sql, new AnswerSetRM(), activityId);
     }
 
     public void save(AnswerSetModel answerSet) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "INSERT INTO AnswerSet (answerSetID, activityId, answerOption, explanation) " +
+                     "VALUES (?,?,?,?)"; // no need for correct?
+        jdbcTemplate.update(sql, answerSet.getAnswerSetID(), answerSet.getActivityId(), answerSet.getAnswerOption(), answerSet.getExplanation());
     }
 
     public void update(int id, AnswerSetModel answerSet) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "UPDATE AnswerSet SET activityID = ?, answerOption = ?, explanation = ? WHERE answerSetID = ?"; // correct?
+        jdbcTemplate.update(sql, answerSet.getActivityId(), answerSet.getAnswerOption(), answerSet.getExplanation(), id);
     }
 
     public void delete(int id) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "DELETE FROM AnswerSet WHERE answerSetID = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     private static class AnswerSetRM implements RowMapper<AnswerSetModel> {
@@ -53,7 +56,7 @@ public class AnswerSetRepository {
             AnswerSetModel AnswerSet = new AnswerSetModel();
             AnswerSet.setAnswerSetID(rs.getInt("answerSetId"));
             AnswerSet.setActivityId(rs.getInt("activityId"));
-            AnswerSet.setTitle(rs.getString("title"));
+            // AnswerSet.setTitle(rs.getString("title"));
             AnswerSet.setAnswerOption(rs.getString("answerOption"));
             AnswerSet.setCorrect(rs.getBoolean("correct"));
             AnswerSet.setExplanation(rs.getString("explanation"));
