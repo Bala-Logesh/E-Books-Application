@@ -41,19 +41,19 @@ public class SectionController {
     }
 
     @PostMapping
-    public ResponseEntity<String> creatAnswerSet(@RequestBody SectionModel section) {
+    public ResponseEntity<String> createSection(@RequestBody SectionModel section) {
         sectionService.createSection(section);
         return new ResponseEntity<>("Section created successfully", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateAnswerSet(@PathVariable int id, @RequestBody SectionModel section) {
+    public ResponseEntity<String> updateSection(@PathVariable int id, @RequestBody SectionModel section) {
         sectionService.updateSection(id, section);
         return new ResponseEntity<>("Section updated successfully", HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAnswerSet(@PathVariable int id) {
+    public ResponseEntity<String> deleteSection(@PathVariable int id) {
         sectionService.deleteSection(id);
         return new ResponseEntity<>("Section deleted successfully", HttpStatus.OK);
     }

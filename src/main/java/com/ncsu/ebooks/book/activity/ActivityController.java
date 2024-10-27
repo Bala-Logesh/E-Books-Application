@@ -41,19 +41,19 @@ public class ActivityController {
     }
 
     @PostMapping
-    public ResponseEntity<String> creatAnswerSet(@RequestBody ActivityModel activity) {
+    public ResponseEntity<String> createActivity(@RequestBody ActivityModel activity) {
         activityService.createActivity(activity);
         return new ResponseEntity<>("Activity created successfully", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateAnswerSet(@PathVariable int id, @RequestBody ActivityModel activity) {
+    public ResponseEntity<String> updateActivity(@PathVariable int id, @RequestBody ActivityModel activity) {
         activityService.updateActivity(id, activity);
         return new ResponseEntity<>("Activity updated successfully", HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAnswerSet(@PathVariable int id) {
+    public ResponseEntity<String> deleteActivity(@PathVariable int id) {
         activityService.deleteActivity(id);
         return new ResponseEntity<>("Activity deleted successfully", HttpStatus.OK);
     }

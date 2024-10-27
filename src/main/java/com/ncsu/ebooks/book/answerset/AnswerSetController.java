@@ -41,7 +41,7 @@ public class AnswerSetController {
     }
 
     @PostMapping
-    public ResponseEntity<String> creatAnswerSet(@RequestBody AnswerSetModel answerSet) {
+    public ResponseEntity<String> createAnswerSet(@RequestBody AnswerSetModel answerSet) {
         answerSetService.creatAnswerSet(answerSet);
         return new ResponseEntity<>("AnswerSet created successfully", HttpStatus.CREATED);
     }

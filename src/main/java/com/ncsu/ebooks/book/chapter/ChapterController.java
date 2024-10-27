@@ -41,7 +41,7 @@ public class ChapterController {
     }
 
     @PostMapping
-    public ResponseEntity<String> creatChapter(@RequestBody ChapterModel chapter) {
+    public ResponseEntity<String> createChapter(@RequestBody ChapterModel chapter) {
         chapterService.createChapter(chapter);
         return new ResponseEntity<>("Chapter created successfully", HttpStatus.CREATED);
     }
