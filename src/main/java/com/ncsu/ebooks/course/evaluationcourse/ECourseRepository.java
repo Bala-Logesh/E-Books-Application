@@ -1,0 +1,54 @@
+package com.ncsu.ebooks.course.evaluationcourse;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+@Repository
+public class ECourseRepository {
+
+    private final JdbcTemplate jdbcTemplate;
+
+    public ECourseRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public List<ECourseModel> findAll() {
+        String sql = "SELECT * FROM EvaluationCourse";
+        return jdbcTemplate.query(sql, new ECourseRM());
+    }
+
+    public ECourseModel findById(int id) {
+        String sql = "";
+        return jdbcTemplate.queryForObject(sql, new ECourseRM(), id);
+    }
+
+    public void save(int courseId) {
+        String sql = "";
+        jdbcTemplate.update(sql);
+    }
+
+    public void update(int id, int courseId) {
+        String sql = "";
+        jdbcTemplate.update(sql);
+    }
+
+    public void delete(int id) {
+        String sql = "";
+        jdbcTemplate.update(sql);
+    }
+
+    private static class ECourseRM implements RowMapper<ECourseModel> {
+        @Override
+        public ECourseModel mapRow(ResultSet rs, int rowNum) throws SQLException {
+            ECourseModel ECourse = new ECourseModel();
+            ECourse.setECourseId(rs.getInt("eCourseId"));
+            ECourse.setCourseId(rs.getInt("courseId"));
+            return ECourse;
+        }
+    }
+}
