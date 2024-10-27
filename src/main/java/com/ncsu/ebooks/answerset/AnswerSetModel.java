@@ -6,18 +6,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class AnswerSetModel {
     private int answerSetID;
-    @Setter
     private int activityId;
-    @Setter
     private String title;
-    @Setter
     private String answerOption;
-    @Setter
     private boolean correct = false;
-    @Setter
     private String explanation;
 }
