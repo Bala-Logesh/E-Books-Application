@@ -18,37 +18,37 @@ public class EnrolledListRepository {
     }
 
     public List<EnrolledListModel> findAll() {
-        String sql = "";
+        String sql = "SELECT * FROM Enrolled";
         return jdbcTemplate.query(sql, new EListRM());
     }
 
     public EnrolledListModel findById(int id) {
-        String sql = "";
+        String sql = "SELECT enrolledID, studentID, activeCourseID, courseScore FROM Enrolled WHERE enrolledID = ?";
         return jdbcTemplate.queryForObject(sql, new EListRM(), id);
     }
 
     public List<EnrolledListModel> findByCourseId(int courseId) {
-        String sql = "";
+        String sql = "SELECT enrolledID, studentID, activeCourseID, courseScore FROM Enrolled WHERE activeCourseID = ?";
         return jdbcTemplate.query(sql, new EListRM(), courseId);
     }
 
     public List<EnrolledListModel> findByStudentId(int studentId) {
-        String sql = "";
+        String sql = "SELECT enrolledID, studentID, activeCourseID, courseScore FROM Enrolled WHERE studentID = ?";
         return jdbcTemplate.query(sql, new EListRM(), studentId);
     }
 
     public void save(EnrolledListModel eList) {
-        String sql = "";
-        jdbcTemplate.update(sql, eList);
+        String sql = "INSERT INTO Enrolled (enrolledID, studentID, activeCourseID, courseScore) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, eList.getEnrollmentId(), eList.getStudentId(), eList.getCourseId(), eList.getCourseScore());
     }
 
     public void update(int id, EnrolledListModel eList) {
-        String sql = "";
-        jdbcTemplate.update(sql, eList);
+        String sql = "UPDATE Enrolled SET enrolledID = ?, studentID = ?, activeCourseID = ?, courseScore = ? WHERE enrolledID = ?";
+        jdbcTemplate.update(sql, eList.getEnrollmentId(), eList.getStudentId(), eList.getCourseId(), eList.getCourseScore(), id);
     }
 
     public void delete(int id) {
-        String sql = "";
+        String sql = "DELETE FROM Enrolled WHERE enrolledID = ?";
         jdbcTemplate.update(sql, id);
     }
 
