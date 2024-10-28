@@ -23,28 +23,28 @@ public class CourseRepository {
     }
 
     public CourseModel findById(int id) {
-        String sql = "";
+        String sql = "SELECT courseID, title, facultyID, startDate, endDate, eTextBookId FROM Course WHERE courseID = ?";
         return jdbcTemplate.queryForObject(sql, new CourseRM(), id);
     }
 
     public CourseModel findByTitle(String title) {
-        String sql = "";
+        String sql = "SELECT courseID, title, facultyID, startDate, endDate, eTextBookID FROM Course WHERE title = ?";
         return jdbcTemplate.queryForObject(sql, new CourseRM(), title);
     }
 
     public void save(CourseModel course) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "INSERT INTO Course (courseID, title, facultyID, startDate, endDate, eTextBookID) VALUES (?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, course.getCourseId(), course.getTitle(), course.getFacultyId(), course.getStartDate(), course.getEndDate(), course.getETextBookId());
     }
 
     public void update(int id, CourseModel course) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "UPDATE Course SET courseID = ?, title = ?, facultyID = ?, startDate = ?, endDate = ?, eTextBookID = ? WHERE courseID = ?";
+        jdbcTemplate.update(sql, course.getCourseId(), course.getTitle(), course.getFacultyId(), course.getStartDate(), course.getEndDate(), course.getETextBookId(), id);
     }
 
     public void delete(int id) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "DELETE FROM Course WHERE courseID = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     private static class CourseRM implements RowMapper<CourseModel> {
