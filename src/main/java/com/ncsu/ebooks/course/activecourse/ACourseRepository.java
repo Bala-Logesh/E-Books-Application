@@ -23,23 +23,23 @@ public class ACourseRepository {
     }
 
     public ACourseModel findById(int id) {
-        String sql = "";
+        String sql = "SELECT activeCourseid, courseID, capacity, openToEnroll FROM ActiveCourse WHERE activeCourseID = ?";
         return jdbcTemplate.queryForObject(sql, new ACourseRM(), id);
     }
 
-    public void save(int courseId) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+    public void save(int id) {
+        String sql = "INSERT INTO ActiveCourse (activeCourseID, courseID, capacity) VALUES (?, ?, ?)"; // not sure how to do this
+        jdbcTemplate.update(sql, id, 0, 0);
     }
 
     public void update(int id, int courseId) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "UPDATE ActiveCourse SET courseID = ? WHERE activeCourseID = ?";
+        jdbcTemplate.update(sql, id, courseId);
     }
 
     public void delete(int id) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "DELETE FROM ActiveCourse WHERE activeCourseID = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     private static class ACourseRM implements RowMapper<ACourseModel> {
