@@ -23,28 +23,28 @@ public class ActivityRepository {
     }
 
     public ActivityModel findById(int id) {
-        String sql = "";
+        String sql = "SELECT activityID, sectionID, contentBlockID, question, hidden FROM Activity WHERE activityID = ?";
         return jdbcTemplate.queryForObject(sql, new ActivityRM(), id);
     }
 
-    public List<ActivityModel> findByContentId(int activityId) {
-        String sql = "";
-        return jdbcTemplate.query(sql, new ActivityRM(), activityId);
+    public List<ActivityModel> findByContentId(int contentBlockId) {
+        String sql = "SELECT activityID, sectionID, contentBlockID, question, hidden FROM Activity WHERE contentBlockID = ?";
+        return jdbcTemplate.query(sql, new ActivityRM(), contentBlockId);
     }
 
     public void save(ActivityModel activity) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "INSERT INTO Activity (activityID, sectionID, contentBlockID, question) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, activity.getActivityId(), activity.getSectionId(), activity.getContentId(), activity.getQuestion());
     }
 
     public void update(int id, ActivityModel activity) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "UPDATE Activity SET activityID = ?, sectionID = ?, contentBlockID = ?, question = ? WHERE activityID = ?";
+        jdbcTemplate.update(sql, activity.getActivityId(), activity.getSectionId(), activity.getContentId(), activity.getQuestion(), id);
     }
 
     public void delete(int id) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "DELETE FROM Activity WHERE activityID = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     private static class ActivityRM implements RowMapper<ActivityModel> {
