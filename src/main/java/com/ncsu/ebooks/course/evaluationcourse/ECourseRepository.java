@@ -23,23 +23,23 @@ public class ECourseRepository {
     }
 
     public ECourseModel findById(int id) {
-        String sql = "";
+        String sql = "SELECT evaluationID, courseID FROM EvaluationCourse WHERE evaluationID = ?";
         return jdbcTemplate.queryForObject(sql, new ECourseRM(), id);
     }
 
     public void save(int courseId) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "INSERT INTO EvaluationCourse (courseID) VALUES (?)";
+        jdbcTemplate.update(sql, courseId);
     }
 
     public void update(int id, int courseId) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "UPDATE EvaluationCourse SET courseID = ? WHERE evaluationID = ?";
+        jdbcTemplate.update(sql, courseId, id);
     }
 
     public void delete(int id) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "DELETE FROM EvaluationCourse WHERE evaluationID = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     private static class ECourseRM implements RowMapper<ECourseModel> {
