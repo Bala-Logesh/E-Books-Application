@@ -23,28 +23,28 @@ public class ChapterRepository {
     }
 
     public ChapterModel findById(int id) {
-        String sql = "";
+        String sql = "SELECT chapterID, chapterNumber, title, eTextBookID, hidden FROM Chapter WHERE chapterID = ?";
         return jdbcTemplate.queryForObject(sql, new ChapterRM(), id);
     }
 
     public List<ChapterModel> findByETextBookId(int eTextBookId) {
-        String sql = "";
+        String sql = "SELECT chapterID, chapterNumber, title, eTextBookID, hidden FROM Chapter WHERE eTextBookID = ?";
         return jdbcTemplate.query(sql, new ChapterRM(), eTextBookId);
     }
 
     public void save(ChapterModel chapter) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "INSERT INTO Chapter (chapterID, chapterNumber, title, eTextBookID) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, chapter.getChapterId(), chapter.getChapterNumber(), chapter.getTitle(), chapter.getETextBookID());
     }
 
     public void update(int id, ChapterModel chapter) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "UPDATE Chapter SET chapterID = ?, chapterNumber = ?, title = ?, eTextBookID = ? WHERE chapterID = ?";
+        jdbcTemplate.update(sql, chapter.getChapterId(), chapter.getChapterNumber(), chapter.getTitle(), chapter.getETextBookID(), id);
     }
 
     public void delete(int id) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "DELETE FROM Chapter WHERE chapterID = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     private static class ChapterRM implements RowMapper<ChapterModel> {
