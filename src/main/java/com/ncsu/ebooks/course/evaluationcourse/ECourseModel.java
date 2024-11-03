@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ECourseModel {
-    private int eCourseId;
-    private int courseId;
+    private int evaluationID;
+    private String courseID;
     private CourseModel course;
 }
