@@ -230,6 +230,561 @@
 			]
 		},
 		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userID\": \"ErPe1024\",\n    \"firstName\": \"Eric\",\n    \"lastName\": \"Perrig\",\n    \"email\": \"ez356@example.mail\",\n    \"password\": \"qwdmq!\",\n    \"role\": \"STUDENT\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Spring Boot 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/users/EmDa1024",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"EmDa1024"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admins",
+			"item": [
+				{
+					"name": "Get All Admins",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/admins",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Admins",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userID\": \"Ad011103\",\n    \"firstName\": \"Admin\",\n    \"lastName\": \"01\",\n    \"email\": \"admin01@example.mail\",\n    \"password\": \"admin\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/admins",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"admins"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Admins",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Spring Boot 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/admins/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"admins",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Admins",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/admins/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"admins",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Admins by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/admins/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"admins",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Students",
+			"item": [
+				{
+					"name": "Get All Students",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/students",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Students",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userID\": \"ErPe1024\",\n    \"firstName\": \"Eric\",\n    \"lastName\": \"Perrig\",\n    \"email\": \"ez356@example.mail\",\n    \"password\": \"qwdmq\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/students",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Students",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Spring Boot 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/students/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"students",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Students",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/students/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"students",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Students by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/students/7",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"students",
+								"7"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Faculties",
+			"item": [
+				{
+					"name": "Get All Faculties",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/faculties",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"faculties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Faculties",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userID\": \"KeOg1024\",\n    \"firstName\": \"Kemafor\",\n    \"lastName\": \"Ogan\",\n    \"email\": \"kogan@ncsu.edu\",\n    \"password\": \"Ko2024!rpc\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/faculties",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"faculties"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Faculties",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Spring Boot 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/faculties/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"faculties",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Faculties",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/faculties/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"faculties",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Faculties by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/faculties/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"faculties",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TA",
+			"item": [
+				{
+					"name": "Get All TAs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/tas",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create TAs",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"user\": {\n\t\t\"userID\": \"JaWi1024\",\n\t\t\"firstName\": \"James\",\n\t\t\"lastName\": \"Williams\",\n\t\t\"email\": \"jwilliams@ncsu.edu\",\n\t\t\"password\": \"jwilliams@1234\"\n\t},\n\t\"activeCourseID\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/tas",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update TAs",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Spring Boot 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/tas/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete TAs",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/tas/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tas",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get TAs by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/tas/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"tas",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Sections",
 			"item": [
 				{
@@ -566,30 +1121,30 @@
 			"name": "Course",
 			"item": [
 				{
-					"name": "Get All ETextBook",
+					"name": "Get All Courses",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/eTextBooks",
+							"raw": "{{url}}/courses",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"eTextBooks"
+								"courses"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Create ETextBook",
+					"name": "Create Courses",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{private String Title;\n    private int facultyId;\n    private Timestamp startDate;\n    private Timestamp endDate;\n    private int eTextBookId;}",
+							"raw": "{\n\t\"courseID\": \"NCSUOganCSC440F24\",\n\t\"title\": \"CSC440 Database Systems\",\n\t\"facultyID\": 1,\n\t\"startDate\": \"2024-01-15T09:00:00\",\n\t\"endDate\": \"2024-05-15T17:00:00\",\n\t\"eTextBookID\": 101\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -597,37 +1152,37 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/eTextBooks",
+							"raw": "{{url}}/courses",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"eTextBooks"
+								"courses"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get ETextBook By ID",
+					"name": "Get Courses By ID",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/eTextBooks/2",
+							"raw": "{{url}}/courses/NCSUOganCSC440F24",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"eTextBooks",
-								"2"
+								"courses",
+								"NCSUOganCSC440F24"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Update ETextBook",
+					"name": "Update Courses",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -641,12 +1196,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/eTextBooks/1",
+							"raw": "{{url}}/courses/1",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"eTextBooks",
+								"courses",
 								"1"
 							]
 						}
@@ -654,17 +1209,239 @@
 					"response": []
 				},
 				{
-					"name": "Delete ETextBook",
+					"name": "Delete Courses",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/eTextBooks/2",
+							"raw": "{{url}}/courses/2",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"eTextBooks",
+								"courses",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Active Course",
+			"item": [
+				{
+					"name": "Get All ACourses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/aCourses",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"aCourses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create ACourses",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"course\": {\n\t\t\"courseID\": \"NCSUOganCSC440F25\",\n\t\t\"title\": \"CSC440 Database Systems\",\n\t\t\"facultyID\": 1,\n\t\t\"startDate\": \"2024-01-15T09:00:00\",\n\t\t\"endDate\": \"2024-05-15T17:00:00\",\n\t\t\"eTextBookID\": 103\n\t},\n\t\"capacity\": 60,\n\t\"token\": \"XYJKLM\",\n\t\"openToEnroll\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/aCourses",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"aCourses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get ACourses By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/aCourses/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"aCourses",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update ACourses",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Spring Boot 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/aCourses/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"aCourses",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete ACourses",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/aCourses/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"aCourses",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Evaluation Course",
+			"item": [
+				{
+					"name": "Get All ECourses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/eCourses",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"eCourses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create ECourses",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"courseID\": \"NCSUSaraCSC326F25\",\n\t\"title\": \"CSC326 Software Engineering\",\n\t\"facultyID\": 1,\n\t\"startDate\": \"2025-08-27T09:00:00\",\n\t\"endDate\": \"2025-12-19T17:00:00\",\n\t\"eTextBookID\": 102\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/eCourses",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"eCourses"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get ECourses By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/eCourses/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"eCourses",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update ECourses",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Spring Boot 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/eCourses/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"eCourses",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete ECourses",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/eCourses/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"eCourses",
 								"2"
 							]
 						}
