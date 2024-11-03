@@ -5,6 +5,7 @@ import com.ncsu.ebooks.database.coursetables.ActiveCourse;
 import com.ncsu.ebooks.database.coursetables.Course;
 import com.ncsu.ebooks.database.coursetables.EvaluationCourse;
 import com.ncsu.ebooks.database.dataseeder.BookDataSeeder;
+import com.ncsu.ebooks.database.dataseeder.CourseDataSeeder;
 import com.ncsu.ebooks.database.listtables.EnrolledList;
 import com.ncsu.ebooks.database.listtables.WaitList;
 import com.ncsu.ebooks.database.misctables.Notification;
@@ -74,6 +75,7 @@ public class DBConnector {
             System.out.println("Using ebooks database");
 
             BookDataSeeder.seedTables(conn);
+            CourseDataSeeder.seedTables(conn);
         } catch (SQLException e) {
             log.error("An error occurred in seedTables", e);
         }
