@@ -12,7 +12,7 @@ public class Section {
         try (Statement statement = conn.createStatement()) {
             String createSectionTable = "CREATE TABLE IF NOT EXISTS Section (" +
                     "sectionID INT AUTO_INCREMENT UNIQUE NOT NULL," +
-                    "sectionNumber INT NOT NULL," +
+                    "sectionNumber VARCHAR(6) NOT NULL," +
                     "chapterID INT NOT NULL," +
                     "title VARCHAR(255) NOT NULL," +
                     "hidden BOOLEAN DEFAULT 0," +
