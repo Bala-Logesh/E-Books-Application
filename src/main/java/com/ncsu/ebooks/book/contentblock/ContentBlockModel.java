@@ -14,8 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ContentBlockModel {
-    private int contentBlockId;
-    private int sectionId;
+    private int contentBlockID;
+    private int sectionID;
     private String image;
     private String textBlock;
     private boolean hidden = false;

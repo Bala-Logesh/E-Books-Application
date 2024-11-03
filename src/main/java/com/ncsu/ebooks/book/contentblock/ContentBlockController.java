@@ -30,9 +30,9 @@ public class ContentBlockController {
         }
     }
 
-    @GetMapping("/{sectionId}")
-    public ResponseEntity<List<ContentBlockModel>> getContentBlockBySectionId(@PathVariable int sectionId) {
-        List<ContentBlockModel> contentBlocks = contentBlockService.getContentBlockBySectionId(sectionId);
+    @GetMapping("/section/{sectionID}")
+    public ResponseEntity<List<ContentBlockModel>> getContentBlockBySectionID(@PathVariable int sectionID) {
+        List<ContentBlockModel> contentBlocks = contentBlockService.getContentBlockBySectionID(sectionID);
         if (!contentBlocks.isEmpty()) {
             return new ResponseEntity<>(contentBlocks, HttpStatus.OK);
         } else {
@@ -42,19 +42,20 @@ public class ContentBlockController {
 
     @PostMapping
     public ResponseEntity<String> createContentBlock(@RequestBody ContentBlockModel contentBlock) {
+        System.out.println(contentBlock);
         contentBlockService.createContentBlock(contentBlock);
-        return new ResponseEntity<>("Activity created successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>("Content Block created successfully", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<String> updateContentBlock(@PathVariable int id, @RequestBody ContentBlockModel contentBlock) {
         contentBlockService.updateContentBlock(id, contentBlock);
-        return new ResponseEntity<>("Activity updated successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Content Block updated successfully", HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteContentBlock(@PathVariable int id) {
         contentBlockService.deleteContentBlock(id);
-        return new ResponseEntity<>("Activity deleted successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Content Block deleted successfully", HttpStatus.OK);
     }
 }
