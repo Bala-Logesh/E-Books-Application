@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StudentModel {
-    private int studentId;
-    private int userId;
+    private int studentID;
+    private String userID;
     private UserModel user;
 }

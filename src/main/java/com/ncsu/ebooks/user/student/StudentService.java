@@ -1,5 +1,6 @@
 package com.ncsu.ebooks.user.student;
 
+import com.ncsu.ebooks.user.admin.AdminModel;
 import com.ncsu.ebooks.user.user.UserModel;
 import com.ncsu.ebooks.user.user.UserService;
 import org.springframework.stereotype.Service;
@@ -18,21 +19,27 @@ public class StudentService {
     }
 
     public List<StudentModel> getAllStudents() {
-        return studentRepository.findAll();
+        List<StudentModel> students = studentRepository.findAll();
+        for (StudentModel student : students) {
+            student.setUser(userService.getUserById(student.getUserID()));
+        }
+
+        return students;
     }
 
     public StudentModel getStudentById(int id) {
-        return studentRepository.findById(id);
+        StudentModel student = studentRepository.findById(id);
+        student.setUser(userService.getUserById(student.getUserID()));
+        return student;
     }
 
     public void createStudent(UserModel user) {
         this.userService.createUser(user);
-        String userEmail = user.getEmail();
-        int userId = this.userService.getUserByEmail(userEmail).getUserId();
-        studentRepository.save(userId);
+        String userID = user.getUserID();
+        studentRepository.save(userID);
     }
 
-    public void updateStudent(int id, int userId) {
+    public void updateStudent(int id, String userId) {
         studentRepository.update(id, userId);
     }
 
