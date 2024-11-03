@@ -17,7 +17,7 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
-    public CourseModel getCourseById(int id) {
+    public CourseModel getCourseById(String id) {
         return courseRepository.findById(id);
     }
 
@@ -29,8 +29,8 @@ public class CourseService {
         courseRepository.save(course);
     }
 
-    public void updateCourse(int id, CourseModel course) {
-        course.setCourseId(id);
+    public void updateCourse(String id, CourseModel course) {
+        course.setCourseID(id);
         courseRepository.update(id, course);
     }
 

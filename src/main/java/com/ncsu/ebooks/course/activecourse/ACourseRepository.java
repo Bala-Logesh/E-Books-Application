@@ -27,9 +27,9 @@ public class ACourseRepository {
         return jdbcTemplate.queryForObject(sql, new ACourseRM(), id);
     }
 
-    public void save(int id) {
-        String sql = "INSERT INTO ActiveCourse (activeCourseID, courseID, capacity) VALUES (?, ?, ?)"; // not sure how to do this
-        jdbcTemplate.update(sql, id, 0, 0);
+    public void save(String id, int capacity, String token, boolean openToEnroll) {
+        String sql = "INSERT INTO ActiveCourse (courseID, capacity, openToEnroll, token) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, id, capacity, openToEnroll, token);
     }
 
     public void update(int id, int courseId) {
@@ -46,8 +46,8 @@ public class ACourseRepository {
         @Override
         public ACourseModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             ACourseModel ACourse = new ACourseModel();
-            ACourse.setACourseId(rs.getInt("aCourseId"));
-            ACourse.setCourseId(rs.getInt("courseId"));
+            ACourse.setActiveCourseID(rs.getInt("activeCourseID"));
+            ACourse.setCourseID(rs.getString("courseID"));
             ACourse.setCapacity(rs.getInt("capacity"));
             ACourse.setToken(rs.getString("token"));
             ACourse.setOpenToEnroll(rs.getBoolean("openToEnroll"));

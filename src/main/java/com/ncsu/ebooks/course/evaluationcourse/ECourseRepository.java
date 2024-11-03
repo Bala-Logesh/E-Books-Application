@@ -27,7 +27,7 @@ public class ECourseRepository {
         return jdbcTemplate.queryForObject(sql, new ECourseRM(), id);
     }
 
-    public void save(int courseId) {
+    public void save(String courseId) {
         String sql = "INSERT INTO EvaluationCourse (courseID) VALUES (?)";
         jdbcTemplate.update(sql, courseId);
     }
@@ -46,8 +46,8 @@ public class ECourseRepository {
         @Override
         public ECourseModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             ECourseModel ECourse = new ECourseModel();
-            ECourse.setECourseId(rs.getInt("eCourseId"));
-            ECourse.setCourseId(rs.getInt("courseId"));
+            ECourse.setEvaluationID(rs.getInt("evaluationID"));
+            ECourse.setCourseID(rs.getString("courseID"));
             return ECourse;
         }
     }

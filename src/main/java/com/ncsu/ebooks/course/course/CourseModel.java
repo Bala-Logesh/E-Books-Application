@@ -10,10 +10,15 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseModel {
-    private int courseId;
-    private String Title;
-    private int facultyId;
+    private String courseID;
+    private String title;
+    private int facultyID;
     private Timestamp startDate;
     private Timestamp endDate;
-    private int eTextBookId;
+
+    public void seteTextBookID(int eTextBookID) {
+        this.eTextBookID = eTextBookID;
+    }
+
+    private int eTextBookID;
 }

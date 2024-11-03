@@ -18,17 +18,23 @@ public class ECourseService {
     }
 
     public List<ECourseModel> getAllECourses() {
-        return ECourseRepository.findAll();
+        List<ECourseModel> eCourses = ECourseRepository.findAll();
+        for (ECourseModel eCourse : eCourses) {
+            eCourse.setCourse(courseService.getCourseById(eCourse.getCourseID()));
+        }
+
+        return eCourses;
     }
 
     public ECourseModel getECourseById(int id) {
-        return ECourseRepository.findById(id);
+        ECourseModel eCourse = ECourseRepository.findById(id);
+        eCourse.setCourse(courseService.getCourseById(eCourse.getCourseID()));
+        return eCourse;
     }
 
     public void createECourse(CourseModel course) {
         this.courseService.createCourse(course);
-        String courseTitle = course.getTitle();
-        int courseId = this.courseService.getCourseByTitle(courseTitle).getCourseId();
+        String courseId = course.getCourseID();
         ECourseRepository.save(courseId);
     }
 

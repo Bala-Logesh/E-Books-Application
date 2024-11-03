@@ -1,5 +1,6 @@
 package com.ncsu.ebooks.user.student;
 
+import com.ncsu.ebooks.user.admin.AdminRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -23,31 +24,31 @@ public class StudentRepository {
     }
 
     public StudentModel findById(int id) {
-        String sql = "";
+        String sql = "SELECT * FROM Student WHERE studentID = ?";
         return jdbcTemplate.queryForObject(sql, new StudentRM(), id);
     }
 
-    public void save(int userId) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+    public void save(String userId) {
+        String sql = "INSERT INTO Student (userID) VALUES (?)";
+        jdbcTemplate.update(sql, userId);
     }
 
-    public void update(int id, int userId) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+    public void update(int id, String userId) {
+        String sql = "UPDATE Student SET userId = ? WHERE studentID = ?";
+        jdbcTemplate.update(sql, userId, id);
     }
 
     public void delete(int id) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "DELETE FROM Student WHERE studentID = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     private static class StudentRM implements RowMapper<StudentModel> {
         @Override
         public StudentModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             StudentModel Student = new StudentModel();
-            Student.setStudentId(rs.getInt("studentId"));
-            Student.setUserId(rs.getInt("userId"));
+            Student.setStudentID(rs.getInt("studentID"));
+            Student.setUserID(rs.getString("userID"));
             return Student;
         }
     }

@@ -1,5 +1,6 @@
 package com.ncsu.ebooks.user.teachingassistant;
 
+import com.ncsu.ebooks.course.course.CourseModel;
 import com.ncsu.ebooks.user.user.UserModel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,10 +11,8 @@ import lombok.Setter;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TAModel {
-    private int teachingAsstID;
-    private String userID;
-    private int activeCourseID;
-    private boolean resetPassword = true;
-    private UserModel user;
+public class TAReqModel {
+        private UserModel user;
+        private int activeCourseID;
+        private boolean resetPassword = true;
 }

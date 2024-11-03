@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserModel {
-    private int userId;
+    private String userID;
     private String firstName;
     private String lastName;
     private String email;

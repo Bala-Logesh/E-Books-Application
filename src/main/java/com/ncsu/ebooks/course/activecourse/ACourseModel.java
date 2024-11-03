@@ -11,8 +11,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ACourseModel {
-    private int aCourseId;
-    private int courseId;
+    private int activeCourseID;
+    private String courseID;
     private int capacity;
     private String token;
     private boolean openToEnroll;

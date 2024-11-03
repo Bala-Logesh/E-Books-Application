@@ -1,6 +1,5 @@
 package com.ncsu.ebooks.user.admin;
 
-import com.ncsu.ebooks.user.user.UserModel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -24,31 +23,31 @@ public class AdminRepository {
     }
 
     public AdminModel findById(int id) {
-        String sql = "";
+        String sql = "SELECT * FROM Admin WHERE adminId = ?";
         return jdbcTemplate.queryForObject(sql, new AdminRM(), id);
     }
 
-    public void save(int userId) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+    public void save(String userID) {
+        String sql = "INSERT INTO Admin (userID) VALUES (?)";
+        jdbcTemplate.update(sql, userID);
     }
 
-    public void update(int id, int userId) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+    public void update(int id, String userId) {
+        String sql = "UPDATE Admin SET userId = ? WHERE adminId = ?";
+        jdbcTemplate.update(sql, userId, id);
     }
 
     public void delete(int id) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "DELETE FROM Admin WHERE adminId = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     private static class AdminRM implements RowMapper<AdminModel> {
         @Override
         public AdminModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             AdminModel Admin = new AdminModel();
-            Admin.setAdminId(rs.getInt("adminId"));
-            Admin.setUserId(rs.getInt("userId"));
+            Admin.setAdminID(rs.getInt("adminID"));
+            Admin.setUserID(rs.getString("userID"));
             return Admin;
         }
     }

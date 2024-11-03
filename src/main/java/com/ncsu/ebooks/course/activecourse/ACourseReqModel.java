@@ -1,4 +1,4 @@
-package com.ncsu.ebooks.course.evaluationcourse;
+package com.ncsu.ebooks.course.activecourse;
 
 import com.ncsu.ebooks.course.course.CourseModel;
 import lombok.AllArgsConstructor;
@@ -10,8 +10,9 @@ import lombok.Setter;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ECourseModel {
-    private int evaluationID;
-    private String courseID;
-    private CourseModel course;
+public class ACourseReqModel {
+        private CourseModel course;
+        private int capacity;
+        private String token;
+        private boolean openToEnroll;
 }

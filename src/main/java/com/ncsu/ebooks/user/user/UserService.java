@@ -17,7 +17,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public UserModel getUserById(int id) {
+    public UserModel getUserById(String id) {
         return userRepository.findById(id);
     }
 
@@ -29,8 +29,8 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void updateUser(int id, UserModel user) {
-        user.setUserId(id);
+    public void updateUser(String id, UserModel user) {
+        user.setUserID(id);
         userRepository.update(id, user);
     }
 
