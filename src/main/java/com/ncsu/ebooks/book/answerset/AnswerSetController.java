@@ -30,9 +30,9 @@ public class AnswerSetController {
         }
     }
 
-    @GetMapping("/{activityId}")
-    public ResponseEntity<List<AnswerSetModel>> getAnswerSetByActivityId(@PathVariable int activityId) {
-        List<AnswerSetModel> answerSets = answerSetService.getAnswerSetByActivityId(activityId);
+    @GetMapping("/activity/{activityID}")
+    public ResponseEntity<List<AnswerSetModel>> getAnswerSetByActivityId(@PathVariable int activityID) {
+        List<AnswerSetModel> answerSets = answerSetService.getAnswerSetByActivityID(activityID);
         if (!answerSets.isEmpty()) {
             return new ResponseEntity<>(answerSets, HttpStatus.OK);
         } else {

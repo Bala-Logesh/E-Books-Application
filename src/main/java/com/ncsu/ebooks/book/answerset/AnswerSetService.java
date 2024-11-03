@@ -21,8 +21,8 @@ public class AnswerSetService {
         return answerSetRepository.findById(id);
     }
 
-    public List<AnswerSetModel> getAnswerSetByActivityId(int activityId) {
-        return answerSetRepository.findByActivityId(activityId);
+    public List<AnswerSetModel> getAnswerSetByActivityID(int activityID) {
+        return answerSetRepository.findByActivityID(activityID);
     }
 
     public void creatAnswerSet(AnswerSetModel answerSet) {
