@@ -11,9 +11,10 @@ public class ActiveCourse {
     public static void createTable(Connection conn) throws SQLException {
         try (Statement statement = conn.createStatement()) {
             String createActiveCourseTable = "CREATE TABLE IF NOT EXISTS ActiveCourse (" +
-                    "activeCourseID VARCHAR(7) NOT NULL," +
+                    "activeCourseID INT AUTO_INCREMENT NOT NULL," +
                     "courseID VARCHAR(30) NOT NULL," +
                     "capacity INT NOT NULL," +
+                    "token VARCHAR(7) NOT NULL," +
                     "openToEnroll BOOLEAN NOT NULL DEFAULT 0," +
                     "PRIMARY KEY (activeCourseID)," +
                     "FOREIGN KEY (courseID) REFERENCES Course(courseID)" +
