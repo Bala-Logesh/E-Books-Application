@@ -18,21 +18,28 @@ public class AdminService {
     }
 
     public List<AdminModel> getAllAdmins() {
-        return adminRepository.findAll();
+
+        List<AdminModel> admins = adminRepository.findAll();
+        for (AdminModel admin : admins) {
+            admin.setUser(userService.getUserById(admin.getUserID()));
+        }
+
+        return admins;
     }
 
     public AdminModel getAdminById(int id) {
-        return adminRepository.findById(id);
+        AdminModel admin = adminRepository.findById(id);
+        admin.setUser(userService.getUserById(admin.getUserID()));
+        return admin;
     }
 
     public void createAdmin(UserModel user) {
         this.userService.createUser(user);
-        String userEmail = user.getEmail();
-        int userId = this.userService.getUserByEmail(userEmail).getUserId();
-        adminRepository.save(userId);
+        String userID = user.getUserID();
+        adminRepository.save(userID);
     }
 
-    public void updateAdmin(int id, int userId) {
+    public void updateAdmin(int id, String userId) {
         adminRepository.update(id, userId);
     }
 

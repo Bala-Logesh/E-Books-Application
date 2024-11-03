@@ -40,7 +40,7 @@ public class AdminController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateAdmin(@PathVariable int id, @RequestBody int userId) {
+    public ResponseEntity<String> updateAdmin(@PathVariable int id, @RequestBody String userId) {
         adminService.updateAdmin(id, userId);
         return new ResponseEntity<>("Admin updated successfully", HttpStatus.OK);
     }
