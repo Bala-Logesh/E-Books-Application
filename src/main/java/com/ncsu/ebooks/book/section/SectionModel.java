@@ -14,9 +14,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SectionModel {
-    private int sectionId;
-    private int chapterId;
-    private int sectionNumber;
+    private int sectionID;
+    private int chapterID;
+    private String sectionNumber;
     private String title;
     private boolean hidden = false;
     private List<ContentBlockModel> contentBlocks = new ArrayList<>();

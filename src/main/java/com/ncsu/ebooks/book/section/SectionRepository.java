@@ -27,19 +27,19 @@ public class SectionRepository {
         return jdbcTemplate.queryForObject(sql, new SectionRM(), id);
     }
 
-    public List<SectionModel> findByChapterId(int chapterId) {
+    public List<SectionModel> findByChapterID(int chapterId) {
         String sql = "SELECT sectionID, sectionNumber, title, chapterID, hidden FROM Section WHERE chapterID = ?";
         return jdbcTemplate.query(sql, new SectionRM(), chapterId);
     }
 
     public void save(SectionModel section) {
         String sql = "INSERT INTO Section (sectionID, sectionNumber, chapterID, title) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, section.getSectionId(), section.getSectionNumber(), section.getChapterId(), section.getTitle());
+        jdbcTemplate.update(sql, section.getSectionID(), section.getSectionNumber(), section.getChapterID(), section.getTitle());
     }
 
     public void update(int id, SectionModel section) {
         String sql = "UPDATE Section SET sectionID = ?, sectionNumber = ?, chapterID = ?, title = ? WHERE sectionID = ?";
-        jdbcTemplate.update(sql, section.getSectionId(), section.getSectionNumber(), section.getChapterId(), section.getTitle(), section.getSectionId(), id);
+        jdbcTemplate.update(sql, section.getSectionID(), section.getSectionNumber(), section.getChapterID(), section.getTitle(), section.getSectionID(), id);
     }
 
     public void delete(int id) {
@@ -51,10 +51,10 @@ public class SectionRepository {
         @Override
         public SectionModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             SectionModel Section = new SectionModel();
-            Section.setSectionId(rs.getInt("sectionId"));
-            Section.setChapterId(rs.getInt("chapterId"));
-            Section.setSectionNumber(rs.getInt("contentId"));
-            Section.setTitle(rs.getString("question"));
+            Section.setSectionID(rs.getInt("sectionID"));
+            Section.setChapterID(rs.getInt("chapterID"));
+            Section.setSectionNumber(rs.getString("sectionNumber"));
+            Section.setTitle(rs.getString("title"));
             Section.setHidden(rs.getBoolean("hidden"));
             return Section;
         }
