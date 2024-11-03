@@ -1,5 +1,6 @@
 package com.ncsu.ebooks.user.faculty;
 
+import com.ncsu.ebooks.user.teachingassistant.TAModel;
 import com.ncsu.ebooks.user.user.UserModel;
 import com.ncsu.ebooks.user.user.UserService;
 import org.springframework.stereotype.Service;
@@ -18,22 +19,28 @@ public class FacultyService {
     }
 
     public List<FacultyModel> getAllFaculties() {
-        return facultyRepository.findAll();
+        List<FacultyModel> faculties = facultyRepository.findAll();
+        for (FacultyModel faculty : faculties) {
+            faculty.setUser(userService.getUserById(faculty.getUserID()));
+        }
+
+        return faculties;
     }
 
     public FacultyModel getFacultyById(int id) {
-        return facultyRepository.findById(id);
+        FacultyModel faculty = facultyRepository.findById(id);
+        faculty.setUser(userService.getUserById(faculty.getUserID()));
+        return faculty;
     }
 
     public void createFaculty(UserModel user) {
         this.userService.createUser(user);
-        String userEmail = user.getEmail();
-        int userId = this.userService.getUserByEmail(userEmail).getUserId();
-        facultyRepository.save(userId);
+        String userID = user.getUserID();
+        facultyRepository.save(userID);
     }
 
-    public void updateFaculty(int id, int userId) {
-        facultyRepository.update(id, userId);
+    public void updateFaculty(int id, String userID) {
+        facultyRepository.update(id, userID);
     }
 
     public void deleteFaculty(int id) {

@@ -40,7 +40,7 @@ public class FacultyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateFaculty(@PathVariable int id, @RequestBody int userId) {
+    public ResponseEntity<String> updateFaculty(@PathVariable int id, @RequestBody String userId) {
         facultyService.updateFaculty(id, userId);
         return new ResponseEntity<>("Faculty updated successfully", HttpStatus.OK);
     }

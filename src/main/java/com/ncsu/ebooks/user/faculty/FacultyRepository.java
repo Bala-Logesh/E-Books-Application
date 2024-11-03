@@ -23,31 +23,31 @@ public class FacultyRepository {
     }
 
     public FacultyModel findById(int id) {
-        String sql = "";
+        String sql = "SELECT * FROM Faculty WHERE facultyId = ?";
         return jdbcTemplate.queryForObject(sql, new FacultyRM(), id);
     }
 
-    public void save(int userId) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+    public void save(String userId) {
+        String sql = "INSERT INTO Faculty (userID) VALUES (?)";
+        jdbcTemplate.update(sql, userId);
     }
 
-    public void update(int id, int userId) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+    public void update(int id, String userId) {
+        String sql = "UPDATE Faculty SET userId = ? WHERE facultyId = ?";
+        jdbcTemplate.update(sql, userId, id);
     }
 
     public void delete(int id) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "DELETE FROM Faculty WHERE facultyId = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     private static class FacultyRM implements RowMapper<FacultyModel> {
         @Override
         public FacultyModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             FacultyModel Faculty = new FacultyModel();
-            Faculty.setFacultyId(rs.getInt("facultyId"));
-            Faculty.setUserId(rs.getInt("userId"));
+            Faculty.setFacultyID(rs.getInt("facultyID"));
+            Faculty.setUserID(rs.getString("userID"));
             return Faculty;
         }
     }
