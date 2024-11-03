@@ -23,32 +23,32 @@ public class TARepository {
     }
 
     public TAModel findById(int id) {
-        String sql = "";
+        String sql = "SELECT * FROM TeachingAssistant WHERE teachingAsstID = ?";
         return jdbcTemplate.queryForObject(sql, new TARM(), id);
     }
 
-    public void save(int userId) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+    public void save(String userId, int activeCourseID, boolean resetPassword) {
+        String sql = "INSERT INTO TeachingAssistant (userID, activeCourseID, resetPassword) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, userId, activeCourseID, resetPassword);
     }
 
-    public void update(int id, int userId) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+    public void update(int id, String userId) {
+        String sql = "UPDATE TeachingAssistant SET userId = ? WHERE teachingAsstID = ?";
+        jdbcTemplate.update(sql, userId, id);
     }
 
     public void delete(int id) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "DELETE FROM TeachingAssistant WHERE teachingAsstID = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     private static class TARM implements RowMapper<TAModel> {
         @Override
         public TAModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             TAModel TA = new TAModel();
-            TA.setTeachingAsstId(rs.getInt("teachingAsstId"));
-            TA.setUserId(rs.getInt("userId"));
-            TA.setACourseId(rs.getInt("aCourseId"));
+            TA.setTeachingAsstID(rs.getInt("teachingAsstID"));
+            TA.setUserID(rs.getString("userID"));
+            TA.setActiveCourseID(rs.getInt("activeCourseID"));
             TA.setResetPassword(rs.getBoolean("resetPassword"));
             return TA;
         }

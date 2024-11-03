@@ -33,14 +33,14 @@ public class TAController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createTA(@RequestBody UserModel user) {
-        user.setRole(Role.TEACHING_ASSISTANT);
-        TAService.createTA(user);
+    public ResponseEntity<String> createTA(@RequestBody TAReqModel taUser) {
+        taUser.getUser().setRole(Role.TEACHING_ASSISTANT);
+        TAService.createTA(taUser.getUser(), taUser.getActiveCourseID(), taUser.isResetPassword());
         return new ResponseEntity<>("TA created successfully", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateTA(@PathVariable int id, @RequestBody int userId) {
+    public ResponseEntity<String> updateTA(@PathVariable int id, @RequestBody String userId) {
         TAService.updateTA(id, userId);
         return new ResponseEntity<>("TA updated successfully", HttpStatus.OK);
     }

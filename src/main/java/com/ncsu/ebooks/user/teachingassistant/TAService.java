@@ -1,5 +1,6 @@
 package com.ncsu.ebooks.user.teachingassistant;
 
+import com.ncsu.ebooks.user.admin.AdminModel;
 import com.ncsu.ebooks.user.user.UserModel;
 import com.ncsu.ebooks.user.user.UserService;
 import org.springframework.stereotype.Service;
@@ -18,21 +19,27 @@ public class TAService {
     }
 
     public List<TAModel> getAllTAs() {
-        return TARepository.findAll();
+        List<TAModel> tAs = TARepository.findAll();
+        for (TAModel TA : tAs) {
+            TA.setUser(userService.getUserById(TA.getUserID()));
+        }
+
+        return tAs;
     }
 
     public TAModel getTAById(int id) {
-        return TARepository.findById(id);
+        TAModel TA = TARepository.findById(id);
+        TA.setUser(userService.getUserById(TA.getUserID()));
+        return TA;
     }
 
-    public void createTA(UserModel user) {
+    public void createTA(UserModel user, int activeCourseID, boolean resetPassword) {
         this.userService.createUser(user);
-        String userEmail = user.getEmail();
-        int userId = this.userService.getUserByEmail(userEmail).getUserId();
-        TARepository.save(userId);
+        String userID = user.getUserID();
+        TARepository.save(userID, activeCourseID, resetPassword);
     }
 
-    public void updateTA(int id, int userId) {
+    public void updateTA(int id, String userId) {
         TARepository.update(id, userId);
     }
 

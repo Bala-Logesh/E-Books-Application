@@ -13,7 +13,8 @@ public class TeachingAssistant {
             String createTeachingAssistantTable = "CREATE TABLE IF NOT EXISTS TeachingAssistant (" +
                     "teachingAsstID INT NOT NULL AUTO_INCREMENT," +
                     "userID VARCHAR(8) NOT NULL," +
-                    "activeCourseID VARCHAR(7) NOT NULL," +
+                    "activeCourseID INT NOT NULL," +
+                    "resetPassword BOOLEAN DEFAULT 1," +
                     "PRIMARY KEY (teachingAsstID)," +
                     "FOREIGN KEY (userID) REFERENCES User(userID)" +
                     "ON DELETE CASCADE ON UPDATE CASCADE," +
