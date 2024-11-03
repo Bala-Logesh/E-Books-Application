@@ -11,12 +11,12 @@ public class ActiveCourse {
     public static void createTable(Connection conn) throws SQLException {
         try (Statement statement = conn.createStatement()) {
             String createActiveCourseTable = "CREATE TABLE IF NOT EXISTS ActiveCourse (" +
-                    "ActiveCourseID VARCHAR(7) NOT NULL," +
-                    "CourseID VARCHAR(30) NOT NULL," +
-                    "Capacity INT NOT NULL," +
-                    "OpenToEnroll BOOLEAN NOT NULL DEFAULT 0," +
-                    "PRIMARY KEY (ActiveCourseID)," +
-                    "FOREIGN KEY (CourseID) REFERENCES Course(CourseID)" +
+                    "activeCourseID VARCHAR(7) NOT NULL," +
+                    "courseID VARCHAR(30) NOT NULL," +
+                    "capacity INT NOT NULL," +
+                    "openToEnroll BOOLEAN NOT NULL DEFAULT 0," +
+                    "PRIMARY KEY (activeCourseID)," +
+                    "FOREIGN KEY (courseID) REFERENCES Course(courseID)" +
                     "ON UPDATE CASCADE ON DELETE CASCADE" +
                     ");";
 

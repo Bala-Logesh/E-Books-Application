@@ -33,7 +33,563 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Introduction to Spring Boot 22\"\n}",
+							"raw": "{\n    \"title\": \"Fundamentals of Machine Learning\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/eTextBooks",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"eTextBooks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get ETextBook By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/eTextBooks/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"eTextBooks",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update ETextBook",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Spring Boot 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/eTextBooks/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"eTextBooks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete ETextBook",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/eTextBooks/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"eTextBooks",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chapters",
+			"item": [
+				{
+					"name": "Get All Chapters",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/chapters",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"chapters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Chapter",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"chapterNumber\": \"chap01\",\n\t\"title\": \"Introduction to Software Engineering 10\",\n\t\"eTextBookID\": 103,\n\t\"hidden\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/chapters",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"chapters"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Chapter By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/chapters/eTextBook/101",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"chapters",
+								"eTextBook",
+								"101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Chapter",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Spring Boot 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/chapters/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"chapters",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Chapter",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/chapters/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"chapters",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Sections",
+			"item": [
+				{
+					"name": "Get All Sections",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/sections",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"sections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Sections",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"chapterId\": 1,\n\t\"sectionNumber\": \"Sec01\",\n\t\"title\": \"Database Management Systems (DBMS) Overview\",\n\t\"hidden\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/sections",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"sections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Section By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/sections/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"sections",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Sections",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Spring Boot 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/sections/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"sections",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Section",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/sections/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"sections",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Activities",
+			"item": [
+				{
+					"name": "Get All Activities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/activities",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"activities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Activities",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sectionID\": 2,\n\t\"contentBlockID\": 2,\n\t\"question\": \"What does a DBMS provide?\",\n\t\"hidden\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/activities",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"activities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Activity By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/activities/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"activities",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Activities",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Spring Boot 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/activities/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"activities",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Activity",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/activities/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"activities",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Content Blocks",
+			"item": [
+				{
+					"name": "Get All Content Blocks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/contentblocks",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"contentblocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Content Blocks",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"sectionID\": 1,\n\t\"image\": \"null\",\n\t\"textBlock\": \"A Database Management System (DBMS) is software that enables users to efficiently create, manage, and manipulate databases. It serves as an interface between the database and end users, ensuring data is stored securely, retrieved accurately, and maintained consistently. Key features of a DBMS include data organization, transaction management, and support for multiple users accessng data concurrently.\",\n\t\"hidden\": false\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/contentblocks",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"contentblocks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Content Block By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/contentblocks/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"contentblocks",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Content Blocks",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Spring Boot 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/contentblocks/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"contentblocks",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Content Block",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/contentblocks/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"contentblocks",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Course",
+			"item": [
+				{
+					"name": "Get All ETextBook",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/eTextBooks",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"eTextBooks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create ETextBook",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{private String Title;\n    private int facultyId;\n    private Timestamp startDate;\n    private Timestamp endDate;\n    private int eTextBookId;}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -121,7 +677,7 @@
 			"name": "AnswerSet",
 			"item": [
 				{
-					"name": "Get All AnswerSet",
+					"name": "Get All AnswerSets",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -138,13 +694,13 @@
 					"response": []
 				},
 				{
-					"name": "Create ETextBook",
+					"name": "Create AnswerSets",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Introduction to Spring Boot 22\"\n}",
+							"raw": "{\n    \"activityID\": 5,\n\t\"answerOption\": \"Data storage only\",\n\t\"correct\": true,\n\t\"explanation\": \"Incorrect: DBMS provides more than just storage\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -152,29 +708,29 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/eTextBooks",
+							"raw": "{{url}}/answerSets",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"eTextBooks"
+								"answerSets"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Get ETextBook By ID",
+					"name": "Get AnswerSets By ID",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/eTextBooks/2",
+							"raw": "{{url}}/answerSets/2",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"eTextBooks",
+								"answerSets",
 								"2"
 							]
 						}
@@ -182,7 +738,7 @@
 					"response": []
 				},
 				{
-					"name": "Update ETextBook",
+					"name": "Update AnswerSets",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -196,12 +752,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/eTextBooks/1",
+							"raw": "{{url}}/answerSets/1",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"eTextBooks",
+								"answerSets",
 								"1"
 							]
 						}
@@ -209,17 +765,17 @@
 					"response": []
 				},
 				{
-					"name": "Delete ETextBook",
+					"name": "Delete AnswerSets",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/eTextBooks/2",
+							"raw": "{{url}}/answerSets/2",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"eTextBooks",
+								"answerSets",
 								"2"
 							]
 						}
@@ -254,7 +810,7 @@
 	"variable": [
 		{
 			"key": "url",
-			"value": "http://localhost:8080",
+			"value": "http://127.0.0.1:8080",
 			"type": "string"
 		}
 	]

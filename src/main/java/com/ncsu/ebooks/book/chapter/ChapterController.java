@@ -30,9 +30,9 @@ public class ChapterController {
         }
     }
 
-    @GetMapping("/{eTextBookId}")
-    public ResponseEntity<List<ChapterModel>> getChapterByETextBookId(@PathVariable int eTextBookId) {
-        List<ChapterModel> chapters = chapterService.getChapterByETextBookId(eTextBookId);
+    @GetMapping("/eTextBook/{eTextBookID}")
+    public ResponseEntity<List<ChapterModel>> getChapterByETextBookID(@PathVariable int eTextBookID) {
+        List<ChapterModel> chapters = chapterService.getChapterByETextBookID(eTextBookID);
         if (!chapters.isEmpty()) {
             return new ResponseEntity<>(chapters, HttpStatus.OK);
         } else {

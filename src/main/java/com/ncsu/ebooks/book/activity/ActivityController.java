@@ -30,9 +30,9 @@ public class ActivityController {
         }
     }
 
-    @GetMapping("/{contentId}")
-    public ResponseEntity<List<ActivityModel>> getActivityByContentId(@PathVariable int contentId) {
-        List<ActivityModel> activities = activityService.getActivityByContentId(contentId);
+    @GetMapping("/contentblock{contentID}")
+    public ResponseEntity<List<ActivityModel>> getActivityByContentID(@PathVariable int contentID) {
+        List<ActivityModel> activities = activityService.getActivityByContentID(contentID);
         if (!activities.isEmpty()) {
             return new ResponseEntity<>(activities, HttpStatus.OK);
         } else {

@@ -1,4 +1,5 @@
 package com.ncsu.ebooks.book.etextbook;
+import com.ncsu.ebooks.book.chapter.ChapterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -8,9 +9,16 @@ public class ETextBookService {
 
     @Autowired
     private ETextBookRepository eTextBookRepository;
+    @Autowired
+    private ChapterService chapterService;
 
     public List<ETextBookModel> getAllETextBooks() {
-        return eTextBookRepository.findAll();
+        List<ETextBookModel> ebooks = eTextBookRepository.findAll();
+        for (ETextBookModel ebook : ebooks) {
+            ebook.setChapters(chapterService.getChapterByETextBookID(ebook.getETextBookID()));
+        }
+
+        return ebooks;
     }
 
     public ETextBookModel getETextBookById(int id) {

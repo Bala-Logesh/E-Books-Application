@@ -18,41 +18,41 @@ public class WaitListRepository {
     }
 
     public List<WaitListModel> findAll() {
-        String sql = "";
-        return jdbcTemplate.query(sql, new EListRM());
+        String sql = "SELECT * FROM Wait";
+        return jdbcTemplate.query(sql, new WaitListRM());
     }
 
     public WaitListModel findById(int id) {
-        String sql = "";
-        return jdbcTemplate.queryForObject(sql, new EListRM(), id);
+        String sql = "SELECT waitListId, studentID, activeCourseID FROM Wait WHERE waitListId = ?";
+        return jdbcTemplate.queryForObject(sql, new WaitListRM(), id);
     }
 
     public List<WaitListModel> findByCourseId(int courseId) {
-        String sql = "";
-        return jdbcTemplate.query(sql, new EListRM(), courseId);
+        String sql = "SELECT waitListId, studentID, activeCourseID FROM Wait WHERE activeCourseID = ?";
+        return jdbcTemplate.query(sql, new WaitListRM(), courseId);
     }
 
     public List<WaitListModel> findByStudentId(int studentId) {
-        String sql = "";
-        return jdbcTemplate.query(sql, new EListRM(), studentId);
+        String sql = "SELECT waitListID, studentID, activeCourseID FROM Wait WHERE studentID = ?";
+        return jdbcTemplate.query(sql, new WaitListRM(), studentId);
     }
 
-    public void save(WaitListModel eList) {
-        String sql = "";
-        jdbcTemplate.update(sql, eList);
+    public void save(WaitListModel waitList) {
+        String sql = "INSERT INTO Wait(waitListId, studentID, activeCourseID) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, waitList.getWaitListId(), waitList.getStudentId(), waitList.getCourseId());
     }
 
-    public void update(int id, WaitListModel eList) {
-        String sql = "";
-        jdbcTemplate.update(sql, eList);
+    public void update(int id, WaitListModel waitList) {
+        String sql = "UPDATE Wait SET waitListId = ?, studentID = ?, activeCourseID = ? WHERE waitListId = ?";
+        jdbcTemplate.update(sql, waitList.getWaitListId(), waitList.getStudentId(), waitList.getCourseId(), id);
     }
 
     public void delete(int id) {
-        String sql = "";
+        String sql = "DELETE FROM Wait WHERE waitListId = ?";
         jdbcTemplate.update(sql, id);
     }
 
-    private static class EListRM implements RowMapper<WaitListModel> {
+    private static class WaitListRM implements RowMapper<WaitListModel> {
         @Override
         public WaitListModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             WaitListModel EList = new WaitListModel();

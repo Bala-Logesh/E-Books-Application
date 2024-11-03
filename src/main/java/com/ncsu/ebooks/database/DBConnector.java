@@ -4,6 +4,7 @@ import com.ncsu.ebooks.database.booktables.*;
 import com.ncsu.ebooks.database.coursetables.ActiveCourse;
 import com.ncsu.ebooks.database.coursetables.Course;
 import com.ncsu.ebooks.database.coursetables.EvaluationCourse;
+import com.ncsu.ebooks.database.dataseeder.BookDataSeeder;
 import com.ncsu.ebooks.database.listtables.EnrolledList;
 import com.ncsu.ebooks.database.listtables.WaitList;
 import com.ncsu.ebooks.database.misctables.Notification;
@@ -18,13 +19,15 @@ import java.sql.Statement;
 @Slf4j
 public class DBConnector {
     public static void connectToDB() {
-        String url = "jdbc:mariadb://localhost:3306/ebooks";
+        String url = "jdbc:mariadb://localhost:3306/ebooks?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true";
         String user = "root";
         String password = "password";
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
             System.out.println("Successfully connected to MariaDB");
             createTables(conn);
             System.out.println("All tables created successfully");
+            seedTables(conn);
+            System.out.println("All tables seeded successfully");
         } catch (SQLException e) {
             log.error("An error occurred in connectToDB", e);
         }
@@ -60,6 +63,19 @@ public class DBConnector {
             Notification.createTable(conn);
         } catch (SQLException e) {
             log.error("An error occurred in createTables", e);
+        }
+    }
+
+
+    private static void seedTables(Connection conn) throws SQLException {
+        try (Statement statement = conn.createStatement()) {
+            String useDB = "USE ebooks";
+            statement.executeUpdate(useDB);
+            System.out.println("Using ebooks database");
+
+            BookDataSeeder.seedTables(conn);
+        } catch (SQLException e) {
+            log.error("An error occurred in seedTables", e);
         }
     }
 }

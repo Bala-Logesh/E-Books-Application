@@ -20,7 +20,7 @@ public class Chapter {
                     "UNIQUE (title, chapterNumber, eTextBookID)," +
                     "FOREIGN KEY (eTextBookID) REFERENCES ETextBook(eTextBookID)" +
                     "ON UPDATE CASCADE ON DELETE CASCADE," +
-                    "CHECK (chapterNumber REGEXP '^Chap[0-9]{2,}$'));";
+                    "CHECK (chapterNumber REGEXP '^chap[0-9]{2,}$'));";
 
             statement.executeUpdate(createChapterTable);
             System.out.println("Created Chapters Table");

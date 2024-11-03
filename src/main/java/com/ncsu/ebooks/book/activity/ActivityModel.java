@@ -14,9 +14,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ActivityModel {
-    private int activityId;
-    private int sectionId;
-    private int contentId;
+    private int activityID;
+    private int sectionID;
+
+    public void setcontentBlockID(int contentBlockID) {
+        this.contentBlockID = contentBlockID;
+    }
+
+    private int contentBlockID;
     private String question;
     private boolean hidden = false;
     private List<AnswerSetModel> answerSets = new ArrayList<>();

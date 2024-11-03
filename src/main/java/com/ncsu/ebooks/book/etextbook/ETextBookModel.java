@@ -16,5 +16,5 @@ import java.util.List;
 public class ETextBookModel {
     private int eTextBookID;
     private String title;
-    private List<ChapterModel> sections = new ArrayList<>();
+    private List<ChapterModel> chapters = new ArrayList<>();
 }

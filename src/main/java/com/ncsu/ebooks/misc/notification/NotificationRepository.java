@@ -23,28 +23,28 @@ public class NotificationRepository {
     }
 
     public NotificationModel findById(int id) {
-        String sql = "";
+        String sql = "SELECT notificationID, userID, message, messageRead FROM Notification WHERE notificationID = ?";
         return jdbcTemplate.queryForObject(sql, new NotificationRM(), id);
     }
 
     public List<NotificationModel> findByUserId(int userId) {
-        String sql = "";
+        String sql = "SELECT notificationID, useriD, message, messageRead FROM Notification WHERE userID = ?";
         return jdbcTemplate.query(sql, new NotificationRM(), userId);
     }
 
     public void save(NotificationModel notification) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "INSERT INTO Notification (notificationID, userID, message) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, notification.getNotificationId(), notification.getUserId(), notification.getMessage());
     }
 
     public void update(int id, NotificationModel notification) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "UPDATE Notification SET notificationID = ?, userID = ?, message = ? WHERE notificationID = ?";
+        jdbcTemplate.update(sql, notification.getNotificationId(), notification.getUserId(), notification.getMessage(), id);
     }
 
     public void delete(int id) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "DELETE FROM Notification WHERE notificationID = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     private static class NotificationRM implements RowMapper<NotificationModel> {

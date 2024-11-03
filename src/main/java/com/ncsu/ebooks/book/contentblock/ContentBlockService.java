@@ -1,5 +1,7 @@
 package com.ncsu.ebooks.book.contentblock;
 
+import com.ncsu.ebooks.book.activity.ActivityService;
+import com.ncsu.ebooks.book.section.SectionModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,21 +10,29 @@ import java.util.List;
 public class ContentBlockService {
 
     private final ContentBlockRepository contentBlockRepository;
+    private final ActivityService activityService;
 
-    public ContentBlockService(ContentBlockRepository contentBlockRepository) {
+    public ContentBlockService(ContentBlockRepository contentBlockRepository, ActivityService activityService) {
         this.contentBlockRepository = contentBlockRepository;
+        this.activityService = activityService;
     }
 
     public List<ContentBlockModel> getAllContentBlocks() {
-        return contentBlockRepository.findAll();
+
+        List<ContentBlockModel> contentblocks = contentBlockRepository.findAll();
+        for (ContentBlockModel contentblock : contentblocks) {
+            contentblock.setActivities(activityService.getActivityByContentID(contentblock.getContentBlockID()));
+        }
+
+        return contentblocks;
     }
 
     public ContentBlockModel getContentBlockById(int id) {
         return contentBlockRepository.findById(id);
     }
 
-    public List<ContentBlockModel> getContentBlockBySectionId(int sectionId) {
-        return contentBlockRepository.findBySectionId(sectionId);
+    public List<ContentBlockModel> getContentBlockBySectionID(int sectionID) {
+        return contentBlockRepository.findBySectionID(sectionID);
     }
 
     public void createContentBlock(ContentBlockModel contentBlock) {
@@ -30,7 +40,7 @@ public class ContentBlockService {
     }
 
     public void updateContentBlock(int id, ContentBlockModel contentBlock) {
-        contentBlock.setContentBlockId(id);
+        contentBlock.setContentBlockID(id);
         contentBlockRepository.update(id, contentBlock);
     }
 

@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AnswerSetModel {
     private int answerSetID;
-    private int activityId;
+    private int activityID;
     private String answerOption;
     private boolean correct = false;
     private String explanation;
