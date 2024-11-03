@@ -32,8 +32,8 @@ public class ACourseController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createACourse(@RequestBody CourseModel course) {
-        ACourseService.createACourse(course);
+    public ResponseEntity<String> createACourse(@RequestBody ACourseReqModel acourse) {
+        ACourseService.createACourse(acourse.getCourse(), acourse.getCapacity(), acourse.getToken(), acourse.isOpenToEnroll());
         return new ResponseEntity<>("ACourse created successfully", HttpStatus.CREATED);
     }
 
