@@ -22,7 +22,7 @@ public class CourseRepository {
         return jdbcTemplate.query(sql, new CourseRM());
     }
 
-    public CourseModel findById(int id) {
+    public CourseModel findById(String id) {
         String sql = "SELECT courseID, title, facultyID, startDate, endDate, eTextBookId FROM Course WHERE courseID = ?";
         return jdbcTemplate.queryForObject(sql, new CourseRM(), id);
     }
@@ -34,12 +34,12 @@ public class CourseRepository {
 
     public void save(CourseModel course) {
         String sql = "INSERT INTO Course (courseID, title, facultyID, startDate, endDate, eTextBookID) VALUES (?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, course.getCourseId(), course.getTitle(), course.getFacultyId(), course.getStartDate(), course.getEndDate(), course.getETextBookId());
+        jdbcTemplate.update(sql, course.getCourseID(), course.getTitle(), course.getFacultyID(), course.getStartDate(), course.getEndDate(), course.getETextBookID());
     }
 
-    public void update(int id, CourseModel course) {
+    public void update(String id, CourseModel course) {
         String sql = "UPDATE Course SET courseID = ?, title = ?, facultyID = ?, startDate = ?, endDate = ?, eTextBookID = ? WHERE courseID = ?";
-        jdbcTemplate.update(sql, course.getCourseId(), course.getTitle(), course.getFacultyId(), course.getStartDate(), course.getEndDate(), course.getETextBookId(), id);
+        jdbcTemplate.update(sql, course.getCourseID(), course.getTitle(), course.getFacultyID(), course.getStartDate(), course.getEndDate(), course.getETextBookID(), id);
     }
 
     public void delete(int id) {
@@ -51,12 +51,12 @@ public class CourseRepository {
         @Override
         public CourseModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             CourseModel Course = new CourseModel();
-            Course.setCourseId(rs.getInt("courseId"));
+            Course.setCourseID(rs.getString("courseId"));
             Course.setTitle(rs.getString("title"));
-            Course.setFacultyId(rs.getInt("facultyId"));
+            Course.setFacultyID(rs.getInt("facultyId"));
             Course.setStartDate(rs.getTimestamp("startDate"));
             Course.setEndDate(rs.getTimestamp("endDate"));
-            Course.setETextBookId(rs.getInt("eTextBookId"));
+            Course.seteTextBookID(rs.getInt("eTextBookId"));
             return Course;
         }
     }

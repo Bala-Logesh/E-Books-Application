@@ -21,7 +21,7 @@ public class CourseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CourseModel> getCourseById(@PathVariable int id) {
+    public ResponseEntity<CourseModel> getCourseById(@PathVariable String id) {
         CourseModel course = courseService.getCourseById(id);
         if (course != null) {
             return new ResponseEntity<>(course, HttpStatus.OK);
@@ -37,7 +37,7 @@ public class CourseController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateCourse(@PathVariable int id, @RequestBody CourseModel course) {
+    public ResponseEntity<String> updateCourse(@PathVariable String id, @RequestBody CourseModel course) {
         courseService.updateCourse(id, course);
         return new ResponseEntity<>("Course updated successfully", HttpStatus.OK);
     }
