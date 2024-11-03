@@ -6,9 +6,11 @@ import com.ncsu.ebooks.database.coursetables.Course;
 import com.ncsu.ebooks.database.coursetables.EvaluationCourse;
 import com.ncsu.ebooks.database.dataseeder.BookDataSeeder;
 import com.ncsu.ebooks.database.dataseeder.CourseDataSeeder;
+import com.ncsu.ebooks.database.dataseeder.UserDataSeeder;
 import com.ncsu.ebooks.database.listtables.EnrolledList;
 import com.ncsu.ebooks.database.listtables.WaitList;
 import com.ncsu.ebooks.database.misctables.Notification;
+import com.ncsu.ebooks.database.misctables.StudentScore;
 import com.ncsu.ebooks.database.usertables.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -62,6 +64,7 @@ public class DBConnector {
             WaitList.createTable(conn);
 
             Notification.createTable(conn);
+            StudentScore.createTable(conn);
         } catch (SQLException e) {
             log.error("An error occurred in createTables", e);
         }
@@ -75,7 +78,9 @@ public class DBConnector {
             System.out.println("Using ebooks database");
 
             BookDataSeeder.seedTables(conn);
+            UserDataSeeder.seedTables(conn);
             CourseDataSeeder.seedTables(conn);
+            UserDataSeeder.seedTables2(conn);
         } catch (SQLException e) {
             log.error("An error occurred in seedTables", e);
         }
