@@ -21,7 +21,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserModel> getUserById(@PathVariable int id) {
+    public ResponseEntity<UserModel> getUserById(@PathVariable String id) {
         UserModel user = userService.getUserById(id);
         if (user != null) {
             return new ResponseEntity<>(user, HttpStatus.OK);
@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody UserModel user) {
+    public ResponseEntity<String> updateUser(@PathVariable String id, @RequestBody UserModel user) {
         userService.updateUser(id, user);
         return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
     }

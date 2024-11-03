@@ -22,41 +22,42 @@ public class UserRepository {
         return jdbcTemplate.query(sql, new UserRM());
     }
 
-    public UserModel findById(int id) {
-        String sql = "";
+    public UserModel findById(String id) {
+        String sql = "SELECT * FROM User WHERE userID = ?";
         return jdbcTemplate.queryForObject(sql, new UserRM(), id);
     }
 
     public UserModel findByEmail(String email) {
-        String sql = "";
+        String sql = "SELECT * FROM User WHERE email = ?";
         return jdbcTemplate.queryForObject(sql, new UserRM(), email);
     }
 
     public void save(UserModel user) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "INSERT INTO User ( userID, firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql, user.getUserID(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getRole().toString());
     }
 
-    public void update(int id, UserModel user) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+    public void update(String id, UserModel user) {
+        String sql = "UPDATE User SET firstName = ?, lastName = ?, email = ?, password = ?, role = ? WHERE userID = ?";
+        jdbcTemplate.update(sql, user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getRole().toString(), id);
     }
 
     public void delete(int id) {
-        String sql = "";
-        jdbcTemplate.update(sql);
+        String sql = "DELETE FROM User WHERE userID = ?";
+        jdbcTemplate.update(sql,id);
     }
 
     private static class UserRM implements RowMapper<UserModel> {
         @Override
         public UserModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             UserModel User = new UserModel();
-            User.setUserId(rs.getInt("userId"));
+            User.setUserID(rs.getString("userID"));
             User.setFirstName(rs.getString("firstName"));
             User.setLastName(rs.getString("lastName"));
             User.setEmail(rs.getString("email"));
             User.setPassword(rs.getString("password"));
             User.setRole(Role.valueOf(rs.getString("role")));
+            User.setAccountCreation(rs.getTimestamp("accountCreation"));
             return User;
         }
     }
