@@ -27,19 +27,20 @@ public class ActivityRepository {
         return jdbcTemplate.queryForObject(sql, new ActivityRM(), id);
     }
 
-    public List<ActivityModel> findByContentId(int contentBlockId) {
+    public List<ActivityModel> findByContentID(int contentBlockID) {
         String sql = "SELECT activityID, sectionID, contentBlockID, question, hidden FROM Activity WHERE contentBlockID = ?";
-        return jdbcTemplate.query(sql, new ActivityRM(), contentBlockId);
+        return jdbcTemplate.query(sql, new ActivityRM(), contentBlockID);
     }
 
     public void save(ActivityModel activity) {
+        System.out.println(activity);
         String sql = "INSERT INTO Activity (activityID, sectionID, contentBlockID, question) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, activity.getActivityId(), activity.getSectionId(), activity.getContentId(), activity.getQuestion());
+        jdbcTemplate.update(sql, activity.getActivityID(), activity.getSectionID(), activity.getContentBlockID(), activity.getQuestion());
     }
 
     public void update(int id, ActivityModel activity) {
         String sql = "UPDATE Activity SET activityID = ?, sectionID = ?, contentBlockID = ?, question = ? WHERE activityID = ?";
-        jdbcTemplate.update(sql, activity.getActivityId(), activity.getSectionId(), activity.getContentId(), activity.getQuestion(), id);
+        jdbcTemplate.update(sql, activity.getActivityID(), activity.getSectionID(), activity.getContentBlockID(), activity.getQuestion(), id);
     }
 
     public void delete(int id) {
@@ -51,9 +52,9 @@ public class ActivityRepository {
         @Override
         public ActivityModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             ActivityModel Activity = new ActivityModel();
-            Activity.setActivityId(rs.getInt("activityId"));
-            Activity.setSectionId(rs.getInt("sectionId"));
-            Activity.setContentId(rs.getInt("contentId"));
+            Activity.setActivityID(rs.getInt("activityID"));
+            Activity.setSectionID(rs.getInt("sectionID"));
+            Activity.setcontentBlockID(rs.getInt("contentBlockID"));
             Activity.setQuestion(rs.getString("question"));
             Activity.setHidden(rs.getBoolean("hidden"));
             return Activity;

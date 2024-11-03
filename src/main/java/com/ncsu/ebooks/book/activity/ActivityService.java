@@ -1,5 +1,6 @@
 package com.ncsu.ebooks.book.activity;
 
+import com.ncsu.ebooks.book.answerset.AnswerSetService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,21 +9,35 @@ import java.util.List;
 public class ActivityService {
 
     private final ActivityRepository activityRepository;
+    private final AnswerSetService answerSetService;
 
-    public ActivityService(ActivityRepository activityRepository) {
+    public ActivityService(ActivityRepository activityRepository, AnswerSetService answerSetService) {
         this.activityRepository = activityRepository;
+        this.answerSetService = answerSetService;
     }
 
     public List<ActivityModel> getAllActivities() {
-        return activityRepository.findAll();
+        List<ActivityModel> activities = activityRepository.findAll();
+        for (ActivityModel activity : activities) {
+            activity.setAnswerSets(answerSetService.getAnswerSetByActivityID(activity.getActivityID()));
+        }
+
+        return activities;
     }
 
     public ActivityModel getActivityById(int id) {
-        return activityRepository.findById(id);
+        ActivityModel activity = activityRepository.findById(id);
+        activity.setAnswerSets(answerSetService.getAnswerSetByActivityID(activity.getActivityID()));
+        return activity;
     }
 
-    public List<ActivityModel> getActivityByContentId(int contentId) {
-        return activityRepository.findByContentId(contentId);
+    public List<ActivityModel> getActivityByContentID(int contentID) {
+        List<ActivityModel> activities = activityRepository.findByContentID(contentID);
+        for (ActivityModel activity : activities) {
+            activity.setAnswerSets(answerSetService.getAnswerSetByActivityID(activity.getActivityID()));
+        }
+
+        return activities;
     }
 
     public void createActivity(ActivityModel activity) {
@@ -30,7 +45,7 @@ public class ActivityService {
     }
 
     public void updateActivity(int id, ActivityModel activity) {
-        activity.setActivityId(id);
+        activity.setActivityID(id);
         activityRepository.update(id, activity);
     }
 
