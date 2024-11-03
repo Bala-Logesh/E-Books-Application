@@ -15,9 +15,16 @@ import java.util.List;
 @AllArgsConstructor
 public class ChapterModel {
     private int chapterId;
-    private int eTextBookID;
-    private int chapterNumber;
+    private String chapterNumber;
     private String title;
+    private int eTextBookID;
+
+    public void seteTextBookID(int eTextBookID) {
+        this.eTextBookID = eTextBookID;
+    }
+
     private boolean hidden = false;
     private List<SectionModel> sections = new ArrayList<>();
 }
+
+
