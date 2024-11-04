@@ -15,6 +15,7 @@ public class Activity {
                     "sectionID INT NOT NULL," +
                     "contentBlockID INT NOT NULL, " +
                     "question LONGTEXT NOT NULL, " +
+                    "points INT NOT NULL DEFAULT 0, " +
                     "hidden BOOLEAN DEFAULT 0, " +
                     "PRIMARY KEY (activityID), " +
                     "UNIQUE (activityID, sectionID)," +
