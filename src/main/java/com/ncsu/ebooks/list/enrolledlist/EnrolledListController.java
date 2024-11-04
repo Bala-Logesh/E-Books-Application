@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/eLists")
+@RequestMapping("/eList")
 public class EnrolledListController {
 
     private final EnrolledListService enrolledListService;
@@ -30,9 +30,9 @@ public class EnrolledListController {
         }
     }
 
-    @GetMapping("/{courseId}")
-    public ResponseEntity<List<EnrolledListModel>> getEListByCourseId(@PathVariable int courseId) {
-        List<EnrolledListModel> eLists = enrolledListService.getEListByCourseId(courseId);
+    @GetMapping("/course/{courseID}")
+    public ResponseEntity<List<EnrolledListModel>> getEListByCourseId(@PathVariable int courseID) {
+        List<EnrolledListModel> eLists = enrolledListService.getEListByCourseId(courseID);
         if (!eLists.isEmpty()) {
             return new ResponseEntity<>(eLists, HttpStatus.OK);
         } else {
@@ -40,9 +40,9 @@ public class EnrolledListController {
         }
     }
 
-    @GetMapping("/{studentId}")
-    public ResponseEntity<List<EnrolledListModel>> getEListByStudentId(@PathVariable int studentId) {
-        List<EnrolledListModel> eLists = enrolledListService.getEListByStudentId(studentId);
+    @GetMapping("/student/{studentID}")
+    public ResponseEntity<List<EnrolledListModel>> getEListByStudentId(@PathVariable int studentID) {
+        List<EnrolledListModel> eLists = enrolledListService.getEListByStudentId(studentID);
         if (!eLists.isEmpty()) {
             return new ResponseEntity<>(eLists, HttpStatus.OK);
         } else {
@@ -52,7 +52,7 @@ public class EnrolledListController {
 
     @PostMapping
     public ResponseEntity<String> createEList(@RequestBody EnrolledListModel eList) {
-        enrolledListService.creatEList(eList);
+        enrolledListService.createEList(eList);
         return new ResponseEntity<>("EList created successfully", HttpStatus.CREATED);
     }
 

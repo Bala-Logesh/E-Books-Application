@@ -21,21 +21,21 @@ public class EnrolledListService {
         return enrolledListRepository.findById(id);
     }
 
-    public List<EnrolledListModel> getEListByCourseId(int courseId) {
-        return enrolledListRepository.findByCourseId(courseId);
+    public List<EnrolledListModel> getEListByCourseId(int courseID) {
+        return enrolledListRepository.findByCourseId(courseID);
     }
 
-    public List<EnrolledListModel> getEListByStudentId(int studentId) {
-        return enrolledListRepository.findByStudentId(studentId);
+    public List<EnrolledListModel> getEListByStudentId(int studentID) {
+        return enrolledListRepository.findByStudentId(studentID);
     }
 
-    public void creatEList(EnrolledListModel eList) {
-        enrolledListRepository.save(eList);
+    public void createEList(EnrolledListModel eList) {
+        enrolledListRepository.save(eList.getStudentID(), eList.getActiveCourseID());
     }
 
     public void updateEList(int id, EnrolledListModel eList) {
-        eList.setEnrollmentId(id);
-        enrolledListRepository.update(id, eList);
+        eList.setEnrolledID(id);
+        enrolledListRepository.update(id, eList.getStudentID(), eList.getActiveCourseID());
     }
 
     public void deleteEList(int id) {
