@@ -21,20 +21,28 @@ public class NotificationService {
         return notificationRepository.findById(id);
     }
 
-    public List<NotificationModel> getNotificationByUserId(int userId) {
-        return notificationRepository.findByUserId(userId);
+    public List<NotificationModel> getNotificationByUserId(String userID) {
+        return notificationRepository.findByUserId(userID);
     }
 
     public void createNotification(NotificationModel notification) {
-        notificationRepository.save(notification);
+        notificationRepository.save(notification.getUserID(), notification.getMessage());
     }
 
     public void updateNotification(int id, NotificationModel notification) {
-        notification.setNotificationId(id);
-        notificationRepository.update(id, notification);
+        notification.setNotificationID(id);
+        notificationRepository.update(id, notification.getUserID(), notification.getMessage());
     }
 
     public void deleteNotification(int id) {
         notificationRepository.delete(id);
+    }
+
+    public void markNotificationAsRead(int id) {
+        notificationRepository.markNotificationAsRead(id);
+    }
+
+    public void markNotificationAsUnread(int id) {
+        notificationRepository.markNotificationAsUnread(id);
     }
 }
