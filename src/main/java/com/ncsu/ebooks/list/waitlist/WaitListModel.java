@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WaitListModel {
-    private int waitListId;
-    private int courseId;
-    private int studentId;
+    private int waitListID;
+    private int activeCourseID;
+    private int studentID;
 }
