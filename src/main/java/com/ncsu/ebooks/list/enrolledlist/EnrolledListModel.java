@@ -10,8 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EnrolledListModel {
-    private int enrollmentId;
-    private int courseId;
-    private int studentId;
-    private int courseScore;
+    private int enrolledID;
+    private int activeCourseID;
+    private int studentID;
+    private int courseScore = 0;
 }

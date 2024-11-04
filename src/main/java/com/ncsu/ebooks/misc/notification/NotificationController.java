@@ -30,9 +30,9 @@ public class NotificationController {
         }
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<NotificationModel>> getNotificationByUserId(@PathVariable int userId) {
-        List<NotificationModel> notifications = notificationService.getNotificationByUserId(userId);
+    @GetMapping("/user/{userID}")
+    public ResponseEntity<List<NotificationModel>> getNotificationByUserId(@PathVariable String userID) {
+        List<NotificationModel> notifications = notificationService.getNotificationByUserId(userID);
         if (!notifications.isEmpty()) {
             return new ResponseEntity<>(notifications, HttpStatus.OK);
         } else {
@@ -44,6 +44,18 @@ public class NotificationController {
     public ResponseEntity<String> createNotification(@RequestBody NotificationModel notification) {
         notificationService.createNotification(notification);
         return new ResponseEntity<>("Notification created successfully", HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}/read")
+    public ResponseEntity<String> markNotificationAsRead(@PathVariable int id) {
+        notificationService.markNotificationAsRead(id);
+        return new ResponseEntity<>("Notification marked as read successfully", HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/unread")
+    public ResponseEntity<String> markNotificationAsUnread(@PathVariable int id) {
+        notificationService.markNotificationAsUnread(id);
+        return new ResponseEntity<>("Notification marked as unread successfully", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

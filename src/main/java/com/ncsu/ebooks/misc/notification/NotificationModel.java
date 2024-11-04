@@ -10,8 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NotificationModel {
-    private int notificationId;
-    private int userId;
+    private int notificationID;
+    private String userID;
     private String message;
-    private boolean readStatus = false;
+    private boolean messageRead = false;
 }

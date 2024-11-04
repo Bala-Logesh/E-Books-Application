@@ -13,7 +13,7 @@ public class EnrolledList {
             String createEnrolledListTable = "CREATE TABLE IF NOT EXISTS Enrolled (" +
                     "enrolledID INT NOT NULL AUTO_INCREMENT," +
                     "studentID INT NOT NULL," +
-                    "activeCourseID VARCHAR(7) NOT NULL," +
+                    "activeCourseID INT NOT NULL," +
                     "courseScore INT NOT NULL DEFAULT 0," +
                     "PRIMARY KEY (enrolledID)," +
                     "FOREIGN KEY (studentID) REFERENCES Student(studentID)" +

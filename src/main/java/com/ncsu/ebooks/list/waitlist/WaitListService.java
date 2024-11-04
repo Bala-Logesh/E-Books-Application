@@ -17,28 +17,28 @@ public class WaitListService {
         return waitListRepository.findAll();
     }
 
-    public WaitListModel getEListById(int id) {
+    public WaitListModel getWListById(int id) {
         return waitListRepository.findById(id);
     }
 
-    public List<WaitListModel> getEListByCourseId(int courseId) {
-        return waitListRepository.findByCourseId(courseId);
+    public List<WaitListModel> getWListByCourseId(int activeCourseID) {
+        return waitListRepository.findByCourseId(activeCourseID);
     }
 
-    public List<WaitListModel> getEListByStudentId(int studentId) {
-        return waitListRepository.findByStudentId(studentId);
+    public List<WaitListModel> getWListByStudentId(int studentID) {
+        return waitListRepository.findByStudentId(studentID);
     }
 
-    public void creatEList(WaitListModel eList) {
-        waitListRepository.save(eList);
+    public void createWList(WaitListModel wList) {
+        waitListRepository.save(wList.getStudentID(), wList.getActiveCourseID());
     }
 
-    public void updateEList(int id, WaitListModel eList) {
-        eList.setWaitListId(id);
-        waitListRepository.update(id, eList);
+    public void updateWList(int id, WaitListModel wList) {
+        wList.setWaitListID(id);
+        waitListRepository.update(id, wList.getStudentID(), wList.getActiveCourseID());
     }
 
-    public void deleteEList(int id) {
+    public void deleteWList(int id) {
         waitListRepository.delete(id);
     }
 }

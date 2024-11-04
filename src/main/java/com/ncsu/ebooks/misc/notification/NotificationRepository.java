@@ -27,19 +27,19 @@ public class NotificationRepository {
         return jdbcTemplate.queryForObject(sql, new NotificationRM(), id);
     }
 
-    public List<NotificationModel> findByUserId(int userId) {
+    public List<NotificationModel> findByUserId(String userId) {
         String sql = "SELECT notificationID, useriD, message, messageRead FROM Notification WHERE userID = ?";
         return jdbcTemplate.query(sql, new NotificationRM(), userId);
     }
 
-    public void save(NotificationModel notification) {
-        String sql = "INSERT INTO Notification (notificationID, userID, message) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, notification.getNotificationId(), notification.getUserId(), notification.getMessage());
+    public void save(String userId, String message) {
+        String sql = "INSERT INTO Notification (userID, message) VALUES (?, ?)";
+        jdbcTemplate.update(sql, userId, message);
     }
 
-    public void update(int id, NotificationModel notification) {
-        String sql = "UPDATE Notification SET notificationID = ?, userID = ?, message = ? WHERE notificationID = ?";
-        jdbcTemplate.update(sql, notification.getNotificationId(), notification.getUserId(), notification.getMessage(), id);
+    public void update(int id, String userId, String message) {
+        String sql = "UPDATE Notification SET userID = ?, message = ? WHERE notificationID = ?";
+        jdbcTemplate.update(sql, userId, message, id);
     }
 
     public void delete(int id) {
@@ -47,14 +47,24 @@ public class NotificationRepository {
         jdbcTemplate.update(sql, id);
     }
 
+    public void markNotificationAsRead(int id) {
+        String sql = "UPDATE Notification SET messageRead = true WHERE notificationID = ?";
+        jdbcTemplate.update(sql, id);
+    }
+
+    public void markNotificationAsUnread(int id) {
+        String sql = "UPDATE Notification SET messageRead = false WHERE notificationID = ?";
+        jdbcTemplate.update(sql, id);
+    }
+
     private static class NotificationRM implements RowMapper<NotificationModel> {
         @Override
         public NotificationModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             NotificationModel Notification = new NotificationModel();
-            Notification.setNotificationId(rs.getInt("notificationId"));
-            Notification.setUserId(rs.getInt("userId"));
+            Notification.setNotificationID(rs.getInt("notificationID"));
+            Notification.setUserID(rs.getString("userID"));
             Notification.setMessage(rs.getString("message"));
-            Notification.setReadStatus(rs.getBoolean("readStatus"));
+            Notification.setMessageRead(rs.getBoolean("messageRead"));
             return Notification;
         }
     }

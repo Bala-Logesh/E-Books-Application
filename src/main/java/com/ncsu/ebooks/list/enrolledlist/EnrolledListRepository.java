@@ -27,24 +27,24 @@ public class EnrolledListRepository {
         return jdbcTemplate.queryForObject(sql, new EListRM(), id);
     }
 
-    public List<EnrolledListModel> findByCourseId(int courseId) {
+    public List<EnrolledListModel> findByCourseId(int courseID) {
         String sql = "SELECT enrolledID, studentID, activeCourseID, courseScore FROM Enrolled WHERE activeCourseID = ?";
-        return jdbcTemplate.query(sql, new EListRM(), courseId);
+        return jdbcTemplate.query(sql, new EListRM(), courseID);
     }
 
-    public List<EnrolledListModel> findByStudentId(int studentId) {
+    public List<EnrolledListModel> findByStudentId(int studentID) {
         String sql = "SELECT enrolledID, studentID, activeCourseID, courseScore FROM Enrolled WHERE studentID = ?";
-        return jdbcTemplate.query(sql, new EListRM(), studentId);
+        return jdbcTemplate.query(sql, new EListRM(), studentID);
     }
 
-    public void save(EnrolledListModel eList) {
-        String sql = "INSERT INTO Enrolled (enrolledID, studentID, activeCourseID, courseScore) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, eList.getEnrollmentId(), eList.getStudentId(), eList.getCourseId(), eList.getCourseScore());
+    public void save(int studentID, int activeCourseID) {
+        String sql = "INSERT INTO Enrolled(studentID, activeCourseID) VALUES (?, ?)";
+        jdbcTemplate.update(sql, studentID, activeCourseID);
     }
 
-    public void update(int id, EnrolledListModel eList) {
-        String sql = "UPDATE Enrolled SET enrolledID = ?, studentID = ?, activeCourseID = ?, courseScore = ? WHERE enrolledID = ?";
-        jdbcTemplate.update(sql, eList.getEnrollmentId(), eList.getStudentId(), eList.getCourseId(), eList.getCourseScore(), id);
+    public void update(int id, int studentID, int activeCourseID) {
+        String sql = "UPDATE Enrolled SET studentID = ?, activeCourseID = ? WHERE enrolledID = ?";
+        jdbcTemplate.update(sql, studentID, activeCourseID, id);
     }
 
     public void delete(int id) {
@@ -56,9 +56,9 @@ public class EnrolledListRepository {
         @Override
         public EnrolledListModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             EnrolledListModel EList = new EnrolledListModel();
-            EList.setEnrollmentId(rs.getInt("enrollmentId"));
-            EList.setCourseId(rs.getInt("courseId"));
-            EList.setStudentId(rs.getInt("studentId"));
+            EList.setEnrolledID(rs.getInt("enrolledID"));
+            EList.setActiveCourseID(rs.getInt("activeCourseID"));
+            EList.setStudentID(rs.getInt("studentID"));
             EList.setCourseScore(rs.getInt("courseScore"));
             return EList;
         }

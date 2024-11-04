@@ -23,12 +23,12 @@ public class WaitListRepository {
     }
 
     public WaitListModel findById(int id) {
-        String sql = "SELECT waitListId, studentID, activeCourseID FROM Wait WHERE waitListId = ?";
+        String sql = "SELECT waitListId, studentID, activeCourseID FROM Wait WHERE waitListID = ?";
         return jdbcTemplate.queryForObject(sql, new WaitListRM(), id);
     }
 
     public List<WaitListModel> findByCourseId(int courseId) {
-        String sql = "SELECT waitListId, studentID, activeCourseID FROM Wait WHERE activeCourseID = ?";
+        String sql = "SELECT waitListID, studentID, activeCourseID FROM Wait WHERE activeCourseID = ?";
         return jdbcTemplate.query(sql, new WaitListRM(), courseId);
     }
 
@@ -37,18 +37,18 @@ public class WaitListRepository {
         return jdbcTemplate.query(sql, new WaitListRM(), studentId);
     }
 
-    public void save(WaitListModel waitList) {
-        String sql = "INSERT INTO Wait(waitListId, studentID, activeCourseID) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, waitList.getWaitListId(), waitList.getStudentId(), waitList.getCourseId());
+    public void save(int studentID, int activeCourseID) {
+        String sql = "INSERT INTO Wait(studentID, activeCourseID) VALUES (?, ?)";
+        jdbcTemplate.update(sql, studentID, activeCourseID);
     }
 
-    public void update(int id, WaitListModel waitList) {
-        String sql = "UPDATE Wait SET waitListId = ?, studentID = ?, activeCourseID = ? WHERE waitListId = ?";
-        jdbcTemplate.update(sql, waitList.getWaitListId(), waitList.getStudentId(), waitList.getCourseId(), id);
+    public void update(int id, int studentID, int activeCourseID) {
+        String sql = "UPDATE Wait SET studentID = ?, activeCourseID = ? WHERE waitListID = ?";
+        jdbcTemplate.update(sql, studentID, activeCourseID, id);
     }
 
     public void delete(int id) {
-        String sql = "DELETE FROM Wait WHERE waitListId = ?";
+        String sql = "DELETE FROM Wait WHERE waitListID = ?";
         jdbcTemplate.update(sql, id);
     }
 
@@ -56,9 +56,9 @@ public class WaitListRepository {
         @Override
         public WaitListModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             WaitListModel EList = new WaitListModel();
-            EList.setWaitListId(rs.getInt("waitListId"));
-            EList.setCourseId(rs.getInt("courseId"));
-            EList.setStudentId(rs.getInt("studentId"));
+            EList.setWaitListID(rs.getInt("waitListID"));
+            EList.setActiveCourseID(rs.getInt("activeCourseID"));
+            EList.setStudentID(rs.getInt("studentID"));
             return EList;
         }
     }

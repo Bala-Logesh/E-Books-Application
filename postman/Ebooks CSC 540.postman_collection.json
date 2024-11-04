@@ -230,7 +230,118 @@
 			]
 		},
 		{
-			"name": "Users",
+			"name": "Score",
+			"item": [
+				{
+					"name": "Get All Scores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/scores",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"scores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Scores",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"studentID\": 1,\n  \"activeCourseID\": 1,\n  \"activityID\": 2,\n  \"point\": 3,\n  \"timeStamp\": \"2024-08-01T11:10:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/scores",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"scores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Scores",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Spring Boot 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/scores/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"scores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Scores",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/scores/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"scores",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Scores by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/scores/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"scores",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
 			"item": [
 				{
 					"name": "Get All Users",
@@ -250,7 +361,7 @@
 					"response": []
 				},
 				{
-					"name": "Create Users",
+					"name": "Create User",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -444,6 +555,377 @@
 							"path": [
 								"admins",
 								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "Get All Notifications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/notifications",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Notifications",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userID\": \"AlAr1024\",\n    \"message\": \"User account created\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/notifications",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Notifications",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Spring Boot 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/notifications/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"notifications",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Notifications",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/notifications/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"notifications",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Notifications by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/notifications/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"notifications",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Notification as read",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/notifications/1/read",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"notifications",
+								"1",
+								"read"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark Notification as unread",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/notifications/1/unread",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"notifications",
+								"1",
+								"unread"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Waitlist",
+			"item": [
+				{
+					"name": "Get All Waitlist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/wList",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"wList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Waitlist",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"activeCourseID\": 1,\n    \"studentID\": 8\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/wList",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"wList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Waitlist",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Spring Boot 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/wList/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"wList",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Waitlist",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/wList/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"wList",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Waitlist by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/wList/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"wList",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Enrolled List",
+			"item": [
+				{
+					"name": "Get All EnrollList",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/eList",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"eList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create EnrollList",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"activeCourseID\": 1,\n    \"studentID\": 1\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/eList",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"eList"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update EnrollList",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"Introduction to Spring Boot 1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/eList/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"eList",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete EnrollList",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/eList/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"eList",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get EnrollList by Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/eList/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"eList",
+								"2"
 							]
 						}
 					},

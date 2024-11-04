@@ -21,18 +21,18 @@ public class WaitListController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<WaitListModel> getEListById(@PathVariable int id) {
-        WaitListModel eList = waitListService.getEListById(id);
-        if (eList != null) {
-            return new ResponseEntity<>(eList, HttpStatus.OK);
+    public ResponseEntity<WaitListModel> getWListById(@PathVariable int id) {
+        WaitListModel wList = waitListService.getWListById(id);
+        if (wList != null) {
+            return new ResponseEntity<>(wList, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @GetMapping("/{courseId}")
-    public ResponseEntity<List<WaitListModel>> getEListByCourseId(@PathVariable int courseId) {
-        List<WaitListModel> wList = waitListService.getEListByCourseId(courseId);
+    @GetMapping("/course/{courseID}")
+    public ResponseEntity<List<WaitListModel>> getWListByCourseId(@PathVariable int courseID) {
+        List<WaitListModel> wList = waitListService.getWListByCourseId(courseID);
         if (!wList.isEmpty()) {
             return new ResponseEntity<>(wList, HttpStatus.OK);
         } else {
@@ -40,9 +40,9 @@ public class WaitListController {
         }
     }
 
-    @GetMapping("/{studentId}")
-    public ResponseEntity<List<WaitListModel>> getEListByStudentId(@PathVariable int studentId) {
-        List<WaitListModel> wList = waitListService.getEListByStudentId(studentId);
+    @GetMapping("/student/{studentID}")
+    public ResponseEntity<List<WaitListModel>> getWListByStudentId(@PathVariable int studentID) {
+        List<WaitListModel> wList = waitListService.getWListByStudentId(studentID);
         if (!wList.isEmpty()) {
             return new ResponseEntity<>(wList, HttpStatus.OK);
         } else {
@@ -51,20 +51,20 @@ public class WaitListController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createEList(@RequestBody WaitListModel eList) {
-        waitListService.creatEList(eList);
-        return new ResponseEntity<>("EList created successfully", HttpStatus.CREATED);
+    public ResponseEntity<String> createWList(@RequestBody WaitListModel wList) {
+        waitListService.createWList(wList);
+        return new ResponseEntity<>("WList created successfully", HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateEList(@PathVariable int id, @RequestBody WaitListModel eList) {
-        waitListService.updateEList(id, eList);
-        return new ResponseEntity<>("EList updated successfully", HttpStatus.OK);
+    public ResponseEntity<String> updateWList(@PathVariable int id, @RequestBody WaitListModel wList) {
+        waitListService.updateWList(id, wList);
+        return new ResponseEntity<>("WList updated successfully", HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEList(@PathVariable int id) {
-        waitListService.deleteEList(id);
-        return new ResponseEntity<>("EList deleted successfully", HttpStatus.OK);
+    public ResponseEntity<String> deleteWList(@PathVariable int id) {
+        waitListService.deleteWList(id);
+        return new ResponseEntity<>("WList deleted successfully", HttpStatus.OK);
     }
 }

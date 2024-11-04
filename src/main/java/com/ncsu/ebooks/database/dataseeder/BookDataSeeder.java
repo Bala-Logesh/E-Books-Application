@@ -54,16 +54,16 @@ public class BookDataSeeder {
 
             statement.executeUpdate(seedContentBlockTable);
 
-            String seedActivityTable = "INSERT INTO Activity (sectionID, contentBlockID, question, hidden)" +
-                    "VALUES (2, 2, \"What does a DBMS provide?\", 0)," +
-                    "(2, 2, \"Which of these is an example of a DBMS?\", 0)," +
-                    "(2, 2, \"What type of data does a DBMS manage?\", 0)," +
-                    "(6, 6, \"What was the \'software crisis\'?\", 0)," +
-                    "(6, 6, \"Which methodology was first introduced in software engineering?\", 0)," +
-                    "(6, 6, \"What challenge did early software engineering face?\", 0)," +
-                    "(10, 10, \"What is the primary goal of supervised learning?\", 0)," +
-                    "(10, 10, \"Which type of data is used in unsupervised learning?\", 0)," +
-                    "(10, 10, \"In which scenario would you typically use supervised learning?\", 0);";
+            String seedActivityTable = "INSERT INTO Activity (sectionID, contentBlockID, question, points, hidden)" +
+                    "VALUES (2, 2, \"What does a DBMS provide?\", 2, 0)," +
+                    "(2, 2, \"Which of these is an example of a DBMS?\", 2, 0)," +
+                    "(2, 2, \"What type of data does a DBMS manage?\", 1, 0)," +
+                    "(6, 6, \"What was the \'software crisis\'?\", 2, 0)," +
+                    "(6, 6, \"Which methodology was first introduced in software engineering?\", 1, 0)," +
+                    "(6, 6, \"What challenge did early software engineering face?\", 2, 0)," +
+                    "(10, 10, \"What is the primary goal of supervised learning?\", 1, 0)," +
+                    "(10, 10, \"Which type of data is used in unsupervised learning?\", 2, 0)," +
+                    "(10, 10, \"In which scenario would you typically use supervised learning?\", 2, 0);";
 
             statement.executeUpdate(seedActivityTable);
 
