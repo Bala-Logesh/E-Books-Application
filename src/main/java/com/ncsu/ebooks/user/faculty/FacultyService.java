@@ -1,10 +1,13 @@
 package com.ncsu.ebooks.user.faculty;
 
+import com.ncsu.ebooks.book.chapter.ChapterModel;
 import com.ncsu.ebooks.user.teachingassistant.TAModel;
 import com.ncsu.ebooks.user.user.UserModel;
 import com.ncsu.ebooks.user.user.UserService;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -19,12 +22,24 @@ public class FacultyService {
     }
 
     public List<FacultyModel> getAllFaculties() {
-        List<FacultyModel> faculties = facultyRepository.findAll();
-        for (FacultyModel faculty : faculties) {
-            faculty.setUser(userService.getUserById(faculty.getUserID()));
-        }
+        try {
+            List<FacultyModel> faculties = facultyRepository.findAll();
 
-        return faculties;
+            for (FacultyModel faculty : faculties) {
+                try {
+                    faculty.setUser(userService.getUserById(faculty.getUserID()));
+                } catch (DataAccessException e) {
+                    System.err.println("Error retrieving user for faculty ID " + faculty.getFacultyID() + ": " + e.getMessage());
+                    faculty.setUser(new UserModel());
+                }
+            }
+
+            return faculties;
+
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving faculties: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve faculties", e);
+        }
     }
 
     public FacultyModel getFacultyById(int id) {
@@ -33,10 +48,20 @@ public class FacultyService {
         return faculty;
     }
 
-    public void createFaculty(UserModel user) {
-        this.userService.createUser(user);
-        String userID = user.getUserID();
-        facultyRepository.save(userID);
+    public boolean createFaculty(UserModel user) {
+        boolean success = this.userService.createUser(user);
+        if (!success) {
+            return false;
+        }
+
+        try {
+            String userID = user.getUserID();
+            facultyRepository.save(userID);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error creating faculty: " + e.getMessage());
+            return false;
+        }
     }
 
     public void updateFaculty(int id, String userID) {

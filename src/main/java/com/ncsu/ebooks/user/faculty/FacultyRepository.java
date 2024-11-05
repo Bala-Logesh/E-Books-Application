@@ -1,5 +1,7 @@
 package com.ncsu.ebooks.user.faculty;
 
+import com.ncsu.ebooks.book.chapter.ChapterRepository;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -19,7 +21,12 @@ public class FacultyRepository {
 
     public List<FacultyModel> findAll() {
         String sql = "SELECT * FROM Faculty";
-        return jdbcTemplate.query(sql, new FacultyRM());
+        try {
+            return jdbcTemplate.query(sql, new FacultyRM());
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving faculties: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve faculties", e);
+        }
     }
 
     public FacultyModel findById(int id) {
@@ -29,7 +36,12 @@ public class FacultyRepository {
 
     public void save(String userId) {
         String sql = "INSERT INTO Faculty (userID) VALUES (?)";
-        jdbcTemplate.update(sql, userId);
+        try {
+            jdbcTemplate.update(sql, userId);
+        } catch (DataAccessException e) {
+            System.err.println("Error saving faculty: " + e.getMessage());
+            throw new RuntimeException("Failed to save faculty: " + e.getMessage(), e);
+        }
     }
 
     public void update(int id, String userId) {

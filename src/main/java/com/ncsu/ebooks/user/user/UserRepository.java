@@ -1,5 +1,7 @@
 package com.ncsu.ebooks.user.user;
 
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -33,8 +35,13 @@ public class UserRepository {
     }
 
     public void save(UserModel user) {
-        String sql = "INSERT INTO User ( userID, firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, user.getUserID(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getRole().toString());
+        String sql = "INSERT INTO User (userID, firstName, lastName, email, password, role) VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            jdbcTemplate.update(sql, user.getUserID(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getPassword(), user.getRole().toString());
+        } catch (DataAccessException e) {
+            System.err.println("Error saving user: " + e.getMessage());
+            throw new RuntimeException("Failed to save user: " + e.getMessage(), e);
+        }
     }
 
     public void update(String id, UserModel user) {
@@ -45,6 +52,15 @@ public class UserRepository {
     public void delete(int id) {
         String sql = "DELETE FROM User WHERE userID = ?";
         jdbcTemplate.update(sql,id);
+    }
+
+    public UserModel loginUser(UserLoginModel user) {
+        String sql = "SELECT * FROM User WHERE userID = ? and password = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new UserRM(), user.getUserID(), user.getPassword());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     private static class UserRM implements RowMapper<UserModel> {

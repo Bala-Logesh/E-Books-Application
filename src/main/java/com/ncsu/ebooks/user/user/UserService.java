@@ -25,9 +25,17 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public void createUser(UserModel user) {
-        userRepository.save(user);
+    public boolean createUser(UserModel user) {
+        System.out.println(user.toString());
+        try {
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error creating user: " + e.getMessage());
+            return false;
+        }
     }
+
 
     public void updateUser(String id, UserModel user) {
         user.setUserID(id);
@@ -36,5 +44,9 @@ public class UserService {
 
     public void deleteUser(int id) {
         userRepository.delete(id);
+    }
+
+    public UserModel loginUser(UserLoginModel user) {
+        return userRepository.loginUser(user);
     }
 }

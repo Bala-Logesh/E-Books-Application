@@ -1,5 +1,7 @@
 package com.ncsu.ebooks.user.teachingassistant;
 
+import com.ncsu.ebooks.user.faculty.FacultyRepository;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -19,7 +21,12 @@ public class TARepository {
 
     public List<TAModel> findAll() {
         String sql = "SELECT * FROM TeachingAssistant";
-        return jdbcTemplate.query(sql, new TARM());
+        try {
+            return jdbcTemplate.query(sql, new TARM());
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving TAs: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve TAs", e);
+        }
     }
 
     public TAModel findById(int id) {
@@ -29,7 +36,12 @@ public class TARepository {
 
     public void save(String userId, int activeCourseID, boolean resetPassword) {
         String sql = "INSERT INTO TeachingAssistant (userID, activeCourseID, resetPassword) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, userId, activeCourseID, resetPassword);
+        try {
+            jdbcTemplate.update(sql, userId, activeCourseID, resetPassword);
+        } catch (DataAccessException e) {
+            System.err.println("Error saving TA: " + e.getMessage());
+            throw new RuntimeException("Failed to save TA: " + e.getMessage(), e);
+        }
     }
 
     public void update(int id, String userId) {

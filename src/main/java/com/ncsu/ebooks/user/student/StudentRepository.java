@@ -1,6 +1,7 @@
 package com.ncsu.ebooks.user.student;
 
 import com.ncsu.ebooks.user.admin.AdminRepository;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,12 @@ public class StudentRepository {
 
     public List<StudentModel> findAll() {
         String sql = "SELECT * FROM Student";
-        return jdbcTemplate.query(sql, new StudentRM());
+        try {
+            return jdbcTemplate.query(sql, new StudentRM());
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving students: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve students", e);
+        }
     }
 
     public StudentModel findById(int id) {
@@ -30,7 +36,12 @@ public class StudentRepository {
 
     public void save(String userId) {
         String sql = "INSERT INTO Student (userID) VALUES (?)";
-        jdbcTemplate.update(sql, userId);
+        try {
+            jdbcTemplate.update(sql, userId);
+        } catch (DataAccessException e) {
+            System.err.println("Error saving student: " + e.getMessage());
+            throw new RuntimeException("Failed to save student: " + e.getMessage(), e);
+        }
     }
 
     public void update(int id, String userId) {

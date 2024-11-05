@@ -1,8 +1,10 @@
 package com.ncsu.ebooks.user.student;
 
 import com.ncsu.ebooks.user.admin.AdminModel;
+import com.ncsu.ebooks.user.faculty.FacultyModel;
 import com.ncsu.ebooks.user.user.UserModel;
 import com.ncsu.ebooks.user.user.UserService;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,12 +21,24 @@ public class StudentService {
     }
 
     public List<StudentModel> getAllStudents() {
-        List<StudentModel> students = studentRepository.findAll();
-        for (StudentModel student : students) {
-            student.setUser(userService.getUserById(student.getUserID()));
-        }
+        try {
+            List<StudentModel> students = studentRepository.findAll();
 
-        return students;
+            for (StudentModel student : students) {
+                try {
+                    student.setUser(userService.getUserById(student.getUserID()));
+                } catch (DataAccessException e) {
+                    System.err.println("Error retrieving user for student ID " + student.getStudentID() + ": " + e.getMessage());
+                    student.setUser(new UserModel());
+                }
+            }
+
+            return students;
+
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving students: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve students", e);
+        }
     }
 
     public StudentModel getStudentById(int id) {
@@ -33,10 +47,20 @@ public class StudentService {
         return student;
     }
 
-    public void createStudent(UserModel user) {
-        this.userService.createUser(user);
-        String userID = user.getUserID();
-        studentRepository.save(userID);
+    public boolean createStudent(UserModel user) {
+        boolean success = this.userService.createUser(user);
+        if (!success) {
+            return false;
+        }
+
+        try {
+            String userID = user.getUserID();
+            studentRepository.save(userID);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error creating student: " + e.getMessage());
+            return false;
+        }
     }
 
     public void updateStudent(int id, String userId) {

@@ -1,11 +1,14 @@
 package com.ncsu.ebooks.user.student;
+import com.ncsu.ebooks.user.faculty.FacultyModel;
 import com.ncsu.ebooks.user.user.Role;
 import com.ncsu.ebooks.user.user.UserModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/students")
@@ -18,8 +21,26 @@ public class StudentController {
     }
 
     @GetMapping
-    public List<StudentModel> getAllStudents() {
-        return studentService.getAllStudents();
+    public ResponseEntity<Map<String, Object>> getAllStudents() {
+        Map<String, Object> response = new HashMap<>();
+        List<StudentModel> studentResponse;
+
+        try {
+            studentResponse = studentService.getAllStudents();
+            if (studentResponse != null && !studentResponse.isEmpty()) {
+                response.put("message", "Students retrieved successfully");
+                response.put("students", studentResponse);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+
+            System.err.println("No students found");
+            response.put("message", "No students available");
+            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            System.err.println("Error retrieving students: " + e.getMessage());
+            response.put("message", "Failed to retrieve students");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
@@ -33,10 +54,18 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createStudent(@RequestBody UserModel user) {
+    public ResponseEntity<Map<String, String>> createStudent(@RequestBody UserModel user) {
         user.setRole(Role.STUDENT);
-        studentService.createStudent(user);
-        return new ResponseEntity<>("Student created successfully", HttpStatus.CREATED);
+        boolean success = studentService.createStudent(user);
+        Map<String, String> response = new HashMap<>();
+        if (success) {
+            response.put("message", "Student created successfully");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }
+
+        System.err.println("Error creating student");
+        response.put("message", "Failed to create student");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/{id}")
