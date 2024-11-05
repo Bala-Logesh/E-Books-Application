@@ -1,7 +1,9 @@
 package com.ncsu.ebooks.list.enrolledlist;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -13,8 +15,13 @@ public class EnrolledListService {
         this.enrolledListRepository = enrolledListRepository;
     }
 
-    public List<EnrolledListModel> getAllELists() {
-        return enrolledListRepository.findAll();
+    public List<EnrolledListRespModel> getAllELists(int facultyID) {
+        try {
+            return enrolledListRepository.findAll(facultyID);
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving enrolled list: " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 
     public EnrolledListModel getEListById(int id) {

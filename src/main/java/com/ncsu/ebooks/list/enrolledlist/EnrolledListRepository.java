@@ -1,5 +1,8 @@
 package com.ncsu.ebooks.list.enrolledlist;
 
+import com.ncsu.ebooks.list.waitlist.WaitListRepository;
+import com.ncsu.ebooks.list.waitlist.WaitListRespModel;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -20,6 +23,27 @@ public class EnrolledListRepository {
     public List<EnrolledListModel> findAll() {
         String sql = "SELECT * FROM Enrolled";
         return jdbcTemplate.query(sql, new EListRM());
+    }
+
+    public List<EnrolledListRespModel> findAll(int facultyID) {
+        String sql = "SELECT " +
+                "Enrolled.enrolledID, " +
+                "ActiveCourse.courseID, " +
+                "Student.userID, " +
+                "User.firstName AS firstName, " +
+                "User.lastName AS lastName " +
+                "FROM Enrolled " +
+                "JOIN Student ON Enrolled.studentID = Student.studentID " +
+                "JOIN User ON Student.userID = User.userID " +
+                "JOIN ActiveCourse ON Enrolled.activeCourseID = ActiveCourse.activeCourseID " +
+                "JOIN Course ON ActiveCourse.courseID = Course.courseID " +
+                "WHERE Course.facultyID = ?;";
+        try {
+            return jdbcTemplate.query(sql, new EnrolledListRespRM(), facultyID);
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving enrolled list: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve enrolled list", e);
+        }
     }
 
     public EnrolledListModel findById(int id) {
@@ -61,6 +85,19 @@ public class EnrolledListRepository {
             EList.setStudentID(rs.getInt("studentID"));
             EList.setCourseScore(rs.getInt("courseScore"));
             return EList;
+        }
+    }
+
+    private static class EnrolledListRespRM implements RowMapper<EnrolledListRespModel> {
+        @Override
+        public EnrolledListRespModel mapRow(ResultSet rs, int rowNum) throws SQLException {
+            EnrolledListRespModel EListResp = new EnrolledListRespModel();
+            EListResp.setEnrolledListID(rs.getInt("enrolledID"));
+            EListResp.setCourseID(rs.getString("courseID"));
+            EListResp.setUserID(rs.getString("userID"));
+            EListResp.setFirstName(rs.getString("firstName"));
+            EListResp.setLastName(rs.getString("lastName"));
+            return EListResp;
         }
     }
 }

@@ -1,9 +1,13 @@
 package com.ncsu.ebooks.list.enrolledlist;
+import com.ncsu.ebooks.list.waitlist.WaitListRespModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/eList")
@@ -15,9 +19,27 @@ public class EnrolledListController {
         this.enrolledListService = enrolledListService;
     }
 
-    @GetMapping
-    public List<EnrolledListModel> getAllELists() {
-        return enrolledListService.getAllELists();
+    @GetMapping("/faculty/{facultyID}")
+    public ResponseEntity<Map<String, Object>> getAllWList(@PathVariable int facultyID) {
+        Map<String, Object> response = new HashMap<>();
+        List<EnrolledListRespModel> enrollListResponse;
+        try {
+            enrollListResponse = enrolledListService.getAllELists(facultyID);
+            if (enrollListResponse != null && !enrollListResponse.isEmpty()) {
+                response.put("message", "Enrolled List retrieved successfully");
+                response.put("eList", enrollListResponse);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+
+            System.err.println("No enrolled list found");
+            response.put("message", "No enrolled list available");
+            response.put("wList", new ArrayList<WaitListRespModel>());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Error retrieving enrolled list: " + e.getMessage());
+            response.put("message", "Failed to retrieve enrolled list");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
