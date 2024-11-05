@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChapterModel {
-    private int chapterId;
+    private int chapterID;
     private String chapterNumber;
     private String title;
     private int eTextBookID;

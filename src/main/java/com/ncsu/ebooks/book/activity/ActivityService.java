@@ -1,8 +1,11 @@
 package com.ncsu.ebooks.book.activity;
 
 import com.ncsu.ebooks.book.answerset.AnswerSetService;
+import com.ncsu.ebooks.book.chapter.ChapterModel;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -17,12 +20,24 @@ public class ActivityService {
     }
 
     public List<ActivityModel> getAllActivities() {
-        List<ActivityModel> activities = activityRepository.findAll();
-        for (ActivityModel activity : activities) {
-            activity.setAnswerSets(answerSetService.getAnswerSetByActivityID(activity.getActivityID()));
-        }
+        try {
+            List<ActivityModel> activities = activityRepository.findAll();
 
-        return activities;
+            for (ActivityModel activity : activities) {
+                try {
+                    activity.setAnswerSets(answerSetService.getAnswerSetByActivityID(activity.getActivityID()));
+                } catch (DataAccessException e) {
+                    System.err.println("Error retrieving answer sets for activity ID " + activity.getActivityID() + ": " + e.getMessage());
+                    activity.setAnswerSets(Collections.emptyList());
+                }
+            }
+
+            return activities;
+
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving activities: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve activities", e);
+        }
     }
 
     public ActivityModel getActivityById(int id) {
@@ -40,8 +55,13 @@ public class ActivityService {
         return activities;
     }
 
-    public void createActivity(ActivityModel activity) {
-        activityRepository.save(activity);
+    public ActivityModel createActivity(ActivityModel activity) {
+        try {
+            return activityRepository.save(activity);
+        } catch (DataAccessException e) {
+            System.err.println("Error creating activity: " + e.getMessage());
+            throw new RuntimeException("Failed to create activity: " + e.getMessage(), e);
+        }
     }
 
     public void updateActivity(int id, ActivityModel activity) {

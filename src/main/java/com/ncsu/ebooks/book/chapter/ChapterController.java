@@ -3,7 +3,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/chapters")
@@ -16,8 +18,26 @@ public class ChapterController {
     }
 
     @GetMapping
-    public List<ChapterModel> getAllChapters() {
-        return chapterService.getAllChapters();
+    public ResponseEntity<Map<String, Object>> getAllChapters() {
+        Map<String, Object> response = new HashMap<>();
+        List<ChapterModel> chapterResponse;
+
+        try {
+            chapterResponse = chapterService.getAllChapters();
+            if (chapterResponse != null && !chapterResponse.isEmpty()) {
+                response.put("message", "Chapters retrieved successfully");
+                response.put("chapters", chapterResponse);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+
+            System.err.println("No chapters found");
+            response.put("message", "No chapters available");
+            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            System.err.println("Error retrieving chapters: " + e.getMessage());
+            response.put("message", "Failed to retrieve chapters");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
@@ -41,9 +61,20 @@ public class ChapterController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createChapter(@RequestBody ChapterModel chapter) {
-        chapterService.createChapter(chapter);
-        return new ResponseEntity<>("Chapter created successfully", HttpStatus.CREATED);
+    public ResponseEntity<Map<String, Object>> createChapter(@RequestBody ChapterModel chapter) {
+        System.out.println(chapter.toString());
+        ChapterModel chapterResponse = chapterService.createChapter(chapter);
+
+        Map<String, Object> response = new HashMap<>();
+        if (chapterResponse != null) {
+            response.put("message", "Chapter created successfully");
+            response.put("chapter", chapterResponse);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }
+
+        System.err.println("Error creating chapter");
+        response.put("message", "Failed to create chapter");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/{id}")

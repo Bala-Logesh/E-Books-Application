@@ -1,8 +1,11 @@
 package com.ncsu.ebooks.book.chapter;
 
+import com.ncsu.ebooks.book.etextbook.ETextBookModel;
 import com.ncsu.ebooks.book.section.SectionService;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -17,12 +20,24 @@ public class ChapterService {
     }
 
     public List<ChapterModel> getAllChapters() {
-        List<ChapterModel> chapters = chapterRepository.findAll();
-        for (ChapterModel chapter : chapters) {
-            chapter.setSections(sectionService.getSectionByChapterID(chapter.getChapterId()));
-        }
+        try {
+            List<ChapterModel> chapters = chapterRepository.findAll();
 
-        return chapters;
+            for (ChapterModel chapter : chapters) {
+                try {
+                    chapter.setSections(sectionService.getSectionByChapterID(chapter.getChapterID()));
+                } catch (DataAccessException e) {
+                    System.err.println("Error retrieving sections for chapter ID " + chapter.getChapterID() + ": " + e.getMessage());
+                    chapter.setSections(Collections.emptyList());
+                }
+            }
+
+            return chapters;
+
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving chapters: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve chapters", e);
+        }
     }
 
     public ChapterModel getChapterById(int id) {
@@ -33,12 +48,17 @@ public class ChapterService {
         return chapterRepository.findByETextBookID(eTextBookId);
     }
 
-    public void createChapter(ChapterModel chapter) {
-        chapterRepository.save(chapter);
+    public ChapterModel createChapter(ChapterModel chapter) {
+        try {
+            return chapterRepository.save(chapter);
+        } catch (DataAccessException e) {
+            System.err.println("Error creating chapter: " + e.getMessage());
+            throw new RuntimeException("Failed to create chapter: " + e.getMessage(), e);
+        }
     }
 
     public void updateChapter(int id, ChapterModel chapter) {
-        chapter.setChapterId(id);
+        chapter.setChapterID(id);
         chapterRepository.update(id, chapter);
     }
 

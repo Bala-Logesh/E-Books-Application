@@ -1,9 +1,12 @@
 package com.ncsu.ebooks.book.contentblock;
 
 import com.ncsu.ebooks.book.activity.ActivityService;
+import com.ncsu.ebooks.book.chapter.ChapterModel;
 import com.ncsu.ebooks.book.section.SectionModel;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -18,13 +21,24 @@ public class ContentBlockService {
     }
 
     public List<ContentBlockModel> getAllContentBlocks() {
+        try {
+            List<ContentBlockModel> contentblocks = contentBlockRepository.findAll();
 
-        List<ContentBlockModel> contentblocks = contentBlockRepository.findAll();
-        for (ContentBlockModel contentblock : contentblocks) {
-            contentblock.setActivities(activityService.getActivityByContentID(contentblock.getContentBlockID()));
+            for (ContentBlockModel contentblock : contentblocks) {
+                try {
+                    contentblock.setActivities(activityService.getActivityByContentID(contentblock.getContentBlockID()));
+                } catch (DataAccessException e) {
+                    System.err.println("Error retrieving activities for content block ID " + contentblock.getContentBlockID() + ": " + e.getMessage());
+                    contentblock.setActivities(Collections.emptyList());
+                }
+            }
+
+            return contentblocks;
+
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving content blocks: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve content blocks", e);
         }
-
-        return contentblocks;
     }
 
     public ContentBlockModel getContentBlockById(int id) {
@@ -35,8 +49,13 @@ public class ContentBlockService {
         return contentBlockRepository.findBySectionID(sectionID);
     }
 
-    public void createContentBlock(ContentBlockModel contentBlock) {
-        contentBlockRepository.save(contentBlock);
+    public ContentBlockModel createContentBlock(ContentBlockModel contentBlock) {
+        try {
+            return contentBlockRepository.save(contentBlock);
+        } catch (DataAccessException e) {
+            System.err.println("Error creating content block: " + e.getMessage());
+            throw new RuntimeException("Failed to create content block: " + e.getMessage(), e);
+        }
     }
 
     public void updateContentBlock(int id, ContentBlockModel contentBlock) {

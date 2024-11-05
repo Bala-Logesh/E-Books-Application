@@ -1,12 +1,19 @@
 package com.ncsu.ebooks.book.activity;
 
+import com.ncsu.ebooks.book.chapter.ChapterModel;
+import com.ncsu.ebooks.book.chapter.ChapterRepository;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class ActivityRepository {
@@ -19,7 +26,12 @@ public class ActivityRepository {
 
     public List<ActivityModel> findAll() {
         String sql = "SELECT * FROM Activity";
-        return jdbcTemplate.query(sql, new ActivityRM());
+        try {
+            return jdbcTemplate.query(sql, new ActivityRM());
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving activities: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve activities", e);
+        }
     }
 
     public ActivityModel findById(int id) {
@@ -32,10 +44,27 @@ public class ActivityRepository {
         return jdbcTemplate.query(sql, new ActivityRM(), contentBlockID);
     }
 
-    public void save(ActivityModel activity) {
-        System.out.println(activity);
-        String sql = "INSERT INTO Activity (activityID, sectionID, contentBlockID, question) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, activity.getActivityID(), activity.getSectionID(), activity.getContentBlockID(), activity.getQuestion());
+    public ActivityModel save(ActivityModel activity) {
+        String sql = "INSERT INTO Activity (sectionID, contentBlockID, question, hidden) VALUES (?, ?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        try {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(sql, new String[]{"activityID"});
+                ps.setInt(1, activity.getSectionID());
+                ps.setInt(2, activity.getContentBlockID());
+                ps.setString(3, activity.getQuestion());
+                ps.setBoolean(4, activity.isHidden());
+                return ps;
+            }, keyHolder);
+
+            activity.setActivityID(Objects.requireNonNull(keyHolder.getKey()).intValue());
+
+            return activity;
+        } catch (DataAccessException e) {
+            System.err.println("Error saving activity: " + e.getMessage());
+            throw new RuntimeException("Failed to save activity: " + e.getMessage(), e);
+        }
     }
 
     public void update(int id, ActivityModel activity) {

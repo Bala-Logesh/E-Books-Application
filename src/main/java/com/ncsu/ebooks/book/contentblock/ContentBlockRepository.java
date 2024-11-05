@@ -1,12 +1,19 @@
 package com.ncsu.ebooks.book.contentblock;
 
+import com.ncsu.ebooks.book.chapter.ChapterModel;
+import com.ncsu.ebooks.book.chapter.ChapterRepository;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class ContentBlockRepository {
@@ -19,7 +26,12 @@ public class ContentBlockRepository {
 
     public List<ContentBlockModel> findAll() {
         String sql = "SELECT * FROM ContentBlock";
-        return jdbcTemplate.query(sql, new ContentBlockRM());
+        try {
+            return jdbcTemplate.query(sql, new ContentBlockRM());
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving content blocks: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve content blocks", e);
+        }
     }
 
     public ContentBlockModel findById(int id) {
@@ -33,10 +45,27 @@ public class ContentBlockRepository {
         return jdbcTemplate.query(sql, new ContentBlockRM(), sectionId);
     }
 
-    public void save(ContentBlockModel contentBlock) {
-        String sql = "INSERT INTO ContentBlock (contentBlockID, sectionID, image, textBlock) " +
-                "VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, contentBlock.getContentBlockID(), contentBlock.getSectionID(), contentBlock.getImage(), contentBlock.getTextBlock());
+    public ContentBlockModel save(ContentBlockModel contentBlock) {
+        String sql = "INSERT INTO ContentBlock (sectionID, image, textBlock, hidden) VALUES (?, ?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        try {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(sql, new String[]{"contentBlockID"});
+                ps.setInt(1, contentBlock.getSectionID());
+                ps.setString(2, contentBlock.getImage());
+                ps.setString(3, contentBlock.getTextBlock());
+                ps.setBoolean(4, contentBlock.isHidden());
+                return ps;
+            }, keyHolder);
+
+            contentBlock.setContentBlockID(Objects.requireNonNull(keyHolder.getKey()).intValue());
+
+            return contentBlock;
+        } catch (DataAccessException e) {
+            System.err.println("Error saving content block: " + e.getMessage());
+            throw new RuntimeException("Failed to save content block: " + e.getMessage(), e);
+        }
     }
 
     public void update(int id, ContentBlockModel contentBlock) {

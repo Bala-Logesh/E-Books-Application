@@ -1,9 +1,12 @@
 package com.ncsu.ebooks.book.answerset;
+import com.ncsu.ebooks.book.chapter.ChapterModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/answerSets")
@@ -16,8 +19,26 @@ public class AnswerSetController {
     }
 
     @GetMapping
-    public List<AnswerSetModel> getAllAnswerSets() {
-        return answerSetService.getAllAnswerSets();
+    public ResponseEntity<Map<String, Object>> getAllAnswerSets() {
+        Map<String, Object> response = new HashMap<>();
+        List<AnswerSetModel> answerSetResponse;
+
+        try {
+            answerSetResponse = answerSetService.getAllAnswerSets();
+            if (answerSetResponse != null && !answerSetResponse.isEmpty()) {
+                response.put("message", "Answer Sets retrieved successfully");
+                response.put("answerSets", answerSetResponse);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+
+            System.err.println("No answer sets found");
+            response.put("message", "No answer sets available");
+            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            System.err.println("Error retrieving answer sets: " + e.getMessage());
+            response.put("message", "Failed to retrieve answer sets");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
@@ -41,9 +62,20 @@ public class AnswerSetController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createAnswerSet(@RequestBody AnswerSetModel answerSet) {
-        answerSetService.creatAnswerSet(answerSet);
-        return new ResponseEntity<>("AnswerSet created successfully", HttpStatus.CREATED);
+    public ResponseEntity<Map<String, Object>> createAnswerSet(@RequestBody AnswerSetModel answerSet) {
+        System.out.println(answerSet.toString());
+        AnswerSetModel answerSetResponse = answerSetService.createAnswerSet(answerSet);
+
+        Map<String, Object> response = new HashMap<>();
+        if (answerSetResponse != null) {
+            response.put("message", "Answer Set created successfully");
+            response.put("answerSet", answerSetResponse);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }
+
+        System.err.println("Error creating answer set");
+        response.put("message", "Failed to create answer set");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/{id}")

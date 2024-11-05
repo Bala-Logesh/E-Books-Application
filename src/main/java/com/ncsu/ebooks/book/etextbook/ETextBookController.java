@@ -4,7 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/eTextBooks")
@@ -14,8 +16,27 @@ public class ETextBookController {
     private ETextBookService eTextBookService;
 
     @GetMapping
-    public List<ETextBookModel> getAllETextBooks() {
-        return eTextBookService.getAllETextBooks();
+    public ResponseEntity<Map<String, Object>> getAllETextBooks() {
+        Map<String, Object> response = new HashMap<>();
+        List<ETextBookModel> etbResponse;
+
+        try {
+            etbResponse = eTextBookService.getAllETextBooks();
+            if (etbResponse != null && !etbResponse.isEmpty()) {
+                response.put("message", "ETextBooks retrieved successfully");
+                response.put("etextbooks", etbResponse);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+
+            System.err.println("No e-textbooks found");
+            response.put("message", "No e-textbooks available");
+            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+
+        } catch (Exception e) {
+            System.err.println("Error retrieving e-textbooks: " + e.getMessage());
+            response.put("message", "Failed to retrieve e-textbooks");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
@@ -29,11 +50,20 @@ public class ETextBookController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createETextBook(@RequestBody ETextBookModel eTextBook) {
+    public ResponseEntity<Map<String, Object>> createETextBook(@RequestBody ETextBookModel eTextBook) {
         System.out.println(eTextBook.toString());
+        ETextBookModel etbResponse = eTextBookService.createETextBook(eTextBook);
 
-        eTextBookService.createETextBook(eTextBook);
-        return new ResponseEntity<>("ETextBook created successfully", HttpStatus.CREATED);
+        Map<String, Object> response = new HashMap<>();
+        if (etbResponse != null) {
+            response.put("message", "ETextBook created successfully");
+            response.put("etextbook", etbResponse);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }
+
+        System.err.println("Error creating e-textbook");
+        response.put("message", "Failed to create e-textbook");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/{id}")

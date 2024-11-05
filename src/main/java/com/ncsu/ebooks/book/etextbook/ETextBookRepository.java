@@ -1,13 +1,20 @@
 package com.ncsu.ebooks.book.etextbook;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class ETextBookRepository {
@@ -17,7 +24,12 @@ public class ETextBookRepository {
 
     public List<ETextBookModel> findAll() {
         String sql = "SELECT * FROM ETextBook";
-        return jdbcTemplate.query(sql, new ETextBookRM());
+        try {
+            return jdbcTemplate.query(sql, new ETextBookRM());
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving e-textbooks: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve e-textbooks", e);
+        }
     }
 
     public ETextBookModel findById(int id) {
@@ -25,9 +37,24 @@ public class ETextBookRepository {
         return jdbcTemplate.queryForObject(sql, new ETextBookRM(), id);
     }
 
-    public void save(ETextBookModel eTextBook) {
+    public ETextBookModel save(ETextBookModel eTextBook) {
         String sql = "INSERT INTO ETextBook (title) VALUES (?)";
-        jdbcTemplate.update(sql, eTextBook.getTitle());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        try {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(sql, new String[]{"eTextBookID"});
+                ps.setString(1, eTextBook.getTitle());
+                return ps;
+            }, keyHolder);
+
+            eTextBook.setETextBookID(Objects.requireNonNull(keyHolder.getKey()).intValue());
+
+            return eTextBook;
+        } catch (DataAccessException e) {
+            System.err.println("Error saving e-textbook: " + e.getMessage());
+            throw new RuntimeException("Failed to save e-textbook: " + e.getMessage(), e);
+        }
     }
 
     public void update(int id, ETextBookModel ETextBook) {

@@ -1,12 +1,19 @@
 package com.ncsu.ebooks.book.chapter;
 
+import com.ncsu.ebooks.book.etextbook.ETextBookModel;
+import com.ncsu.ebooks.book.etextbook.ETextBookRepository;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class ChapterRepository {
@@ -19,7 +26,12 @@ public class ChapterRepository {
 
     public List<ChapterModel> findAll() {
         String sql = "SELECT * FROM Chapter";
-        return jdbcTemplate.query(sql, new ChapterRM());
+        try {
+            return jdbcTemplate.query(sql, new ChapterRM());
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving chapters: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve chapters", e);
+        }
     }
 
     public ChapterModel findById(int id) {
@@ -33,14 +45,32 @@ public class ChapterRepository {
         return jdbcTemplate.query(sql, new ChapterRM(), eTextBookID);
     }
 
-    public void save(ChapterModel chapter) {
+    public ChapterModel save(ChapterModel chapter) {
         String sql = "INSERT INTO Chapter (chapterNumber, title, eTextBookID, hidden) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, chapter.getChapterNumber(), chapter.getTitle(), chapter.getETextBookID(), chapter.isHidden());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        try {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(sql, new String[]{"chapterID"});
+                ps.setString(1, chapter.getChapterNumber());
+                ps.setString(2, chapter.getTitle());
+                ps.setInt(3, chapter.getETextBookID());
+                ps.setBoolean(4, chapter.isHidden());
+                return ps;
+            }, keyHolder);
+
+            chapter.setChapterID(Objects.requireNonNull(keyHolder.getKey()).intValue());
+
+            return chapter;
+        } catch (DataAccessException e) {
+            System.err.println("Error saving chapter: " + e.getMessage());
+            throw new RuntimeException("Failed to save chapter: " + e.getMessage(), e);
+        }
     }
 
     public void update(int id, ChapterModel chapter) {
         String sql = "UPDATE Chapter SET chapterID = ?, chapterNumber = ?, title = ?, eTextBookID = ? WHERE chapterID = ?";
-        jdbcTemplate.update(sql, chapter.getChapterId(), chapter.getChapterNumber(), chapter.getTitle(), 101, id);
+        jdbcTemplate.update(sql, chapter.getChapterID(), chapter.getChapterNumber(), chapter.getTitle(), 101, id);
     }
 
     public void delete(int id) {
@@ -52,7 +82,7 @@ public class ChapterRepository {
         @Override
         public ChapterModel mapRow(ResultSet rs, int rowNum) throws SQLException {
             ChapterModel Chapter = new ChapterModel();
-            Chapter.setChapterId(rs.getInt("chapterId"));
+            Chapter.setChapterID(rs.getInt("chapterId"));
             Chapter.setChapterNumber(rs.getString("chapterNumber"));
             Chapter.seteTextBookID(rs.getInt("eTextBookID"));
             Chapter.setTitle(rs.getString("title"));
