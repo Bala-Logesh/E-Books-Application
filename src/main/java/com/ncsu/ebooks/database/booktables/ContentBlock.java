@@ -20,7 +20,6 @@ public class ContentBlock {
                     "UNIQUE (contentBlockID, sectionID)," +
                     "FOREIGN KEY (sectionID) REFERENCES Section(sectionID)" +
                     "ON UPDATE CASCADE ON DELETE CASCADE," +
-                    "CHECK (image IS NOT NULL OR textBlock IS NOT NULL)" +
                     ");";
 
             statement.executeUpdate(createContentBlkTable);
