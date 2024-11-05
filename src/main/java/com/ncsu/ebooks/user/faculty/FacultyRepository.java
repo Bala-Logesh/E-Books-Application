@@ -54,6 +54,16 @@ public class FacultyRepository {
         jdbcTemplate.update(sql, id);
     }
 
+    public FacultyModel findByUserID(String userID) {
+        String sql = "SELECT * FROM Faculty WHERE userID = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new FacultyRM(), userID);
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving faculty: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve faculty", e);
+        }
+    }
+
     private static class FacultyRM implements RowMapper<FacultyModel> {
         @Override
         public FacultyModel mapRow(ResultSet rs, int rowNum) throws SQLException {

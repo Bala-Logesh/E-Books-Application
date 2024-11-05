@@ -71,4 +71,13 @@ public class FacultyService {
     public void deleteFaculty(int id) {
         facultyRepository.delete(id);
     }
+
+    public FacultyModel getFacultyByUserID(String userID) {
+        try {
+            return facultyRepository.findByUserID(userID);
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving faculty: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve faculty", e);
+        }
+    }
 }

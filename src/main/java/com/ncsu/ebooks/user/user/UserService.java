@@ -49,4 +49,14 @@ public class UserService {
     public UserModel loginUser(UserLoginModel user) {
         return userRepository.loginUser(user);
     }
+
+    public boolean changePassword(UserChangePwdModel user) {
+        try {
+            userRepository.changePassword(user);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error changing password: " + e.getMessage());
+            return false;
+        }
+    }
 }

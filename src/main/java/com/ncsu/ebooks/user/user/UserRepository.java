@@ -63,6 +63,22 @@ public class UserRepository {
         }
     }
 
+    public void changePassword(UserChangePwdModel user) {
+        String sqlCheckOldPassword = "SELECT password FROM User WHERE userID = ?";
+        String sqlUpdatePassword = "UPDATE User SET password = ? WHERE userID = ?";
+
+        try {
+            String currentPassword = jdbcTemplate.queryForObject(sqlCheckOldPassword, new Object[]{user.getUserID()}, String.class);
+            if (currentPassword != null && user.getOldPassword().matches(currentPassword)) {
+                jdbcTemplate.update(sqlUpdatePassword, user.getNewPassword(), user.getUserID());
+            } else {
+                throw new IllegalArgumentException("Old password is incorrect.");
+            }
+        } catch (EmptyResultDataAccessException e) {
+            throw new IllegalArgumentException("User not found.");
+        }
+    }
+
     private static class UserRM implements RowMapper<UserModel> {
         @Override
         public UserModel mapRow(ResultSet rs, int rowNum) throws SQLException {

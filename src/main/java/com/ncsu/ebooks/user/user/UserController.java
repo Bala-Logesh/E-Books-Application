@@ -60,6 +60,19 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
+    @PostMapping("/changepassword")
+    public ResponseEntity<Map<String, String>> changePassword(@RequestBody UserChangePwdModel user) {
+        boolean success = userService.changePassword(user);
+        Map<String, String> response = new HashMap<>();
+        if (success) {
+            response.put("message", "Password changed successfully");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+
+        response.put("message", "Password change failed! Invalid Credentials");
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<String> updateUser(@PathVariable String id, @RequestBody UserModel user) {
         userService.updateUser(id, user);

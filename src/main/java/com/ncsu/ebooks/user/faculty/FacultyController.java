@@ -52,6 +52,29 @@ public class FacultyController {
         }
     }
 
+    @GetMapping("/user/{userID}")
+    public ResponseEntity<Map<String, Object>> getFacultyByUserID(@PathVariable String userID) {
+        Map<String, Object> response = new HashMap<>();
+        FacultyModel facultyResponse;
+
+        try {
+            facultyResponse = facultyService.getFacultyByUserID(userID);
+            if (facultyResponse != null) {
+                response.put("message", "Faculty retrieved successfully");
+                response.put("faculty", facultyResponse);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+
+            System.err.println("No faculty found");
+            response.put("message", "No faculty available");
+            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            System.err.println("Error retrieving faculty: " + e.getMessage());
+            response.put("message", "Failed to retrieve faculty");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Map<String, String>> createFaculty(@RequestBody UserModel user) {
         user.setRole(Role.FACULTY);
