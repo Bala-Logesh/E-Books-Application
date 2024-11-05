@@ -1,7 +1,9 @@
 package com.ncsu.ebooks.list.waitlist;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -13,8 +15,13 @@ public class WaitListService {
         this.waitListRepository = waitListRepository;
     }
 
-    public List<WaitListModel> getAllWList() {
-        return waitListRepository.findAll();
+    public List<WaitListRespModel> getAllWList(int facultyID) {
+        try {
+            return waitListRepository.findAll(facultyID);
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving wait list: " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 
     public WaitListModel getWListById(int id) {

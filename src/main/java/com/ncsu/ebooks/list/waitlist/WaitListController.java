@@ -1,9 +1,13 @@
 package com.ncsu.ebooks.list.waitlist;
+import com.ncsu.ebooks.course.activecourse.ACourseModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/wList")
@@ -15,9 +19,27 @@ public class WaitListController {
         this.waitListService = waitListService;
     }
 
-    @GetMapping
-    public List<WaitListModel> getAllWList() {
-        return waitListService.getAllWList();
+    @GetMapping("/faculty/{facultyID}")
+    public ResponseEntity<Map<String, Object>> getAllWList(@PathVariable int facultyID) {
+        Map<String, Object> response = new HashMap<>();
+        List<WaitListRespModel> waitListResponse;
+        try {
+            waitListResponse = waitListService.getAllWList(facultyID);
+            if (waitListResponse != null && !waitListResponse.isEmpty()) {
+                response.put("message", "Wait List retrieved successfully");
+                response.put("wList", waitListResponse);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+
+            System.err.println("No wait list found");
+            response.put("message", "No wait list available");
+            response.put("wList", new ArrayList<WaitListRespModel>());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Error retrieving wait list: " + e.getMessage());
+            response.put("message", "Failed to retrieve wait list");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")

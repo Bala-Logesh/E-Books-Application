@@ -1,5 +1,6 @@
 package com.ncsu.ebooks.list.waitlist;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -17,9 +18,25 @@ public class WaitListRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<WaitListModel> findAll() {
-        String sql = "SELECT * FROM Wait";
-        return jdbcTemplate.query(sql, new WaitListRM());
+    public List<WaitListRespModel> findAll(int facultyID) {
+        String sql = "SELECT " +
+                "Wait.waitListID, " +
+                "ActiveCourse.courseID, " +
+                "Student.userID, " +
+                "User.firstName AS firstName, " +
+                "User.lastName AS lastName " +
+                "FROM Wait " +
+                "JOIN Student ON Wait.studentID = Student.studentID " +
+                "JOIN User ON Student.userID = User.userID " +
+                "JOIN ActiveCourse ON Wait.activeCourseID = ActiveCourse.activeCourseID " +
+                "JOIN Course ON ActiveCourse.courseID = Course.courseID " +
+                "WHERE Course.facultyID = ?;";
+        try {
+            return jdbcTemplate.query(sql, new WaitListRespRM(), facultyID);
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving wait list: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve wait list", e);
+        }
     }
 
     public WaitListModel findById(int id) {
@@ -55,11 +72,24 @@ public class WaitListRepository {
     private static class WaitListRM implements RowMapper<WaitListModel> {
         @Override
         public WaitListModel mapRow(ResultSet rs, int rowNum) throws SQLException {
-            WaitListModel EList = new WaitListModel();
-            EList.setWaitListID(rs.getInt("waitListID"));
-            EList.setActiveCourseID(rs.getInt("activeCourseID"));
-            EList.setStudentID(rs.getInt("studentID"));
-            return EList;
+            WaitListModel WList = new WaitListModel();
+            WList.setWaitListID(rs.getInt("waitListID"));
+            WList.setActiveCourseID(rs.getInt("activeCourseID"));
+            WList.setStudentID(rs.getInt("studentID"));
+            return WList;
+        }
+    }
+
+    private static class WaitListRespRM implements RowMapper<WaitListRespModel> {
+        @Override
+        public WaitListRespModel mapRow(ResultSet rs, int rowNum) throws SQLException {
+            WaitListRespModel WListResp = new WaitListRespModel();
+            WListResp.setWaitListID(rs.getInt("waitListID"));
+            WListResp.setCourseID(rs.getString("courseID"));
+            WListResp.setUserID(rs.getString("userID"));
+            WListResp.setFirstName(rs.getString("firstName"));
+            WListResp.setLastName(rs.getString("lastName"));
+            return WListResp;
         }
     }
 }
