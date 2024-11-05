@@ -18,10 +18,19 @@ public class CourseRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<CourseModel> findAll() {
-        String sql = "SELECT * FROM Course";
+    public List<CourseRespModel> findAll(int facultyID) {
+        String sql = "SELECT " +
+                "Course.courseID, " +
+                "Course.title, " +
+                "Course.startDate, " +
+                "Course.endDate, " +
+                "Course.eTextBookID, " +
+                "ETextBook.title AS eTextBookTitle " +
+                "FROM Course " +
+                "JOIN ETextBook ON Course.eTextBookID = ETextBook.eTextBookID " +
+                "WHERE Course.facultyID = ?;";
         try {
-            return jdbcTemplate.query(sql, new CourseRM());
+            return jdbcTemplate.query(sql, new CourseRespRM(), facultyID);
         } catch (DataAccessException e) {
             System.err.println("Error retrieving courses: " + e.getMessage());
             throw new RuntimeException("Failed to retrieve courses", e);
@@ -68,6 +77,20 @@ public class CourseRepository {
             Course.setStartDate(rs.getTimestamp("startDate"));
             Course.setEndDate(rs.getTimestamp("endDate"));
             Course.seteTextBookID(rs.getInt("eTextBookId"));
+            return Course;
+        }
+    }
+
+    private static class CourseRespRM implements RowMapper<CourseRespModel> {
+        @Override
+        public CourseRespModel mapRow(ResultSet rs, int rowNum) throws SQLException {
+            CourseRespModel Course = new CourseRespModel();
+            Course.setCourseID(rs.getString("courseId"));
+            Course.setTitle(rs.getString("title"));
+            Course.setStartDate(rs.getTimestamp("startDate"));
+            Course.setEndDate(rs.getTimestamp("endDate"));
+            Course.setETextBookID(rs.getInt("eTextBookId"));
+            Course.setETextBookTitle(rs.getString("eTextBookTitle"));
             return Course;
         }
     }

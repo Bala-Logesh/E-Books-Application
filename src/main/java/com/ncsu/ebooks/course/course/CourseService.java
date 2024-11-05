@@ -14,9 +14,9 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
-    public List<CourseModel> getAllCourses() {
+    public List<CourseRespModel> getAllCourses(int facultyID) {
         try {
-            return courseRepository.findAll();
+            return courseRepository.findAll(facultyID);
         } catch (DataAccessException e) {
             System.err.println("Error retrieving courses: " + e.getMessage());
             throw new RuntimeException("Failed to retrieve courses", e);

@@ -1,9 +1,11 @@
 package com.ncsu.ebooks.course.course;
 import com.ncsu.ebooks.book.chapter.ChapterModel;
+import com.ncsu.ebooks.list.waitlist.WaitListRespModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,9 +20,27 @@ public class CourseController {
         this.courseService = courseService;
     }
 
-    @GetMapping
-    public List<CourseModel> getAllCourses() {
-        return courseService.getAllCourses();
+    @GetMapping("/faculty/{facultyID}")
+    public ResponseEntity<Map<String, Object>> getAllCourses(@PathVariable int facultyID) {
+        Map<String, Object> response = new HashMap<>();
+        List<CourseRespModel> courseListResponse;
+        try {
+            courseListResponse = courseService.getAllCourses(facultyID);
+            if (courseListResponse != null && !courseListResponse.isEmpty()) {
+                response.put("message", "Courses retrieved successfully");
+                response.put("courses", courseListResponse);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+
+            System.err.println("No courses found");
+            response.put("message", "No courses available");
+            response.put("courses", new ArrayList<CourseRespModel>());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Error retrieving courses: " + e.getMessage());
+            response.put("message", "Failed to retrieve courses");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
