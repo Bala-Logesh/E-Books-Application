@@ -4,7 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/eCourses")
@@ -17,8 +19,26 @@ public class ECourseController {
     }
 
     @GetMapping
-    public List<ECourseModel> getAllECourses() {
-        return ECourseService.getAllECourses();
+    public ResponseEntity<Map<String, Object>> getAllECourses() {
+        Map<String, Object> response = new HashMap<>();
+        List<ECourseModel> evaluationCourseResponse;
+
+        try {
+            evaluationCourseResponse = ECourseService.getAllECourses();
+            if (evaluationCourseResponse != null && !evaluationCourseResponse.isEmpty()) {
+                response.put("message", "Evaluation courses retrieved successfully");
+                response.put("aCourses", evaluationCourseResponse);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+
+            System.err.println("No evaluation courses found");
+            response.put("message", "No evaluation courses available");
+            return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+        } catch (Exception e) {
+            System.err.println("Error retrieving evaluation courses: " + e.getMessage());
+            response.put("message", "Failed to retrieve evaluation courses");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/{id}")
@@ -32,9 +52,17 @@ public class ECourseController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createECourse(@RequestBody CourseModel course) {
-        ECourseService.createECourse(course);
-        return new ResponseEntity<>("ECourse created successfully", HttpStatus.CREATED);
+    public ResponseEntity<Map<String, String>> createECourse(@RequestBody CourseModel course) {
+        boolean success = ECourseService.createECourse(course);
+        Map<String, String> response = new HashMap<>();
+        if (success) {
+            response.put("message", "Evaluation Course created successfully");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }
+
+        System.err.println("Error creating evaluation course");
+        response.put("message", "Failed to create evaluation course");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/{id}")

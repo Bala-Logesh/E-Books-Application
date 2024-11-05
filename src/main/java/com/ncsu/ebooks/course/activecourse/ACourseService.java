@@ -3,8 +3,10 @@ package com.ncsu.ebooks.course.activecourse;
 import com.ncsu.ebooks.book.chapter.ChapterModel;
 import com.ncsu.ebooks.course.course.CourseModel;
 import com.ncsu.ebooks.course.course.CourseService;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -19,12 +21,24 @@ public class ACourseService {
     }
 
     public List<ACourseModel> getAllACourses() {
-        List<ACourseModel> aCourses = ACourseRepository.findAll();
-        for (ACourseModel aCourse : aCourses) {
-            aCourse.setCourse(courseService.getCourseById(aCourse.getCourseID()));
-        }
+        try {
+            List<ACourseModel> aCourses = ACourseRepository.findAll();
 
-        return aCourses;
+            for (ACourseModel aCourse : aCourses) {
+                try {
+                    aCourse.setCourse(courseService.getCourseById(aCourse.getCourseID()));
+                } catch (DataAccessException e) {
+                    System.err.println("Error retrieving course for active course ID " + aCourse.getActiveCourseID() + ": " + e.getMessage());
+                    aCourse.setCourse(new CourseModel());
+                }
+            }
+
+            return aCourses;
+
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving active courses: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve active courses", e);
+        }
     }
 
     public ACourseModel getACourseById(int id) {
@@ -33,10 +47,20 @@ public class ACourseService {
         return aCourse;
     }
 
-    public void createACourse(CourseModel course, int capacity, String token, boolean openToEnroll) {
-        this.courseService.createCourse(course);
-        String courseId = course.getCourseID();
-        ACourseRepository.save(courseId, capacity, token, openToEnroll);
+    public boolean createACourse(CourseModel course, int capacity, String token, boolean openToEnroll) {
+        boolean success = this.courseService.createCourse(course);
+        if (!success) {
+            return false;
+        }
+
+        try {
+            String courseId = course.getCourseID();
+            ACourseRepository.save(courseId, capacity, token, openToEnroll);
+            return true;
+        } catch (Exception e) {
+            System.err.println("Error creating active course: " + e.getMessage());
+            return false;
+        }
     }
 
     public void updateACourse(int id, int courseId) {

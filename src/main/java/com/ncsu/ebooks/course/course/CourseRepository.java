@@ -1,5 +1,6 @@
 package com.ncsu.ebooks.course.course;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,12 @@ public class CourseRepository {
 
     public List<CourseModel> findAll() {
         String sql = "SELECT * FROM Course";
-        return jdbcTemplate.query(sql, new CourseRM());
+        try {
+            return jdbcTemplate.query(sql, new CourseRM());
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving courses: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve courses", e);
+        }
     }
 
     public CourseModel findById(String id) {
@@ -34,7 +40,12 @@ public class CourseRepository {
 
     public void save(CourseModel course) {
         String sql = "INSERT INTO Course (courseID, title, facultyID, startDate, endDate, eTextBookID) VALUES (?, ?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, course.getCourseID(), course.getTitle(), course.getFacultyID(), course.getStartDate(), course.getEndDate(), course.getETextBookID());
+        try {
+            jdbcTemplate.update(sql, course.getCourseID(), course.getTitle(), course.getFacultyID(), course.getStartDate(), course.getEndDate(), course.getETextBookID());
+        } catch (DataAccessException e) {
+            System.err.println("Error saving course: " + e.getMessage());
+            throw new RuntimeException("Failed to save course: " + e.getMessage(), e);
+        }
     }
 
     public void update(String id, CourseModel course) {

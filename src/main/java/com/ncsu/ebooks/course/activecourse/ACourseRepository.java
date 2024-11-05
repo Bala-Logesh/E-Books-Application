@@ -1,5 +1,6 @@
 package com.ncsu.ebooks.course.activecourse;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -19,17 +20,27 @@ public class ACourseRepository {
 
     public List<ACourseModel> findAll() {
         String sql = "SELECT * FROM ActiveCourse";
-        return jdbcTemplate.query(sql, new ACourseRM());
+        try {
+            return jdbcTemplate.query(sql, new ACourseRM());
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving active courses: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve active courses", e);
+        }
     }
 
     public ACourseModel findById(int id) {
-        String sql = "SELECT activeCourseid, courseID, capacity, openToEnroll FROM ActiveCourse WHERE activeCourseID = ?";
+        String sql = "SELECT activeCourseID, courseID, capacity, openToEnroll FROM ActiveCourse WHERE activeCourseID = ?";
         return jdbcTemplate.queryForObject(sql, new ACourseRM(), id);
     }
 
     public void save(String id, int capacity, String token, boolean openToEnroll) {
         String sql = "INSERT INTO ActiveCourse (courseID, capacity, openToEnroll, token) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, id, capacity, openToEnroll, token);
+        try {
+            jdbcTemplate.update(sql, id, capacity, openToEnroll, token);
+        } catch (DataAccessException e) {
+            System.err.println("Error saving active course: " + e.getMessage());
+            throw new RuntimeException("Failed to save active course: " + e.getMessage(), e);
+        }
     }
 
     public void update(int id, int courseId) {

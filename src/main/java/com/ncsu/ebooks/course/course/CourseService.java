@@ -1,5 +1,6 @@
 package com.ncsu.ebooks.course.course;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +15,12 @@ public class CourseService {
     }
 
     public List<CourseModel> getAllCourses() {
-        return courseRepository.findAll();
+        try {
+            return courseRepository.findAll();
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving courses: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve courses", e);
+        }
     }
 
     public CourseModel getCourseById(String id) {
@@ -25,8 +31,14 @@ public class CourseService {
         return courseRepository.findByTitle(title);
     }
 
-    public void createCourse(CourseModel course) {
-        courseRepository.save(course);
+    public boolean createCourse(CourseModel course) {
+        try {
+            courseRepository.save(course);
+            return true;
+        } catch (DataAccessException e) {
+            System.err.println("Error creating course: " + e.getMessage());
+            throw new RuntimeException("Failed to create course: " + e.getMessage(), e);
+        }
     }
 
     public void updateCourse(String id, CourseModel course) {

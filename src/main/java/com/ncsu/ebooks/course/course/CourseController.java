@@ -1,9 +1,12 @@
 package com.ncsu.ebooks.course.course;
+import com.ncsu.ebooks.book.chapter.ChapterModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/courses")
@@ -31,9 +34,19 @@ public class CourseController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createCourse(@RequestBody CourseModel course) {
-        courseService.createCourse(course);
-        return new ResponseEntity<>("Course created successfully", HttpStatus.CREATED);
+    public ResponseEntity<Map<String, String>> createCourse(@RequestBody CourseModel course) {
+        System.out.println(course.toString());
+        boolean success = courseService.createCourse(course);
+
+        Map<String, String> response = new HashMap<>();
+        if (success) {
+            response.put("message", "Course created successfully");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }
+
+        System.err.println("Error creating course");
+        response.put("message", "Failed to create course");
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @PutMapping("/{id}")

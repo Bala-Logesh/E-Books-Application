@@ -1,5 +1,6 @@
 package com.ncsu.ebooks.course.evaluationcourse;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,12 @@ public class ECourseRepository {
 
     public List<ECourseModel> findAll() {
         String sql = "SELECT * FROM EvaluationCourse";
-        return jdbcTemplate.query(sql, new ECourseRM());
+        try {
+            return jdbcTemplate.query(sql, new ECourseRM());
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving evaluation courses: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve evaluation courses", e);
+        }
     }
 
     public ECourseModel findById(int id) {
@@ -29,7 +35,12 @@ public class ECourseRepository {
 
     public void save(String courseId) {
         String sql = "INSERT INTO EvaluationCourse (courseID) VALUES (?)";
-        jdbcTemplate.update(sql, courseId);
+        try {
+            jdbcTemplate.update(sql, courseId);
+        } catch (DataAccessException e) {
+            System.err.println("Error saving evaluation course: " + e.getMessage());
+            throw new RuntimeException("Failed to save evaluation course: " + e.getMessage(), e);
+        }
     }
 
     public void update(int id, int courseId) {
