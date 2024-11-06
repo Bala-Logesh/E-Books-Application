@@ -16,4 +16,7 @@ public class CourseRespModel {
     private Timestamp endDate;
     private int eTextBookID;
     private String eTextBookTitle;
+    private String courseType;
+    private int courseTypeID;
+    private String token;
 }

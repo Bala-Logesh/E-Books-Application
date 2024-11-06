@@ -42,9 +42,14 @@ public class ACourseService {
     }
 
     public ACourseModel getACourseById(int id) {
-        ACourseModel aCourse = ACourseRepository.findById(id);
-        aCourse.setCourse(courseService.getCourseById(aCourse.getCourseID()));
-        return aCourse;
+        try {
+            ACourseModel aCourse = ACourseRepository.findById(id);
+            aCourse.setCourse(courseService.getCourseById(aCourse.getCourseID()));
+            return aCourse;
+        }  catch (DataAccessException e) {
+            System.err.println("Error retrieving active course: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve active course", e);
+        }
     }
 
     public boolean createACourse(CourseModel course, int capacity, String token, boolean openToEnroll) {
@@ -69,5 +74,16 @@ public class ACourseService {
 
     public void deleteACourse(int id) {
         ACourseRepository.delete(id);
+    }
+
+    public ACourseModel getACourseByCourseID(String courseID) {
+       try{
+            ACourseModel aCourse = ACourseRepository.findByCourseID(courseID);
+            aCourse.setCourse(courseService.getCourseById(aCourse.getCourseID()));
+            return aCourse;
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving active course: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve active course", e);
+        }
     }
 }

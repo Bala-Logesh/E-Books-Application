@@ -18,16 +18,62 @@ public class CourseRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<CourseRespModel> findAll(int facultyID) {
+    public List<CourseRespModel> findAll() {
         String sql = "SELECT " +
                 "Course.courseID, " +
                 "Course.title, " +
                 "Course.startDate, " +
                 "Course.endDate, " +
                 "Course.eTextBookID, " +
-                "ETextBook.title AS eTextBookTitle " +
+                "ActiveCourse.token AS token, " +
+                "ETextBook.title AS eTextBookTitle, " +
+                "CASE " +
+                "    WHEN ActiveCourse.courseID IS NOT NULL THEN 'Active' " +
+                "    WHEN EvaluationCourse.courseID IS NOT NULL THEN 'Evaluation' " +
+                "    ELSE 'None' " +
+                "END AS courseType, " +
+                "CASE " +
+                "    WHEN ActiveCourse.courseID IS NOT NULL THEN ActiveCourse.activeCourseID " +
+                "    WHEN EvaluationCourse.courseID IS NOT NULL THEN EvaluationCourse.evaluationID " +
+                "    ELSE NULL " +
+                "END AS courseTypeID " +
                 "FROM Course " +
                 "JOIN ETextBook ON Course.eTextBookID = ETextBook.eTextBookID " +
+                "LEFT JOIN ActiveCourse ON Course.courseID = ActiveCourse.courseID " +
+                "LEFT JOIN EvaluationCourse ON Course.courseID = EvaluationCourse.courseID;";
+
+
+        try {
+            return jdbcTemplate.query(sql, new CourseRespRM());
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving courses: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve courses", e);
+        }
+    }
+
+    public List<CourseRespModel> findAllByFaculty(int facultyID) {
+        String sql = "SELECT " +
+                "Course.courseID, " +
+                "Course.title, " +
+                "Course.startDate, " +
+                "Course.endDate, " +
+                "Course.eTextBookID, " +
+                "ActiveCourse.token AS token, " +
+                "ETextBook.title AS eTextBookTitle, " +
+                "CASE " +
+                "    WHEN ActiveCourse.courseID IS NOT NULL THEN 'Active' " +
+                "    WHEN EvaluationCourse.courseID IS NOT NULL THEN 'Evaluation' " +
+                "    ELSE 'None' " +
+                "END AS courseType, " +
+                "CASE " +
+                "    WHEN ActiveCourse.courseID IS NOT NULL THEN ActiveCourse.activeCourseID " +
+                "    WHEN EvaluationCourse.courseID IS NOT NULL THEN EvaluationCourse.evaluationID " +
+                "    ELSE NULL " +
+                "END AS courseTypeID " +
+                "FROM Course " +
+                "JOIN ETextBook ON Course.eTextBookID = ETextBook.eTextBookID " +
+                "LEFT JOIN ActiveCourse ON Course.courseID = ActiveCourse.courseID " +
+                "LEFT JOIN EvaluationCourse ON Course.courseID = EvaluationCourse.courseID " +
                 "WHERE Course.facultyID = ?;";
         try {
             return jdbcTemplate.query(sql, new CourseRespRM(), facultyID);
@@ -91,6 +137,9 @@ public class CourseRepository {
             Course.setEndDate(rs.getTimestamp("endDate"));
             Course.setETextBookID(rs.getInt("eTextBookId"));
             Course.setETextBookTitle(rs.getString("eTextBookTitle"));
+            Course.setCourseType(rs.getString("courseType"));
+            Course.setCourseTypeID(rs.getInt("courseTypeID"));
+            Course.setToken(rs.getString("token"));
             return Course;
         }
     }

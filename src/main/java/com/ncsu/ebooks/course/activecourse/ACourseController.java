@@ -43,12 +43,32 @@ public class ACourseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ACourseModel> getACourseById(@PathVariable int id) {
+    public ResponseEntity<Map<String, Object>> getACourseById(@PathVariable int id) {
         ACourseModel aCourse = ACourseService.getACourseById(id);
+        Map<String, Object> response = new HashMap<>();
         if (aCourse != null) {
-            return new ResponseEntity<>(aCourse, HttpStatus.OK);
+            response.put("message", "Active courses retrieved successfully");
+            response.put("aCourse", aCourse);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            System.err.println("Error retrieving active courses: ");
+            response.put("message", "Failed to retrieve active courses");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/course/{courseID}")
+    public ResponseEntity<Map<String, Object>> getACourseByCourseId(@PathVariable String courseID) {
+        ACourseModel aCourse = ACourseService.getACourseByCourseID(courseID);
+        Map<String, Object> response = new HashMap<>();
+        if (aCourse != null) {
+            response.put("message", "Active courses retrieved successfully");
+            response.put("aCourse", aCourse);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            System.err.println("Error retrieving active courses: ");
+            response.put("message", "Failed to retrieve active courses");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

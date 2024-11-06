@@ -29,8 +29,12 @@ public class ACourseRepository {
     }
 
     public ACourseModel findById(int id) {
-        String sql = "SELECT activeCourseID, courseID, capacity, openToEnroll FROM ActiveCourse WHERE activeCourseID = ?";
-        return jdbcTemplate.queryForObject(sql, new ACourseRM(), id);
+        String sql = "SELECT activeCourseID, courseID, capacity, openToEnroll, token FROM ActiveCourse WHERE activeCourseID = ?";
+        try {return jdbcTemplate.queryForObject(sql, new ACourseRM(), id);
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving active course: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve active course: " + e.getMessage(), e);
+        }
     }
 
     public void save(String id, int capacity, String token, boolean openToEnroll) {
@@ -51,6 +55,16 @@ public class ACourseRepository {
     public void delete(int id) {
         String sql = "DELETE FROM ActiveCourse WHERE activeCourseID = ?";
         jdbcTemplate.update(sql, id);
+    }
+
+    public ACourseModel findByCourseID(String courseID) {
+        String sql = "SELECT activeCourseID, courseID, capacity, token, openToEnroll FROM ActiveCourse WHERE courseID = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new ACourseRM(), courseID);
+        } catch (DataAccessException e) {
+            System.err.println("Error getting active course: " + e.getMessage());
+            throw new RuntimeException("Failed to get active course: " + e.getMessage(), e);
+        }
     }
 
     private static class ACourseRM implements RowMapper<ACourseModel> {
