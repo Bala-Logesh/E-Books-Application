@@ -18,7 +18,7 @@ public class WaitListRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<WaitListRespModel> findAll(int facultyID) {
+    public List<WaitListRespModel> findAllByFacultyUserID(String userID) {
         String sql = "SELECT " +
                 "Wait.waitListID, " +
                 "ActiveCourse.courseID, " +
@@ -30,9 +30,9 @@ public class WaitListRepository {
                 "JOIN User ON Student.userID = User.userID " +
                 "JOIN ActiveCourse ON Wait.activeCourseID = ActiveCourse.activeCourseID " +
                 "JOIN Course ON ActiveCourse.courseID = Course.courseID " +
-                "WHERE Course.facultyID = ?;";
+                "WHERE Course.facultyID = (SELECT facultyId FROM Faculty WHERE userID = ?);";
         try {
-            return jdbcTemplate.query(sql, new WaitListRespRM(), facultyID);
+            return jdbcTemplate.query(sql, new WaitListRespRM(), userID);
         } catch (DataAccessException e) {
             System.err.println("Error retrieving wait list: " + e.getMessage());
             throw new RuntimeException("Failed to retrieve wait list", e);
@@ -41,7 +41,12 @@ public class WaitListRepository {
 
     public WaitListModel findById(int id) {
         String sql = "SELECT waitListId, studentID, activeCourseID FROM Wait WHERE waitListID = ?";
-        return jdbcTemplate.queryForObject(sql, new WaitListRM(), id);
+        try {
+            return jdbcTemplate.queryForObject(sql, new WaitListRM(), id);
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving wait list: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve wait list", e);
+        }
     }
 
     public List<WaitListModel> findByCourseId(int courseId) {

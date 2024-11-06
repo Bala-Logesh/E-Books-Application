@@ -40,7 +40,7 @@ public class EnrolledListRepository {
         }
     }
 
-    public List<EnrolledListRespModel> findAllByFacultyID(int facultyID) {
+    public List<EnrolledListRespModel> findAllByFacultyUserID(String userID) {
         String sql = "SELECT " +
                 "Enrolled.enrolledID, " +
                 "ActiveCourse.courseID, " +
@@ -52,9 +52,9 @@ public class EnrolledListRepository {
                 "JOIN User ON Student.userID = User.userID " +
                 "JOIN ActiveCourse ON Enrolled.activeCourseID = ActiveCourse.activeCourseID " +
                 "JOIN Course ON ActiveCourse.courseID = Course.courseID " +
-                "WHERE Course.facultyID = ?;";
+                "WHERE Course.facultyID = (SELECT facultyId FROM Faculty WHERE userID = ?);";
         try {
-            return jdbcTemplate.query(sql, new EnrolledListRespRM(), facultyID);
+            return jdbcTemplate.query(sql, new EnrolledListRespRM(), userID);
         } catch (DataAccessException e) {
             System.err.println("Error retrieving enrolled list: " + e.getMessage());
             throw new RuntimeException("Failed to retrieve enrolled list", e);

@@ -41,12 +41,12 @@ public class EnrolledListController {
         }
     }
 
-    @GetMapping("/faculty/{facultyID}")
-    public ResponseEntity<Map<String, Object>> getAllEList(@PathVariable int facultyID) {
+    @GetMapping("/faculty/{userID}")
+    public ResponseEntity<Map<String, Object>> getAllEList(@PathVariable String userID) {
         Map<String, Object> response = new HashMap<>();
         List<EnrolledListRespModel> enrollListResponse;
         try {
-            enrollListResponse = enrolledListService.getAllEListsByFacultyID(facultyID);
+            enrollListResponse = enrolledListService.getAllEListsByFacultyUserID(userID);
             if (enrollListResponse != null && !enrollListResponse.isEmpty()) {
                 response.put("message", "Enrolled List retrieved successfully");
                 response.put("eList", enrollListResponse);

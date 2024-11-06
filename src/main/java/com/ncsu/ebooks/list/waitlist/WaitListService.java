@@ -15,9 +15,9 @@ public class WaitListService {
         this.waitListRepository = waitListRepository;
     }
 
-    public List<WaitListRespModel> getAllWList(int facultyID) {
+    public List<WaitListRespModel> getAllWListByFacultyUserID(String userID) {
         try {
-            return waitListRepository.findAll(facultyID);
+            return waitListRepository.findAllByFacultyUserID(userID);
         } catch (DataAccessException e) {
             System.err.println("Error retrieving wait list: " + e.getMessage());
             return new ArrayList<>();
@@ -25,7 +25,12 @@ public class WaitListService {
     }
 
     public WaitListModel getWListById(int id) {
-        return waitListRepository.findById(id);
+        try {
+            return waitListRepository.findById(id);
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving wait list: " + e.getMessage());
+            throw new RuntimeException("Error retrieving wait list: " + e.getMessage());
+        }
     }
 
     public List<WaitListModel> getWListByCourseId(int activeCourseID) {

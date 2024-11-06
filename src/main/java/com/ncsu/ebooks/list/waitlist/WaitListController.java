@@ -1,5 +1,4 @@
 package com.ncsu.ebooks.list.waitlist;
-import com.ncsu.ebooks.course.activecourse.ACourseModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,12 +18,12 @@ public class WaitListController {
         this.waitListService = waitListService;
     }
 
-    @GetMapping("/faculty/{facultyID}")
-    public ResponseEntity<Map<String, Object>> getAllWList(@PathVariable int facultyID) {
+    @GetMapping("/faculty/{userID}")
+    public ResponseEntity<Map<String, Object>> getAllWList(@PathVariable String userID) {
         Map<String, Object> response = new HashMap<>();
         List<WaitListRespModel> waitListResponse;
         try {
-            waitListResponse = waitListService.getAllWList(facultyID);
+            waitListResponse = waitListService.getAllWListByFacultyUserID(userID);
             if (waitListResponse != null && !waitListResponse.isEmpty()) {
                 response.put("message", "Wait List retrieved successfully");
                 response.put("wList", waitListResponse);
@@ -43,12 +42,17 @@ public class WaitListController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<WaitListModel> getWListById(@PathVariable int id) {
+    public ResponseEntity<Map<String, Object>> getWListById(@PathVariable int id) {
+        Map<String, Object> response = new HashMap<>();
         WaitListModel wList = waitListService.getWListById(id);
         if (wList != null) {
-            return new ResponseEntity<>(wList, HttpStatus.OK);
+            response.put("message", "Wait List retrieved successfully");
+            response.put("wList", wList);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            System.err.println("Error retrieving wait list: ");
+            response.put("message", "Failed to retrieve wait list");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

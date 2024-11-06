@@ -24,9 +24,9 @@ public class EnrolledListService {
         }
     }
 
-    public List<EnrolledListRespModel> getAllEListsByFacultyID(int facultyID) {
+    public List<EnrolledListRespModel> getAllEListsByFacultyUserID(String userID) {
         try {
-            return enrolledListRepository.findAllByFacultyID(facultyID);
+            return enrolledListRepository.findAllByFacultyUserID(userID);
         } catch (DataAccessException e) {
             System.err.println("Error retrieving enrolled list: " + e.getMessage());
             return new ArrayList<>();
