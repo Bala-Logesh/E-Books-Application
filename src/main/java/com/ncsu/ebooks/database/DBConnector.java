@@ -15,6 +15,8 @@ import com.ncsu.ebooks.database.misctables.StudentScore;
 import com.ncsu.ebooks.database.misctables.StudentScoreSummary;
 import com.ncsu.ebooks.database.usertables.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,11 +24,21 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 @Slf4j
+@Component
 public class DBConnector {
-    public static void connectToDB() {
-        String url = "jdbc:mariadb://localhost:3306/ebooks?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true";
-        String user = "root";
-        String password = "password";
+    @Value("${spring.datasource.url}")
+    private String url;
+
+    @Value("${spring.datasource.username}")
+    private String user;
+
+    @Value("${spring.datasource.password}")
+    private String password;
+
+    @Value("${spring.datasource.database}")
+    private String database;
+
+    public void connectToDB() {
         try (Connection conn = DriverManager.getConnection(url, user, password)) {
             System.out.println("Successfully connected to MariaDB");
             createTables(conn);
@@ -38,11 +50,11 @@ public class DBConnector {
         }
     }
 
-    private static void createTables(Connection conn) throws SQLException {
+    private void createTables(Connection conn) throws SQLException {
         try (Statement statement = conn.createStatement()) {
-            String useDB = "USE ebooks";
+            String useDB = "USE " + database;
             statement.executeUpdate(useDB);
-            System.out.println("Using ebooks database");
+            System.out.println("Using " + database + " database");
 
             ETextBook.createTable(conn);
             Chapter.createTable(conn);
@@ -74,11 +86,11 @@ public class DBConnector {
     }
 
 
-    private static void seedTables(Connection conn) throws SQLException {
+    private void seedTables(Connection conn) throws SQLException {
         try (Statement statement = conn.createStatement()) {
-            String useDB = "USE ebooks";
+            String useDB = "USE " + database;
             statement.executeUpdate(useDB);
-            System.out.println("Using ebooks database");
+            System.out.println("Using " + database + " database");
 
             BookDataSeeder.seedTables(conn);
             UserDataSeeder.seedTables(conn);
