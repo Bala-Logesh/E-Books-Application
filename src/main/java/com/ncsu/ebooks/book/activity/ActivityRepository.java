@@ -72,9 +72,24 @@ public class ActivityRepository {
         jdbcTemplate.update(sql, activity.getActivityID(), activity.getSectionID(), activity.getContentBlockID(), activity.getQuestion(), id);
     }
 
+    public void hideActivity(int id) {
+        String sql = "UPDATE Activity SET hidden = NOT hidden WHERE activityID = ?";
+        try {
+            jdbcTemplate.update(sql, id);
+        } catch (DataAccessException e) {
+            System.err.println("Error hiding/unhiding activity: " + e.getMessage());
+            throw new RuntimeException("Failed to hide/unhide activity", e);
+        }
+    }
+
     public void delete(int id) {
         String sql = "DELETE FROM Activity WHERE activityID = ?";
-        jdbcTemplate.update(sql, id);
+        try {
+            jdbcTemplate.update(sql, id);
+        } catch (DataAccessException e) {
+            System.err.println("Error deleting activity: " + e.getMessage());
+            throw new RuntimeException("Failed to delete activity", e);
+        }
     }
 
     private static class ActivityRM implements RowMapper<ActivityModel> {

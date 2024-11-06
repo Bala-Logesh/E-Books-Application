@@ -69,13 +69,33 @@ public class ContentBlockRepository {
     }
 
     public void update(int id, ContentBlockModel contentBlock) {
-        String sql = "UPDATE ContentBlock SET contentBlockID = ?, sectionID = ?, image = ?, textBlock = ? WHERE ContentBlock.contentBlockID = ?";
-        jdbcTemplate.update(sql, contentBlock.getContentBlockID(), contentBlock.getSectionID(), contentBlock.getImage(), contentBlock.getImage(), contentBlock.getTextBlock(), id);
+        String sql = "UPDATE ContentBlock SET image = ?, textBlock = ? WHERE ContentBlock.contentBlockID = ?";
+        try {
+        jdbcTemplate.update(sql, contentBlock.getImage(), contentBlock.getTextBlock(), id);
+        } catch (DataAccessException e) {
+            System.err.println("Error editing content block: " + e.getMessage());
+            throw new RuntimeException("Failed to edit content block: " + e.getMessage(), e);
+        }
+    }
+
+    public void hideContentBlock(int id) {
+        String sql = "UPDATE ContentBlock SET hidden = NOT hidden WHERE contentBlockID = ?";
+        try {
+            jdbcTemplate.update(sql, id);
+        } catch (DataAccessException e) {
+            System.err.println("Error hiding/unhiding contentblock: " + e.getMessage());
+            throw new RuntimeException("Failed to hide/unhide contentblock", e);
+        }
     }
 
     public void delete(int id) {
         String sql = "DELETE FROM ContentBlock WHERE contentBlockID = ?";
-        jdbcTemplate.update(sql, id);
+        try {
+            jdbcTemplate.update(sql, id);
+        } catch (DataAccessException e) {
+            System.err.println("Error deleting contentblock: " + e.getMessage());
+            throw new RuntimeException("Failed to delete contentblock", e);
+        }
     }
 
     private static class ContentBlockRM implements RowMapper<ContentBlockModel> {

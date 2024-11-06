@@ -3,6 +3,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,8 @@ public class ChapterController {
         } else {
             System.err.println("Error retrieving chapters: ");
             response.put("message", "Failed to retrieve chapters");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("chapters", new ArrayList<ChapterModel>());
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
 
@@ -88,9 +90,31 @@ public class ChapterController {
         return new ResponseEntity<>("Chapter updated successfully", HttpStatus.OK);
     }
 
+    @PutMapping("/{id}/hide")
+    public ResponseEntity<Map<String, String>> hideChapter(@PathVariable int id) {
+        boolean success = chapterService.hideChapter(id);
+        Map<String, String> response = new HashMap<>();
+        if (success) {
+            response.put("message", "Chapter hidde/unhidden successfully");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }else {
+            System.err.println("Error hiding/unhiding chapter");
+            response.put("message", "Failed to hide/unhide chapter");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteChapter(@PathVariable int id) {
-        chapterService.deleteChapter(id);
-        return new ResponseEntity<>("Chapter deleted successfully", HttpStatus.OK);
+    public ResponseEntity<Map<String, String>> deleteChapter(@PathVariable int id) {
+        boolean success = chapterService.deleteChapter(id);
+        Map<String, String> response = new HashMap<>();
+        if (success) {
+            response.put("message", "Chapter deleted successfully");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }else {
+            System.err.println("Error deleting chapter");
+            response.put("message", "Failed to delete chapter");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     }
 }

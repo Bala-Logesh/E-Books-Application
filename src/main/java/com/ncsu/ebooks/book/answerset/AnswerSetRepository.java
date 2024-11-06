@@ -68,8 +68,8 @@ public class AnswerSetRepository {
     }
 
     public void update(int id, AnswerSetModel answerSet) {
-        String sql = "UPDATE AnswerSet SET activityID = ?, answerOption = ?, explanation = ? WHERE answerSetID = ?"; // correct?
-        jdbcTemplate.update(sql, answerSet.getActivityID(), answerSet.getAnswerOption(), answerSet.getExplanation(), id);
+        String sql = "UPDATE AnswerSet SET answerOption = ?, explanation = ? WHERE answerSetID = ?"; // correct?
+        jdbcTemplate.update(sql, answerSet.getAnswerOption(), answerSet.getExplanation(), id);
     }
 
     public void delete(int id) {

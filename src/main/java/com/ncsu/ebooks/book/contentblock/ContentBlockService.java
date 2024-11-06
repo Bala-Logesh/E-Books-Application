@@ -59,11 +59,30 @@ public class ContentBlockService {
     }
 
     public void updateContentBlock(int id, ContentBlockModel contentBlock) {
-        contentBlock.setContentBlockID(id);
-        contentBlockRepository.update(id, contentBlock);
+        try {
+            contentBlockRepository.update(id, contentBlock);
+        } catch (DataAccessException e) {
+            System.err.println("Error editing content block: " + e.getMessage());
+            throw new RuntimeException("Failed to edit content block: " + e.getMessage(), e);
+        }
+    }
+    public boolean hideContentBlock(int id) {
+        try {
+            contentBlockRepository.hideContentBlock(id);
+            return true;
+        } catch (DataAccessException e) {
+            System.err.println("Error hiding/unhiding contentblock: " + e.getMessage());
+            throw new RuntimeException("Failed to hide/unhide contentblock: " + e.getMessage(), e);
+        }
     }
 
-    public void deleteContentBlock(int id) {
-        contentBlockRepository.delete(id);
+    public boolean deleteContentBlock(int id) {
+        try {
+            contentBlockRepository.delete(id);
+            return true;
+        } catch (DataAccessException e) {
+            System.err.println("Error deleting contentblock: " + e.getMessage());
+            throw new RuntimeException("Failed to delete contentblock: " + e.getMessage(), e);
+        }
     }
 }

@@ -72,9 +72,24 @@ public class SectionRepository {
         jdbcTemplate.update(sql, section.getSectionID(), section.getSectionNumber(), section.getChapterID(), section.getTitle(), section.getSectionID(), id);
     }
 
+    public void hideSection(int id) {
+        String sql = "UPDATE Section SET hidden = NOT hidden WHERE sectionID = ?";
+        try {
+            jdbcTemplate.update(sql, id);
+        } catch (DataAccessException e) {
+            System.err.println("Error hiding/unhiding section: " + e.getMessage());
+            throw new RuntimeException("Failed to hide/unhide section", e);
+        }
+    }
+
     public void delete(int id) {
         String sql = "DELETE FROM Section WHERE sectionID = ?";
-        jdbcTemplate.update(sql, id);
+        try {
+            jdbcTemplate.update(sql, id);
+        } catch (DataAccessException e) {
+            System.err.println("Error deleting section: " + e.getMessage());
+            throw new RuntimeException("Failed to delete section", e);
+        }
     }
 
     private static class SectionRM implements RowMapper<SectionModel> {

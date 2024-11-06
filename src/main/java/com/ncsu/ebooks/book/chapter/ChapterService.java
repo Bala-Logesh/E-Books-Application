@@ -1,6 +1,7 @@
 package com.ncsu.ebooks.book.chapter;
 
 import com.ncsu.ebooks.book.etextbook.ETextBookModel;
+import com.ncsu.ebooks.book.chapter.ChapterService;
 import com.ncsu.ebooks.book.section.SectionService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -62,7 +63,23 @@ public class ChapterService {
         chapterRepository.update(id, chapter);
     }
 
-    public void deleteChapter(int id) {
-        chapterRepository.delete(id);
+    public boolean hideChapter(int id) {
+        try {
+            chapterRepository.hideChapter(id);
+            return true;
+        } catch (DataAccessException e) {
+            System.err.println("Error hiding/unhiding chapter: " + e.getMessage());
+            throw new RuntimeException("Failed to hide/unhide chapter: " + e.getMessage(), e);
+        }
+    }
+
+    public boolean deleteChapter(int id) {
+        try {
+            chapterRepository.delete(id);
+            return true;
+        } catch (DataAccessException e) {
+            System.err.println("Error deleting chapter: " + e.getMessage());
+            throw new RuntimeException("Failed to delete chapter: " + e.getMessage(), e);
+        }
     }
 }

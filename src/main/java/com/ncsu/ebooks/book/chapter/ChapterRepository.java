@@ -2,6 +2,7 @@ package com.ncsu.ebooks.book.chapter;
 
 import com.ncsu.ebooks.book.etextbook.ETextBookModel;
 import com.ncsu.ebooks.book.etextbook.ETextBookRepository;
+import com.ncsu.ebooks.book.chapter.ChapterRepository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -73,9 +74,24 @@ public class ChapterRepository {
         jdbcTemplate.update(sql, chapter.getChapterID(), chapter.getChapterNumber(), chapter.getTitle(), 101, id);
     }
 
+    public void hideChapter(int id) {
+        String sql = "UPDATE Chapter SET hidden = NOT hidden WHERE chapterID = ?";
+        try {
+            jdbcTemplate.update(sql, id);
+        } catch (DataAccessException e) {
+            System.err.println("Error hiding/unhiding chapter: " + e.getMessage());
+            throw new RuntimeException("Failed to hide/unhide chapter", e);
+        }
+    }
+
     public void delete(int id) {
         String sql = "DELETE FROM Chapter WHERE chapterID = ?";
-        jdbcTemplate.update(sql, id);
+        try {
+            jdbcTemplate.update(sql, id);
+        } catch (DataAccessException e) {
+            System.err.println("Error deleting chapter: " + e.getMessage());
+            throw new RuntimeException("Failed to delete chapter", e);
+        }
     }
 
     private static class ChapterRM implements RowMapper<ChapterModel> {

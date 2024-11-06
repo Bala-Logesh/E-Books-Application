@@ -41,7 +41,6 @@ public class AnswerSetService {
     }
 
     public void updateAnswerSet(int id, AnswerSetModel answerSet) {
-        answerSet.setAnswerSetID(id);
         answerSetRepository.update(id, answerSet);
     }
 

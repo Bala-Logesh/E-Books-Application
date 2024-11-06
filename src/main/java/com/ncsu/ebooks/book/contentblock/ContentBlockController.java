@@ -3,6 +3,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,7 +62,8 @@ public class ContentBlockController {
         } else {
             System.err.println("Error retrieving content blocks: ");
             response.put("message", "Failed to retrieve content blocks");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("contentBlocks", new ArrayList<ContentBlockModel>());
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
 
@@ -83,14 +85,44 @@ public class ContentBlockController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateContentBlock(@PathVariable int id, @RequestBody ContentBlockModel contentBlock) {
-        contentBlockService.updateContentBlock(id, contentBlock);
-        return new ResponseEntity<>("Content Block updated successfully", HttpStatus.OK);
+    public ResponseEntity<Map<String, String>> updateContentBlock(@PathVariable int id, @RequestBody ContentBlockModel contentBlock) {
+        Map<String, String> response = new HashMap<>();
+        try{
+            contentBlockService.updateContentBlock(id, contentBlock);
+            response.put("message", "Content Block edited successfully");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Error retrieving content blocks: " + e.getMessage());
+            response.put("message", "Failed to edit content blocks");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+    @PutMapping("/{id}/hide")
+    public ResponseEntity<Map<String, String>> hideContentBlock(@PathVariable int id) {
+        boolean success = contentBlockService.hideContentBlock(id);
+        Map<String, String> response = new HashMap<>();
+        if (success) {
+            response.put("message", "ContentBlock hidden/unhidden successfully");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }else {
+            System.err.println("Error hiding/unhiding contentblock");
+            response.put("message", "Failed to hide/unhide contentblock");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteContentBlock(@PathVariable int id) {
-        contentBlockService.deleteContentBlock(id);
-        return new ResponseEntity<>("Content Block deleted successfully", HttpStatus.OK);
+    public ResponseEntity<Map<String, String>> deleteContentBlock(@PathVariable int id) {
+        boolean success = contentBlockService.deleteContentBlock(id);
+        Map<String, String> response = new HashMap<>();
+        if (success) {
+            response.put("message", "ContentBlock deleted successfully");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }else {
+            System.err.println("Error deleting contentblock");
+            response.put("message", "Failed to delete contentblock");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     }
 }

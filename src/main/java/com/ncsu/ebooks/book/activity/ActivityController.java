@@ -90,9 +90,31 @@ public class ActivityController {
         return new ResponseEntity<>("Activity updated successfully", HttpStatus.OK);
     }
 
+    @PutMapping("/{id}/hide")
+    public ResponseEntity<Map<String, String>> hideActivity(@PathVariable int id) {
+        boolean success = activityService.hideActivity(id);
+        Map<String, String> response = new HashMap<>();
+        if (success) {
+            response.put("message", "Activity hidden/unhidden successfully");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }else {
+            System.err.println("Error hiding/unhiding activity");
+            response.put("message", "Failed to hide/unhide activity");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteActivity(@PathVariable int id) {
-        activityService.deleteActivity(id);
-        return new ResponseEntity<>("Activity deleted successfully", HttpStatus.OK);
+    public ResponseEntity<Map<String, String>> deleteActivity(@PathVariable int id) {
+        boolean success = activityService.deleteActivity(id);
+        Map<String, String> response = new HashMap<>();
+        if (success) {
+            response.put("message", "Activity deleted successfully");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }else {
+            System.err.println("Error deleting activity");
+            response.put("message", "Failed to delete activity");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +63,8 @@ public class SectionController {
         } else {
             System.err.println("Error retrieving sections: ");
             response.put("message", "Failed to retrieve sections");
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+            response.put("sections", new ArrayList<SectionModel>());
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
 
@@ -89,9 +91,31 @@ public class SectionController {
         return new ResponseEntity<>("Section updated successfully", HttpStatus.OK);
     }
 
+    @PutMapping("/{id}/hide")
+    public ResponseEntity<Map<String, String>> hideSection(@PathVariable int id) {
+        boolean success = sectionService.hideSection(id);
+        Map<String, String> response = new HashMap<>();
+        if (success) {
+            response.put("message", "Section hidden/unhidden successfully");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }else {
+            System.err.println("Error hiding/unhiding section");
+            response.put("message", "Failed to hide/unhide section");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteSection(@PathVariable int id) {
-        sectionService.deleteSection(id);
-        return new ResponseEntity<>("Section deleted successfully", HttpStatus.OK);
+    public ResponseEntity<Map<String, String>> deleteSection(@PathVariable int id) {
+        boolean success = sectionService.deleteSection(id);
+        Map<String, String> response = new HashMap<>();
+        if (success) {
+            response.put("message", "Section deleted successfully");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        }else {
+            System.err.println("Error deleting section");
+            response.put("message", "Failed to delete section");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     }
 }

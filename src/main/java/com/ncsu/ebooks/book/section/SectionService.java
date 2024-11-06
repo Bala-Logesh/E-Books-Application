@@ -62,7 +62,23 @@ public class SectionService {
         sectionRepository.update(id, section);
     }
 
-    public void deleteSection(int id) {
-        sectionRepository.delete(id);
+    public boolean hideSection(int id) {
+        try {
+            sectionRepository.hideSection(id);
+            return true;
+        } catch (DataAccessException e) {
+            System.err.println("Error hiding/unhiding section: " + e.getMessage());
+            throw new RuntimeException("Failed to hide/unhide section: " + e.getMessage(), e);
+        }
+    }
+
+    public boolean deleteSection(int id) {
+        try {
+            sectionRepository.delete(id);
+            return true;
+        } catch (DataAccessException e) {
+            System.err.println("Error deleting section: " + e.getMessage());
+            throw new RuntimeException("Failed to delete section: " + e.getMessage(), e);
+        }
     }
 }

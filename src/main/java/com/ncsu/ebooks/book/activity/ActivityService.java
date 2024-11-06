@@ -69,7 +69,23 @@ public class ActivityService {
         activityRepository.update(id, activity);
     }
 
-    public void deleteActivity(int id) {
-        activityRepository.delete(id);
+    public boolean hideActivity(int id) {
+        try {
+            activityRepository.hideActivity(id);
+            return true;
+        } catch (DataAccessException e) {
+            System.err.println("Error hiding/unhiding activity: " + e.getMessage());
+            throw new RuntimeException("Failed to hide/unhide activity: " + e.getMessage(), e);
+        }
+    }
+
+    public boolean deleteActivity(int id) {
+        try {
+            activityRepository.delete(id);
+            return true;
+        } catch (DataAccessException e) {
+            System.err.println("Error deleting activity: " + e.getMessage());
+            throw new RuntimeException("Failed to delete activity: " + e.getMessage(), e);
+        }
     }
 }
