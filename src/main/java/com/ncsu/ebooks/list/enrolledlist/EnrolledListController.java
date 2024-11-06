@@ -18,13 +18,12 @@ public class EnrolledListController {
     public EnrolledListController(EnrolledListService enrolledListService) {
         this.enrolledListService = enrolledListService;
     }
-
-    @GetMapping("/faculty/{facultyID}")
-    public ResponseEntity<Map<String, Object>> getAllWList(@PathVariable int facultyID) {
+    @GetMapping
+    public ResponseEntity<Map<String, Object>> getAllEList() {
         Map<String, Object> response = new HashMap<>();
         List<EnrolledListRespModel> enrollListResponse;
         try {
-            enrollListResponse = enrolledListService.getAllELists(facultyID);
+            enrollListResponse = enrolledListService.getAllELists();
             if (enrollListResponse != null && !enrollListResponse.isEmpty()) {
                 response.put("message", "Enrolled List retrieved successfully");
                 response.put("eList", enrollListResponse);
@@ -33,7 +32,30 @@ public class EnrolledListController {
 
             System.err.println("No enrolled list found");
             response.put("message", "No enrolled list available");
-            response.put("wList", new ArrayList<WaitListRespModel>());
+            response.put("eList", new ArrayList<WaitListRespModel>());
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println("Error retrieving enrolled list: " + e.getMessage());
+            response.put("message", "Failed to retrieve enrolled list");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/faculty/{facultyID}")
+    public ResponseEntity<Map<String, Object>> getAllEList(@PathVariable int facultyID) {
+        Map<String, Object> response = new HashMap<>();
+        List<EnrolledListRespModel> enrollListResponse;
+        try {
+            enrollListResponse = enrolledListService.getAllEListsByFacultyID(facultyID);
+            if (enrollListResponse != null && !enrollListResponse.isEmpty()) {
+                response.put("message", "Enrolled List retrieved successfully");
+                response.put("eList", enrollListResponse);
+                return new ResponseEntity<>(response, HttpStatus.OK);
+            }
+
+            System.err.println("No enrolled list found");
+            response.put("message", "No enrolled list available");
+            response.put("eList", new ArrayList<WaitListRespModel>());
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             System.err.println("Error retrieving enrolled list: " + e.getMessage());
@@ -53,22 +75,32 @@ public class EnrolledListController {
     }
 
     @GetMapping("/course/{courseID}")
-    public ResponseEntity<List<EnrolledListModel>> getEListByCourseId(@PathVariable int courseID) {
+    public ResponseEntity<Map<String, Object>> getEListByCourseId(@PathVariable int courseID) {
+        Map<String, Object> response = new HashMap<>();
         List<EnrolledListModel> eLists = enrolledListService.getEListByCourseId(courseID);
         if (!eLists.isEmpty()) {
-            return new ResponseEntity<>(eLists, HttpStatus.OK);
+            response.put("message", "Enrolled List retrieved successfully");
+            response.put("eList", eLists);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            System.err.println("Error retrieving enrolled list: ");
+            response.put("message", "Failed to retrieve enrolled list");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/student/{studentID}")
-    public ResponseEntity<List<EnrolledListModel>> getEListByStudentId(@PathVariable int studentID) {
+    public ResponseEntity<Map<String, Object>> getEListByStudentId(@PathVariable int studentID) {
+        Map<String, Object> response = new HashMap<>();
         List<EnrolledListModel> eLists = enrolledListService.getEListByStudentId(studentID);
         if (!eLists.isEmpty()) {
-            return new ResponseEntity<>(eLists, HttpStatus.OK);
+            response.put("message", "Enrolled List retrieved successfully");
+            response.put("eList", eLists);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            System.err.println("Error retrieving enrolled list: ");
+            response.put("message", "Failed to retrieve enrolled list");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

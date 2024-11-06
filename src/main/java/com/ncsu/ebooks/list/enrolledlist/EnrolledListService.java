@@ -15,9 +15,18 @@ public class EnrolledListService {
         this.enrolledListRepository = enrolledListRepository;
     }
 
-    public List<EnrolledListRespModel> getAllELists(int facultyID) {
+    public List<EnrolledListRespModel> getAllELists() {
         try {
-            return enrolledListRepository.findAll(facultyID);
+            return enrolledListRepository.findAll();
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving enrolled list: " + e.getMessage());
+            return new ArrayList<>();
+        }
+    }
+
+    public List<EnrolledListRespModel> getAllEListsByFacultyID(int facultyID) {
+        try {
+            return enrolledListRepository.findAllByFacultyID(facultyID);
         } catch (DataAccessException e) {
             System.err.println("Error retrieving enrolled list: " + e.getMessage());
             return new ArrayList<>();
