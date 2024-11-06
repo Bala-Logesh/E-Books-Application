@@ -30,7 +30,9 @@ public class ScoreRepository {
     }
 
     public void save(int studentID, int activeCourseID, int activityID, int point) {
-        String sql = "INSERT INTO StudentScore (studentID, activeCourseID, activityID, point) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO StudentScore (studentID, activeCourseID, activityID, point) " +
+                "VALUES (?, ?, ?, ?) " +
+                "ON DUPLICATE KEY UPDATE point = IF(point > VALUES(point), point, VALUES(point))";
         try {
             jdbcTemplate.update(sql, studentID, activeCourseID, activityID, point);
         } catch (DataAccessException e) {
