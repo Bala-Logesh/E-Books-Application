@@ -18,7 +18,8 @@ public class User {
                     "password VARCHAR(50) NOT NULL," +
                     "accountCreation TIMESTAMP DEFAULT CURRENT_TIMESTAMP," +
                     "role ENUM('ADMIN', 'FACULTY', 'TEACHING_ASSISTANT', 'STUDENT') NOT NULL," +
-                    "PRIMARY KEY (userID)" +
+                    "PRIMARY KEY (userID)," +
+                    "UNIQUE (userID, email)" +
                     ");";
 
             statement.executeUpdate(createUserTable);
