@@ -41,12 +41,12 @@ public class CourseController {
         }
     }
 
-    @GetMapping("/faculty/{facultyID}")
-    public ResponseEntity<Map<String, Object>> getAllCourses(@PathVariable int facultyID) {
+    @GetMapping("/faculty/{userID}")
+    public ResponseEntity<Map<String, Object>> getAllCourses(@PathVariable String userID) {
         Map<String, Object> response = new HashMap<>();
         List<CourseRespModel> courseListResponse;
         try {
-            courseListResponse = courseService.getAllCoursesByFaculty(facultyID);
+            courseListResponse = courseService.getAllCoursesByFaculty(userID);
             if (courseListResponse != null && !courseListResponse.isEmpty()) {
                 response.put("message", "Courses retrieved successfully");
                 response.put("courses", courseListResponse);

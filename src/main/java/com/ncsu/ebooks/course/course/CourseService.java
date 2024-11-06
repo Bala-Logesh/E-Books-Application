@@ -25,9 +25,9 @@ public class CourseService {
         }
     }
 
-    public List<CourseRespModel> getAllCoursesByFaculty(int facultyID) {
+    public List<CourseRespModel> getAllCoursesByFaculty(String userID) {
         try {
-            return courseRepository.findAllByFaculty(facultyID);
+            return courseRepository.findAllByFaculty(userID);
         } catch (DataAccessException e) {
             System.err.println("Error retrieving courses: " + e.getMessage());
             throw new RuntimeException("Failed to retrieve courses", e);

@@ -51,7 +51,7 @@ public class CourseRepository {
         }
     }
 
-    public List<CourseRespModel> findAllByFaculty(int facultyID) {
+    public List<CourseRespModel> findAllByFaculty(String userID) {
         String sql = "SELECT " +
                 "Course.courseID, " +
                 "Course.title, " +
@@ -74,9 +74,9 @@ public class CourseRepository {
                 "JOIN ETextBook ON Course.eTextBookID = ETextBook.eTextBookID " +
                 "LEFT JOIN ActiveCourse ON Course.courseID = ActiveCourse.courseID " +
                 "LEFT JOIN EvaluationCourse ON Course.courseID = EvaluationCourse.courseID " +
-                "WHERE Course.facultyID = ?;";
+                "WHERE Course.facultyID = ( SELECT facultyID FROM Faculty WHERE userID = ?);";
         try {
-            return jdbcTemplate.query(sql, new CourseRespRM(), facultyID);
+            return jdbcTemplate.query(sql, new CourseRespRM(), userID);
         } catch (DataAccessException e) {
             System.err.println("Error retrieving courses: " + e.getMessage());
             throw new RuntimeException("Failed to retrieve courses", e);
