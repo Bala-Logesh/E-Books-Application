@@ -3,6 +3,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,12 +52,18 @@ public class ActivityController {
     }
 
     @GetMapping("/contentblock/{contentID}")
-    public ResponseEntity<List<ActivityModel>> getActivityByContentID(@PathVariable int contentID) {
+    public ResponseEntity<Map<String, Object>> getActivityByContentID(@PathVariable int contentID) {
+        Map<String, Object> response = new HashMap<>();
         List<ActivityModel> activities = activityService.getActivityByContentID(contentID);
         if (!activities.isEmpty()) {
-            return new ResponseEntity<>(activities, HttpStatus.OK);
+            response.put("message", "Activities retrieved successfully");
+            response.put("activities", activities);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            System.err.println("Error retrieving activities: ");
+            response.put("message", "No activities to retrieve");
+            response.put("activities", new ArrayList<ActivityModel>());
+            return new ResponseEntity<>(response, HttpStatus.OK);
         }
     }
 

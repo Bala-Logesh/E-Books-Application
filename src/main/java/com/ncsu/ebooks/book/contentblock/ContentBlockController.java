@@ -51,12 +51,17 @@ public class ContentBlockController {
     }
 
     @GetMapping("/section/{sectionID}")
-    public ResponseEntity<List<ContentBlockModel>> getContentBlockBySectionID(@PathVariable int sectionID) {
+    public ResponseEntity<Map<String, Object>> getContentBlockBySectionID(@PathVariable int sectionID) {
         List<ContentBlockModel> contentBlocks = contentBlockService.getContentBlockBySectionID(sectionID);
+        Map<String, Object> response = new HashMap<>();
         if (!contentBlocks.isEmpty()) {
-            return new ResponseEntity<>(contentBlocks, HttpStatus.OK);
+            response.put("message", "Content Blocks retrieved successfully");
+            response.put("contentBlocks", contentBlocks);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            System.err.println("Error retrieving content blocks: ");
+            response.put("message", "Failed to retrieve content blocks");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

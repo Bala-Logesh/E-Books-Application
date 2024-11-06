@@ -51,12 +51,17 @@ public class ChapterController {
     }
 
     @GetMapping("/eTextBook/{eTextBookID}")
-    public ResponseEntity<List<ChapterModel>> getChapterByETextBookID(@PathVariable int eTextBookID) {
+    public ResponseEntity<Map<String, Object>> getChapterByETextBookID(@PathVariable int eTextBookID) {
         List<ChapterModel> chapters = chapterService.getChapterByETextBookID(eTextBookID);
+        Map<String, Object> response = new HashMap<>();
         if (!chapters.isEmpty()) {
-            return new ResponseEntity<>(chapters, HttpStatus.OK);
+            response.put("message", "Chapters retrieved successfully");
+            response.put("chapters", chapters);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            System.err.println("Error retrieving chapters: ");
+            response.put("message", "Failed to retrieve chapters");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

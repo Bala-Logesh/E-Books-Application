@@ -52,12 +52,17 @@ public class SectionController {
     }
 
     @GetMapping("/chapter/{chapterID}")
-    public ResponseEntity<List<SectionModel>> getSectionByContentID(@PathVariable int chapterID) {
+    public ResponseEntity<Map<String, Object>> getSectionByContentID(@PathVariable int chapterID) {
         List<SectionModel> sections = sectionService.getSectionByChapterID(chapterID);
+        Map<String, Object> response = new HashMap<>();
         if (!sections.isEmpty()) {
-            return new ResponseEntity<>(sections, HttpStatus.OK);
+            response.put("message", "Sections retrieved successfully");
+            response.put("sections", sections);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            System.err.println("Error retrieving sections: ");
+            response.put("message", "Failed to retrieve sections");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

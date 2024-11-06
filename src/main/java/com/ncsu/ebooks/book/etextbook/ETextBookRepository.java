@@ -67,6 +67,24 @@ public class ETextBookRepository {
         jdbcTemplate.update(sql, id);
     }
 
+    public List<ETextBookRespModel> findAllByUserID(String userID) {
+        String sql = "SELECT Student.studentID, Enrolled.activeCourseID, ActiveCourse.courseID, " +
+                "Course.eTextBookID, ETextBook.title, Course.title as courseName " +
+                "FROM User " +
+                "JOIN Student ON User.userID = Student.userID " +
+                "JOIN Enrolled ON Student.studentID = Enrolled.studentID " +
+                "JOIN ActiveCourse ON Enrolled.activeCourseID = ActiveCourse.activeCourseID " +
+                "JOIN Course ON ActiveCourse.courseID = Course.courseID " +
+                "JOIN ETextBook ON Course.eTextBookID = ETextBook.eTextBookID " +
+                "WHERE User.userID = ?";
+        try {
+            return jdbcTemplate.query(sql, new ETextBookRespModelMapper(), userID);
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving e-textbooks: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve e-textbooks", e);
+        }
+    }
+
     private static class ETextBookRM implements RowMapper<ETextBookModel> {
         @Override
         public ETextBookModel mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -74,6 +92,20 @@ public class ETextBookRepository {
             ETextBook.setETextBookID(rs.getInt("eTextBookID"));
             ETextBook.setTitle(rs.getString("title"));
             return ETextBook;
+        }
+    }
+
+    public static class ETextBookRespModelMapper implements RowMapper<ETextBookRespModel> {
+        @Override
+        public ETextBookRespModel mapRow(ResultSet rs, int rowNum) throws SQLException {
+            ETextBookRespModel eTextBook = new ETextBookRespModel();
+            eTextBook.setStudentId(rs.getInt("studentID"));
+            eTextBook.setActiveCourseId(rs.getInt("activeCourseID"));
+            eTextBook.setETextBookId(rs.getInt("eTextBookID"));
+            eTextBook.setCourseId(rs.getString("courseID"));
+            eTextBook.setTitle(rs.getString("title"));
+            eTextBook.setCourseName(rs.getString("courseName"));
+            return eTextBook;
         }
     }
 }

@@ -40,12 +40,32 @@ public class ETextBookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ETextBookModel> getETextBookById(@PathVariable int id) {
+    public ResponseEntity<Map<String, Object>> getETextBookById(@PathVariable int id) {
         ETextBookModel eTextBook = eTextBookService.getETextBookById(id);
+        Map<String, Object> response = new HashMap<>();
         if (eTextBook != null) {
-            return new ResponseEntity<>(eTextBook, HttpStatus.OK);
+            response.put("message", "ETextBooks retrieved successfully");
+            response.put("etextbook", eTextBook);
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            System.err.println("Error retrieving e-textbooks: ");
+            response.put("message", "Failed to retrieve e-textbooks");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/user/{userID}")
+    public ResponseEntity<Map<String, Object>> getETextBookByUserID(@PathVariable String userID) {
+        Map<String, Object> response = new HashMap<>();
+        List<ETextBookRespModel> eTextBooks = eTextBookService.getETextBookByUserID(userID);
+        if (eTextBooks != null) {
+            response.put("message", "ETextBooks retrieved successfully");
+            response.put("eTextBooks", eTextBooks);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            System.err.println("Error retrieving e-textbooks: ");
+            response.put("message", "Failed to retrieve e-textbooks");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

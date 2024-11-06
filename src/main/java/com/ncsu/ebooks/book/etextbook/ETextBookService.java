@@ -57,4 +57,14 @@ public class ETextBookService {
     public void deleteETextBook(int id) {
         eTextBookRepository.delete(id);
     }
+
+    public List<ETextBookRespModel> getETextBookByUserID(String userID) {
+        try {
+            List<ETextBookRespModel> ebooks = eTextBookRepository.findAllByUserID(userID);
+            return ebooks;
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving e-textbooks: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve e-textbooks", e);
+        }
+    }
 }
