@@ -77,9 +77,16 @@ public class WaitListController {
     }
 
     @PostMapping
-    public ResponseEntity<String> createWList(@RequestBody WaitListModel wList) {
-        waitListService.createWList(wList);
-        return new ResponseEntity<>("WList created successfully", HttpStatus.CREATED);
+    public ResponseEntity<Map<String, String>> createWList(@RequestBody WaitListModel wList) {
+        boolean success = waitListService.createWList(wList);
+        Map<String, String> response = new HashMap<>();
+        if (success) {
+            response.put("message", "Added to waitlist successfully");
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+        System.err.println("Error adding to wait list: ");
+        response.put("message", "Failed to add to wait list");
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @PutMapping("/{id}")

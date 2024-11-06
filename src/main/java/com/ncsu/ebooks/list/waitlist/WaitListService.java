@@ -41,8 +41,14 @@ public class WaitListService {
         return waitListRepository.findByStudentId(studentID);
     }
 
-    public void createWList(WaitListModel wList) {
-        waitListRepository.save(wList.getStudentID(), wList.getActiveCourseID());
+    public boolean createWList(WaitListModel wList) {
+        try{
+            waitListRepository.save(wList.getStudentID(), wList.getActiveCourseID());
+            return true;
+        } catch (DataAccessException e) {
+            System.err.println("Error creating wait list: " + e.getMessage());
+            throw new RuntimeException("Error creating wait list: " + e.getMessage());
+        }
     }
 
     public void updateWList(int id, WaitListModel wList) {
