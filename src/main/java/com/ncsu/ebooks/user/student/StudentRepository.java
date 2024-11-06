@@ -34,6 +34,31 @@ public class StudentRepository {
         return jdbcTemplate.queryForObject(sql, new StudentRM(), id);
     }
 
+
+    public StudentModel findByUserID(String userID) {
+        String sql = "SELECT * FROM Student WHERE userID = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new StudentRM(), userID);
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving student: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve student", e);
+        }
+    }
+
+    public StudentModel findByUserByParams(StudentReqModel studentReq) {
+        String sql = "SELECT * FROM Student " +
+                "JOIN User ON Student.userID = User.userID " +
+                "WHERE User.firstName = ? AND " +
+                "User.lastName = ? AND " +
+                "User.email = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new StudentRM(), studentReq.getFirstName(), studentReq.getLastName(), studentReq.getEmail());
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving student: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve student", e);
+        }
+    }
+
     public void save(String userId) {
         String sql = "INSERT INTO Student (userID) VALUES (?)";
         try {

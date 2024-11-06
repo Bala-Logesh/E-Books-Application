@@ -34,6 +34,17 @@ public class TARepository {
         return jdbcTemplate.queryForObject(sql, new TARM(), id);
     }
 
+    public TAModel findByUserID(String userID) {
+        String sql = "SELECT * FROM TeachingAssistant WHERE userID = ?";
+        try{
+            return jdbcTemplate.queryForObject(sql, new TARM(), userID);
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving TA: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve TA", e);
+        }
+
+    }
+
     public void save(String userId, int activeCourseID, boolean resetPassword) {
         String sql = "INSERT INTO TeachingAssistant (userID, activeCourseID, resetPassword) VALUES (?, ?, ?)";
         try {

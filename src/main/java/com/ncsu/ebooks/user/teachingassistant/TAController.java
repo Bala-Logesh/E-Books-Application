@@ -53,6 +53,21 @@ public class TAController {
         }
     }
 
+    @GetMapping("/user/{userID}")
+    public ResponseEntity<Map<String, Object>> getTAById(@PathVariable String userID) {
+        TAModel ta = TAService.getTAByUserId(userID);
+        Map<String, Object> response = new HashMap<>();
+        if (ta != null) {
+            response.put("message", "TA retrieved successfully");
+            response.put("ta", ta);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            System.err.println("Error retrieving TA");
+            response.put("message", "Failed to retrieve TA");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Map<String, String>> createTA(@RequestBody TAReqModel taUser) {
         taUser.getUser().setRole(Role.TEACHING_ASSISTANT);

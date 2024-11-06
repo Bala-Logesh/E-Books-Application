@@ -47,6 +47,18 @@ public class TAService {
         return TA;
     }
 
+    public TAModel getTAByUserId(String userID) {
+        try {
+            TAModel TA = TARepository.findByUserID(userID);
+            TA.setUser(userService.getUserById(TA.getUserID()));
+            return TA;
+        }  catch (DataAccessException e) {
+            System.err.println("Error retrieving TA: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve TA", e);
+        }
+
+    }
+
     public boolean createTA(UserModel user, int activeCourseID, boolean resetPassword) {
         boolean success = this.userService.createUser(user);
         if (!success) {

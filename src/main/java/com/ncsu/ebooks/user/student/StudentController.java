@@ -53,6 +53,37 @@ public class StudentController {
         }
     }
 
+    @PostMapping("/user")
+    public ResponseEntity<Map<String, Object>> getStudentById(@RequestBody StudentReqModel studentReq) {
+        StudentModel student = studentService.getStudentByParams(studentReq);
+        Map<String, Object> response = new HashMap<>();
+        if (student != null) {
+            response.put("message", "Student retrieved successfully");
+            response.put("student", student);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            System.err.println("Error retrieving students: ");
+            response.put("message", "Failed to retrieve student");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @GetMapping("/user/{userID}")
+    public ResponseEntity<Map<String, Object>> getStudentByUserID(@PathVariable String userID) {
+        StudentModel student = studentService.getStudentByUserId(userID);
+        Map<String, Object> response = new HashMap<>();
+        if (student != null) {
+            response.put("message", "Student retrieved successfully");
+            response.put("student", student);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            System.err.println("Error retrieving students: ");
+            response.put("message", "Failed to retrieve student");
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Map<String, String>> createStudent(@RequestBody UserModel user) {
         user.setRole(Role.STUDENT);

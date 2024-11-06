@@ -47,6 +47,29 @@ public class StudentService {
         return student;
     }
 
+    public StudentModel getStudentByUserId(String userID) {
+        try {
+            StudentModel student = studentRepository.findByUserID(userID);
+            student.setUser(userService.getUserById(student.getUserID()));
+            return student;
+        }catch (DataAccessException e) {
+            System.err.println("Error retrieving students: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve students", e);
+        }
+
+    }
+
+    public StudentModel getStudentByParams(StudentReqModel studentReq) {
+        try {
+            StudentModel student = studentRepository.findByUserByParams(studentReq);
+            student.setUser(userService.getUserById(student.getUserID()));
+            return student;
+        }catch (DataAccessException e) {
+            System.err.println("Error retrieving students: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve students", e);
+        }
+    }
+
     public boolean createStudent(UserModel user) {
         boolean success = this.userService.createUser(user);
         if (!success) {
