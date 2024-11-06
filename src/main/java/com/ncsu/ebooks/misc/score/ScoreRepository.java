@@ -1,5 +1,7 @@
 package com.ncsu.ebooks.misc.score;
 
+import com.ncsu.ebooks.book.etextbook.ETextBookRepository;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -29,7 +31,12 @@ public class ScoreRepository {
 
     public void save(int studentID, int activeCourseID, int activityID, int point) {
         String sql = "INSERT INTO StudentScore (studentID, activeCourseID, activityID, point) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, studentID, activeCourseID, activityID, point);
+        try {
+            jdbcTemplate.update(sql, studentID, activeCourseID, activityID, point);
+        } catch (DataAccessException e) {
+            System.err.println("Error saving score: " + e.getMessage());
+            throw new RuntimeException("Failed to save score: " + e.getMessage(), e);
+        }
     }
 
     public void update(int id, int studentID, int activeCourseID, int activityID, int point) {
@@ -42,6 +49,21 @@ public class ScoreRepository {
         jdbcTemplate.update(sql, id);
     }
 
+    public List<ScoreSummaryModel> findByStudentID(int id) {
+        String sql = "SELECT ssummary.ssummaryID, ssummary.studentID, ssummary.activeCourseID, " +
+                "ssummary.totalPoints, ssummary.totalActivities, ssummary.timeStamp, c.title AS courseName " +
+                "FROM StudentScoreSummary ssummary " +
+                "JOIN ActiveCourse ac ON ssummary.activeCourseID = ac.activeCourseID " +
+                "JOIN Course c ON ac.courseID = c.courseID " +
+                "WHERE ssummary.studentID = ?";
+        try {
+            return jdbcTemplate.query(sql, new ScoreSummaryRM(), id);
+        } catch (DataAccessException e) {
+            System.err.println("Error retrieving score summary: " + e.getMessage());
+            throw new RuntimeException("Failed to retrieve  score summary", e);
+        }
+    }
+
     private static class ScoreRM implements RowMapper<ScoreModel> {
         @Override
         public ScoreModel mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -52,6 +74,21 @@ public class ScoreRepository {
             Score.setActiveCourseID(rs.getInt("activeCourseID"));
             Score.setPoint(rs.getInt("point"));
             Score.setTimeStamp(rs.getTimestamp("timeStamp"));
+            return Score;
+        }
+    }
+
+    private static class ScoreSummaryRM implements RowMapper<ScoreSummaryModel> {
+        @Override
+        public ScoreSummaryModel mapRow(ResultSet rs, int rowNum) throws SQLException {
+            ScoreSummaryModel Score = new ScoreSummaryModel();
+            Score.setSsummaryID(rs.getInt("ssummaryID"));
+            Score.setStudentID(rs.getInt("studentID"));
+            Score.setActiveCourseID(rs.getInt("activeCourseID"));
+            Score.setTotalPoints(rs.getInt("totalPoints"));
+            Score.setTotalActivities(rs.getInt("totalActivities"));
+            Score.setTimeStamp(rs.getTimestamp("timeStamp"));
+            Score.setCourseName(rs.getString("courseName"));
             return Score;
         }
     }
