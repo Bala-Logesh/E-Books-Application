@@ -30,9 +30,15 @@ public class UserDataSeeder {
                     "(\"SaMi1024\", \"Sarah\", \"Miller\", \"sarah.miller@domain.com\", \"Sm#Secure2024\", \"FACULTY\")," +
                     "(\"DaBr1024\", \"David\", \"Brown\", \"david.b@webmail.com\", \"DbPass123!\", \"FACULTY\")," +
                     "(\"EmDa1024\", \"Emily\", \"Davis\", \"emily.davis@email.com\", \"Emily#2024!\", \"FACULTY\")," +
-                    "(\"MiWi1024\", \"Michael\", \"Wilson\", \"michael.w@service.com\", \"Mw987secure\", \"FACULTY\");";
+                    "(\"MiWi1024\", \"Michael\", \"Wilson\", \"michael.w@service.com\", \"Mw987secure\", \"FACULTY\")," +
+                    "(\"AdAd0000\", \"Admin\", \"Admin\", \"admin@admin.com\", \"admin\", \"ADMIN\");";
 
             statement.executeUpdate(seedUserTable);
+
+            String seedAdminTable = "INSERT INTO Admin (userID)" +
+                    "VALUES (\"AdAd0000\");";
+
+            statement.executeUpdate(seedAdminTable);
 
             String seedFacultyTable = "INSERT INTO Faculty (userID)" +
                     "VALUES (\"KeOg1024\")," +
