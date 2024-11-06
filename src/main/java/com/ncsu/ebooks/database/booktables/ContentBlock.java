@@ -19,7 +19,7 @@ public class ContentBlock {
                     "PRIMARY KEY (contentBlockID)," +
                     "UNIQUE (contentBlockID, sectionID)," +
                     "FOREIGN KEY (sectionID) REFERENCES Section(sectionID)" +
-                    "ON UPDATE CASCADE ON DELETE CASCADE," +
+                    "ON UPDATE CASCADE ON DELETE CASCADE" +
                     ");";
 
             statement.executeUpdate(createContentBlkTable);

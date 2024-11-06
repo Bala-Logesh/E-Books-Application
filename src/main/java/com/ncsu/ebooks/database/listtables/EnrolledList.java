@@ -19,7 +19,8 @@ public class EnrolledList {
                     "FOREIGN KEY (studentID) REFERENCES Student(studentID)" +
                     "ON DELETE CASCADE ON UPDATE CASCADE," +
                     "FOREIGN KEY (activeCourseID) REFERENCES ActiveCourse(activeCourseID)" +
-                    "ON DELETE CASCADE ON UPDATE CASCADE" +
+                    "ON DELETE CASCADE ON UPDATE CASCADE," +
+                    "UNIQUE (studentID, activeCourseID)" +
                     ");";
 
             statement.executeUpdate(createEnrolledListTable);
