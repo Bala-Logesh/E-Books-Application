@@ -52,7 +52,7 @@ public class DBConnector {
 
     private void createTables(Connection conn) throws SQLException {
         try (Statement statement = conn.createStatement()) {
-            String useDB = "USE " + database;
+            String useDB = "USE " + database + ";";
             statement.executeUpdate(useDB);
             System.out.println("Using " + database + " database");
 
@@ -88,7 +88,7 @@ public class DBConnector {
 
     private void seedTables(Connection conn) throws SQLException {
         try (Statement statement = conn.createStatement()) {
-            String useDB = "USE " + database;
+            String useDB = "USE " + database + ";";
             statement.executeUpdate(useDB);
             System.out.println("Using " + database + " database");
 
