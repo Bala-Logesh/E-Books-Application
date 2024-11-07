@@ -103,13 +103,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/eTextBooks/2",
+							"raw": "{{url}}/eTextBooks/105",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"eTextBooks",
-								"2"
+								"105"
 							]
 						}
 					},
@@ -215,13 +215,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/chapters/2",
+							"raw": "{{url}}/chapters/6",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"chapters",
-								"2"
+								"6"
 							]
 						}
 					},
@@ -337,6 +337,25 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get Score summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/scores/student/4",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"scores",
+								"student",
+								"4"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -448,6 +467,33 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userID\": \"AlAr1024\",\n\t\"password\": \"omdsws\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/users/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -478,7 +524,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userID\": \"Ad011103\",\n    \"firstName\": \"Admin\",\n    \"lastName\": \"01\",\n    \"email\": \"admin01@example.mail\",\n    \"password\": \"admin\"\n}\n",
+							"raw": "{\n    \"userID\": \"asdf\",\n    \"firstName\": \"asdf\",\n    \"lastName\": \"01\",\n    \"email\": \"asdf@example.mail\",\n    \"password\": \"asdf\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -901,13 +947,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/eList/2",
+							"raw": "{{url}}/eList/12",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"eList",
-								"2"
+								"12"
 							]
 						}
 					},
@@ -1123,13 +1169,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/faculties/2",
+							"raw": "{{url}}/faculties/9",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"faculties",
-								"2"
+								"9"
 							]
 						}
 					},
@@ -1293,7 +1339,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"chapterId\": 1,\n\t\"sectionNumber\": \"Sec01\",\n\t\"title\": \"Database Management Systems (DBMS) Overview\",\n\t\"hidden\": false\n}",
+							"raw": "{\n\t\"chapterID\": 1,\n\t\"sectionNumber\": \"Sec01\",\n\t\"title\": \"Database Management Systems (DBMS) Overview\",\n\t\"hidden\": false\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1363,13 +1409,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/sections/2",
+							"raw": "{{url}}/sections/12",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"sections",
-								"2"
+								"12"
 							]
 						}
 					},
@@ -1474,13 +1520,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/activities/2",
+							"raw": "{{url}}/activities/24",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"activities",
-								"2"
+								"24"
 							]
 						}
 					},
@@ -1585,13 +1631,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/contentblocks/2",
+							"raw": "{{url}}/contentblocks/13",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"contentblocks",
-								"2"
+								"13"
 							]
 						}
 					},
@@ -2029,13 +2075,55 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/answerSets/2",
+							"raw": "{{url}}/answerSets/8",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"answerSets",
-								"2"
+								"8"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Query",
+			"item": [
+				{
+					"name": "Query 1",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/query/1/101",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"query",
+								"1",
+								"101"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query 2 - 7",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/query/7",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"query",
+								"7"
 							]
 						}
 					},
