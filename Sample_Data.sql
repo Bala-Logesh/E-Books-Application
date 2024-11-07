@@ -146,7 +146,7 @@ VALUES ("NCSUOganCSC440F24", "CSC440 Database Systems", "KeOg1024", "2024-08-15"
        ("NCSUDoeCSC522F24", "CSC522 Fundamentals of Machine Learning", "JoDo1024", "2025-08-25", "2025-12-18", 103),
        ("NCSUSaraCSC326F25", "CSC326 Software Engineering", "SaMi1024", "2025-08-27", "2025-12-19", 102);
 
-INSERT INTO ActiveCourse (activeCourseID, courseID, capacity)
+INSERT INTO ActiveCourse (token, courseID, capacity)
 VALUES ("XYJKLM", 1, 60),
        ("STUKZT", 2, 50),
        ("LRUFND", 3, 100);
@@ -155,18 +155,29 @@ INSERT INTO EvaluationCourse (courseID)
 VALUES ("NCSUDoeCSC522F24"),
        ("NCSUSaraCSC326F25");
 
--- Need to do Scores by Textbook too
-# INSERT INTO Scores (studentID, activeCourseID, courseScore, finishedActivities)
-# VALUES (1, "NCSUOganCSC440F24", 4, 2),
-#        (1, "NCSUOganCSC540f24", 1, 1),
-#        (2, "NCSUOganCSC440F24", 3, 1),
-#        (3, "NCSUOganCSC440F24", 0, 1),
-#        (4, "NCSUOganCSC440F24", 9, 3),
-#        (4, "NCSUOganCSC540F24", 0, 0),
-#        (5, "NCSUOganCSC540F24", 0, 0),
-#        (5, "NCSUOganCSC440F24", 4, 2),
-#        (7, "NCSUOganCSC440F24", 0, 0),
-#        (8, "NCSUSaraCSC326F24", 1, 1);
+INSERT INTO StudentScore (studentID, activeCourseID, activityID, point)
+VALUES (1, 1, 4, 2),
+       (1, 3, 1, 1),
+       (2, 1, 3, 1),
+       (3, 1, 0, 1),
+       (4, 1, 9, 3),
+       (4, 2, 0, 0),
+       (5, 2, 0, 0),
+       (5, 1, 4, 2),
+       (7, 1, 0, 0),
+       (8, 3, 1, 1);
+
+INSERT INTO StudentScoreSummary (studentID, activeCourseID, totalPoints, totalActivities)
+VALUES (1, 1, 4, 2),
+       (1, 2, 1, 1),
+       (2, 1, 3, 1),
+       (3, 1, 0, 1),
+       (4, 1, 9, 3),
+       (4, 2, 0, 0),
+       (5, 2, 0, 0),
+       (5, 1, 4, 2),
+       (7, 1, 0, 0),
+       (8, 3, 1, 1);
 
 INSERT INTO Enrolled (studentID, activeCourseID)
 VALUES (1, "XYJKLM"),
@@ -192,5 +203,5 @@ INSERT INTO TeachingAssistant (userID, activeCourseID)
 VALUES ("JaWi1024", "XYJKLM"),
        ("LiAl0924", "STUKZT"),
        ("DaJo1024", "LRUFND"),
-       ("ElCl1024", NULL), -- this will probably throw an error, but it's in the spreadsheet
+       ("ElCl1024", NULL),
        ("JeGi0924", NULL);
