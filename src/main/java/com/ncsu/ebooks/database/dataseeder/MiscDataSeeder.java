@@ -29,8 +29,7 @@ public class MiscDataSeeder {
                     "(5, 2)," +
                     "(5, 1)," +
                     "(7, 1)," +
-                    "(8, 3)," +
-                    "(9, 1);";
+                    "(8, 3);";
 
             statement.executeUpdate(seedEnrolledListTable);
 

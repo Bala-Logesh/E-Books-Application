@@ -1,4 +1,5 @@
 package com.ncsu.ebooks.course.activecourse;
+import com.ncsu.ebooks.book.ETextBookDuplicator;
 import com.ncsu.ebooks.course.course.CourseModel;
 import com.ncsu.ebooks.user.faculty.FacultyModel;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,11 @@ import java.util.Map;
 public class ACourseController {
 
     private final ACourseService ACourseService;
+    private final ETextBookDuplicator eTextBookDuplicator;
 
-    public ACourseController(ACourseService ACourseService) {
+    public ACourseController(ACourseService ACourseService, ETextBookDuplicator eTextBookDuplicator) {
         this.ACourseService = ACourseService;
+        this.eTextBookDuplicator = eTextBookDuplicator;
     }
 
     @GetMapping
@@ -74,6 +77,8 @@ public class ACourseController {
 
     @PostMapping
     public ResponseEntity<Map<String, String>> createACourse(@RequestBody ACourseReqModel acourse) {
+        int newETextbookID = this.eTextBookDuplicator.duplicateETextBook(acourse.getCourse().getETextBookID());
+        acourse.getCourse().seteTextBookID(newETextbookID);
         boolean success = ACourseService.createACourse(acourse.getCourse(), acourse.getCapacity(), acourse.getToken(), acourse.isOpenToEnroll());
         Map<String, String> response = new HashMap<>();
         if (success) {
