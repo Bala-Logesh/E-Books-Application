@@ -1,12 +1,7 @@
-# CSC 540: Database Management Systems
-## Project 1: Final Deliverable
+# E Books Application with Kubernetes
 ### Group Members
 
 Bala Logesh Sudalaimuthu Pandian
-
-Obblivignes KanchandeviVenkataraman
-
-Chinmay Walinjkar
 
 ### Description
 
